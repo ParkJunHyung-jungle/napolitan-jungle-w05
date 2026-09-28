@@ -5,7 +5,7 @@ using UnityEngine.InputSystem;
 public class PlayerController : MonoBehaviour
 {
     public CharacterController controller;
-    public Camera camera;
+    public Camera mainCamera;
     public float moveSpeed;
     private Vector2 moveInput;
 
@@ -40,11 +40,6 @@ public class PlayerController : MonoBehaviour
 
     }
 
-    public void OnLook(InputAction.CallbackContext context)
-    {
-        mousePosition = context.ReadValue<Vector2>();
-    }
-
     public void OnMove(InputAction.CallbackContext context)
     {
         moveInput = context.ReadValue<Vector2>();
@@ -77,6 +72,25 @@ public class PlayerController : MonoBehaviour
         {
             return;
         }
+    }
+
+    public void OnClick(InputAction.CallbackContext context)
+    {
+        if (canMove || !context.performed) return;
+
+        Vector2 clickPosition = Mouse.current.position.ReadValue();
+
+        // cursorItem이 Button 레이어일 경우 ButtonManager를 가져온 뒤, 거기 있는 ClickButton을 실행시킨다.
+        if (cursorItem.layer == LayerMask.NameToLayer("Button") && cursorItem.TryGetComponent<ButtonManager>(out var buttonManager))
+        {
+            buttonManager.ClickButton();
+        }
+    }
+
+    public void OnPoint(InputAction.CallbackContext context)
+    {
+        if (canMove) return;
+        mousePosition = context.ReadValue<Vector2>();
     }
 
     public void OnEscape(InputAction.CallbackContext context)
@@ -125,7 +139,7 @@ public class PlayerController : MonoBehaviour
     {
         // 커서 위치 업데이트
         rayStartPoint = transform.position;
-        rayDirection = camera.transform.forward;
+        rayDirection = mainCamera.transform.forward;
 
         RaycastHit hitInfo;
 
@@ -149,14 +163,15 @@ public class PlayerController : MonoBehaviour
     // 오브젝트를 선택해서 뷰가 고정됐을 때 마우스 위치에서 Raycast
     private void ShootCursorFromMouse()
     {
-        // 커서 위치 업데이트
-        rayStartPoint = mousePosition;
-        rayDirection = camera.transform.forward;
+        // 커서 위치 업데이트. 커서 위치에 맞춰서 Ray를 쏴줘야 한다.
+        Ray ray = mainCamera.ScreenPointToRay(mousePosition);
+        rayStartPoint = ray.origin;
+        rayDirection = ray.direction;
 
         RaycastHit hitInfo;
 
         // raycast로 인식할 layerMask: Button, Slider
-        bool rayHit = Physics.Raycast(rayStartPoint, rayDirection, out hitInfo, maxCursorDistance, fixedLayerMask, QueryTriggerInteraction.Ignore);
+        bool rayHit = Physics.Raycast(rayStartPoint, rayDirection, out hitInfo, maxCursorDistance * 5, fixedLayerMask, QueryTriggerInteraction.Ignore);
 
         // raycast에 맞은 오브젝트가 있으면 하이라이트할 오브젝트 저장
         GameObject nextItem = rayHit ? hitInfo.collider.gameObject : null;
@@ -193,7 +208,7 @@ public class PlayerController : MonoBehaviour
     public void ChangeCursorItemMaterial()
     {
         if (cursorItem == null) return;
-        targetRenderer = cursorItem.GetComponent<Renderer>();
+        targetRenderer = cursorItem.GetComponentInChildren<Renderer>();
 
         if (targetRenderer != null && originMaterial == null)
         {
