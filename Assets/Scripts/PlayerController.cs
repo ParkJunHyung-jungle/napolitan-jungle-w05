@@ -180,10 +180,10 @@ public class PlayerController : MonoBehaviour
         if (cursorItem == nextItem) return;
 
         // 아니면 이전꺼 머티리얼 돌려준 뒤에 새 아이템 지정 & 머티리얼 바꿔주기
-        ReturnCursorItemMaterial();
+        // ReturnCursorItemMaterial();
 
         cursorItem = nextItem;
-        if (CheckIsSelectable()) ChangeCursorItemMaterial();
+        // if (CheckIsSelectable()) ChangeCursorItemMaterial();
     }
 
     private bool CheckIsSelectable()
