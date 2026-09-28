@@ -6,7 +6,7 @@ public class GameManager : MonoBehaviour
     private SystemTimer _systemTimer;
     private float _gaugeValue;
     private bool _isRunning;
-    private int _brokenStack;
+    public int _brokenStack;
     public int _hp;
     //is~per는 이 상황에서 중복되지 않게 실행될 수 있도록 플래그
     private bool _is20per;
@@ -48,7 +48,7 @@ public class GameManager : MonoBehaviour
             StopCoroutine(IncreaseGauge());
             _isRunning = false;
 
-            //고장 스케쥴러 스크립트를 여기서 부르고 그곳에 넣어야함
+            //고장 스케쥴러 스크립트를 불러야함
             _systemTimer.LimitTimer();
 
         }
