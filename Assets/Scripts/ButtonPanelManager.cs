@@ -41,7 +41,7 @@ public class ButtonPanelManager : MonoBehaviour
     {
         for (int i = 0; i < 16; i++)
         {
-            buttonList[i].status = ButtonStatus.Deactivated;
+            buttonList[i].status = ButtonStatus.Deactivate;
             buttonList[i].setCurrentColor();
         }
     }
@@ -52,7 +52,7 @@ public class ButtonPanelManager : MonoBehaviour
         {
             GuideImage[i] = (ButtonStatus)Random.Range(0, 3);
         }
-        buttonGuideScript.setGuide(GuideImage);
+        //buttonGuideScript.setGuide(GuideImage);
     }
 
     public bool CheckAnswer()

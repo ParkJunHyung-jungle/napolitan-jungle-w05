@@ -79,7 +79,7 @@ public class MainPanelDisplay : MonoBehaviour
 
     public void Initialize(GameManager gameManager)
     {
-        _buttonPanelManager = gameManager.FacilityManager.ButtonPanelManager;
+        
 
     }
 

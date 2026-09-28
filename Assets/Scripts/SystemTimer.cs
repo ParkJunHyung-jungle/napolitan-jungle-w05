@@ -24,7 +24,6 @@ public class SystemTimer : MonoBehaviour
             yield return new WaitForSeconds(1f);
             if (FatalTime < 0)
             {
-                _gameManager._hp--;
                 FatalTime = 30;
 
             }

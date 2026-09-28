@@ -27,7 +27,7 @@ public class ChangeButtonColor : MonoBehaviour
     {
         switch (status)
         {
-            case ButtonStatus.Deactivated:
+            case ButtonStatus.Deactivate:
                 mesh.material = gray;
                 break;
             case ButtonStatus.Red:

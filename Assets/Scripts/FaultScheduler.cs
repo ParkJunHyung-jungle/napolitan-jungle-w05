@@ -1,3 +1,4 @@
+using System;
 using UnityEngine;
 
 [System.Serializable]
@@ -9,6 +10,8 @@ public struct FaultSchedule
 }
 public class FaultScheduler : MonoBehaviour
 {
+    public Action<int> OnFaultMade;
+    
     [SerializeField]
     private   FaultSchedule[] faultSchedules;
 
@@ -28,7 +31,7 @@ public class FaultScheduler : MonoBehaviour
         {
             var currentFault = faultSchedules[_faultIndex];
             //사고
-            _facilityManager.MakeFault(currentFault.FaultFacilityCount);
+            OnFaultMade?.Invoke(currentFault.FaultFacilityCount);
             _faultIndex++;
         }
         
