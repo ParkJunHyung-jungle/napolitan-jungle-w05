@@ -5,7 +5,7 @@ using UnityEngine.InputSystem;
 public class PlayerController : MonoBehaviour
 {
     public CharacterController controller;
-    public Camera camera;
+    public Camera mainCamera;
     public float moveSpeed;
     private Vector2 moveInput;
 
@@ -15,10 +15,13 @@ public class PlayerController : MonoBehaviour
     private Vector3 rayStartPoint;
     private Vector3 rayDirection;
     public float maxCursorDistance = 3f;
-    public LayerMask layerMask;
+    public LayerMask movingLayerMask;
+
+    public Vector2 mousePosition;
+    public LayerMask fixedLayerMask;
 
     private GameObject cursorItem = null;
-    private GameObject selectedItem = null;
+    public GameObject selectedItem = null;
     private Renderer targetRenderer;
     private Material originMaterial;
     public Material highlightedMaterial;
@@ -44,7 +47,7 @@ public class PlayerController : MonoBehaviour
 
     public void OnInteract(InputAction.CallbackContext context)
     {
-        // 하이라이트 된 오브젝트와 상호작용(현재 e키)해서 UI로 진입하면.. canMove가 true가 되면서 Move, ShootCursor를 멈춘다
+        // 하이라이트 된 오브젝트와 상호작용(현재 e키)해서 UI로 진입하면.. canMove가 false가 되면서 Move, ShootCursor를 멈춘다
         if (canMove == true)
         {
             if (cursorItem == null) return;
@@ -71,9 +74,28 @@ public class PlayerController : MonoBehaviour
         }
     }
 
+    public void OnClick(InputAction.CallbackContext context)
+    {
+        if (canMove || !context.performed) return;
+
+        Vector2 clickPosition = Mouse.current.position.ReadValue();
+
+        // cursorItem이 Button 레이어일 경우 ButtonManager를 가져온 뒤, 거기 있는 ClickButton을 실행시킨다.
+        if (cursorItem.layer == LayerMask.NameToLayer("Button") && cursorItem.TryGetComponent<ButtonManager>(out var buttonManager))
+        {
+            buttonManager.ClickButton();
+        }
+    }
+
+    public void OnPoint(InputAction.CallbackContext context)
+    {
+        if (canMove) return;
+        mousePosition = context.ReadValue<Vector2>();
+    }
+
     public void OnEscape(InputAction.CallbackContext context)
     {
-        // UI에서 벗어나면 (현재 esc키 입력) canMove를 비활성화하고, Move와 ShootCursor가 다시 작동한다
+        // UI에서 벗어나면 (현재 esc키 입력) canMove를 true로 바꾸고, Move와 ShootCursor가 다시 작동한다
         if (canMove == false)
         {
             Debug.Log("Escaped");
@@ -92,7 +114,13 @@ public class PlayerController : MonoBehaviour
         if (canMove)
         {
             Move();
-            ShootCursor();
+            ShootCursorFromCamera();
+        }
+
+        // 뷰 고정 상태일 때는 마우스에서 raycast 시키기
+        else
+        {
+            ShootCursorFromMouse();
         }
     }
 
@@ -106,17 +134,18 @@ public class PlayerController : MonoBehaviour
         controller.Move(moveDirection);
     }
 
-    private void ShootCursor()
+    // 이동 가능할 때 카메라 중앙에서 Raycast
+    private void ShootCursorFromCamera()
     {
         // 커서 위치 업데이트
         rayStartPoint = transform.position;
-        rayDirection = camera.transform.forward;
+        rayDirection = mainCamera.transform.forward;
 
         RaycastHit hitInfo;
 
 
-        // raycast로 인식할 layerMask를 확정해야 한다. (현재는 모든 레이어 인식 중)
-        bool rayHit = Physics.Raycast(rayStartPoint, rayDirection, out hitInfo, maxCursorDistance, layerMask, QueryTriggerInteraction.Ignore);
+        // raycast로 인식할 layerMask: 앞뒤왼오
+        bool rayHit = Physics.Raycast(rayStartPoint, rayDirection, out hitInfo, maxCursorDistance, movingLayerMask, QueryTriggerInteraction.Ignore);
 
         // raycast에 맞은 오브젝트가 있으면 하이라이트할 오브젝트 저장
         GameObject nextItem = rayHit ? hitInfo.collider.gameObject : null;
@@ -131,18 +160,55 @@ public class PlayerController : MonoBehaviour
         if (CheckIsSelectable()) ChangeCursorItemMaterial();
     }
 
+    // 오브젝트를 선택해서 뷰가 고정됐을 때 마우스 위치에서 Raycast
+    private void ShootCursorFromMouse()
+    {
+        // 커서 위치 업데이트. 커서 위치에 맞춰서 Ray를 쏴줘야 한다.
+        Ray ray = mainCamera.ScreenPointToRay(mousePosition);
+        rayStartPoint = ray.origin;
+        rayDirection = ray.direction;
+
+        RaycastHit hitInfo;
+
+        // raycast로 인식할 layerMask: Button, Slider
+        bool rayHit = Physics.Raycast(rayStartPoint, rayDirection, out hitInfo, maxCursorDistance * 5, fixedLayerMask, QueryTriggerInteraction.Ignore);
+
+        // raycast에 맞은 오브젝트가 있으면 하이라이트할 오브젝트 저장
+        GameObject nextItem = rayHit ? hitInfo.collider.gameObject : null;
+
+        // 이전꺼랑 같으면 넘어가고 (null 포함)
+        if (cursorItem == nextItem) return;
+
+        // 아니면 이전꺼 머티리얼 돌려준 뒤에 새 아이템 지정 & 머티리얼 바꿔주기
+        // ReturnCursorItemMaterial();
+
+        cursorItem = nextItem;
+        // if (CheckIsSelectable()) ChangeCursorItemMaterial();
+    }
+
     private bool CheckIsSelectable()
     {
         if (cursorItem == null) return false;
-        if (cursorItem.layer != LayerMask.NameToLayer("Front") && cursorItem.layer != LayerMask.NameToLayer("Back")
+        // 이동 가능한 상태일 때
+        if (canMove)
+        {
+            if (cursorItem.layer != LayerMask.NameToLayer("Front") && cursorItem.layer != LayerMask.NameToLayer("Back")
                 && cursorItem.layer != LayerMask.NameToLayer("Left") && cursorItem.layer != LayerMask.NameToLayer("Right")) return false;
-        else return true;
+            else return true;
+        }
+
+        else
+        {
+            if (cursorItem.layer != LayerMask.NameToLayer("Button") && cursorItem.layer != LayerMask.NameToLayer("Slider")) return false;
+            else return true;
+        }
+
     }
 
     public void ChangeCursorItemMaterial()
     {
         if (cursorItem == null) return;
-        targetRenderer = cursorItem.GetComponent<Renderer>();
+        targetRenderer = cursorItem.GetComponentInChildren<Renderer>();
 
         if (targetRenderer != null && originMaterial == null)
         {
