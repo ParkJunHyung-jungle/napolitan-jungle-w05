@@ -42,6 +42,7 @@ public class GameManager : MonoBehaviour
     {
 
         _facilityManager = GetComponent<FacilityManager>();
+        _faultScheduler = _facilityManager.FaultScheduler;
         _systemTimer =  GetComponent<SystemTimer>();
         
         _facilityManager.Initialize(this);
@@ -59,7 +60,7 @@ public class GameManager : MonoBehaviour
         {
             
             _progressValue += deltaProgress * Time.deltaTime;
-            _facilityManager.FaultScheduler.TryMakeFault(_progressValue / maxProgressValue);
+            _faultScheduler.TryMakeFault(_progressValue / maxProgressValue);
             
             mainPanelDisplay.SetProgress(_progressValue / maxProgressValue);
             
@@ -81,6 +82,9 @@ public class GameManager : MonoBehaviour
         //불안 상태
         //1. 타이머가 꺼져 있으면 켜기
         if(!_systemTimer.IsActive) _systemTimer.SetTimer();
+        
+        //안정 상태
+        // 1. 모든 설비가 정상 상태이면 타이머를 끄고 등등작업 해야함.
     }
 
     private void OnTimerEnd()

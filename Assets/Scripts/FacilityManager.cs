@@ -10,7 +10,7 @@ public class FacilityManager : MonoBehaviour
     
     [SerializeField] private Facility[] _facilities;
     
-    private GameManager _gameManager;
+
     private FaultScheduler _faultScheduler;
     
     
@@ -33,7 +33,7 @@ public class FacilityManager : MonoBehaviour
     
     public void Initialize(GameManager gameManager)
     {
-        _gameManager = gameManager;
+        
         _faultScheduler = GetComponent<FaultScheduler>();
 
         foreach (var f in _facilities)
