@@ -16,6 +16,8 @@ public class FacilityManager : MonoBehaviour
     
     public FaultScheduler FaultScheduler => _faultScheduler;
     
+    public Facility[] Facilities => _facilities;
+    
     public int FaultCount
     {
         get
@@ -40,6 +42,8 @@ public class FacilityManager : MonoBehaviour
             f.OnFacilityInteracted += OnFacilityInteracted;
         }
         
+        
+        _faultScheduler.OnFaultMade += OnFaultMade;
 
     }
     
@@ -53,6 +57,7 @@ public class FacilityManager : MonoBehaviour
     {
         //임시 코드
         _facilities[0].MakeFault();
+        
         OnFacilityStatusChanged?.Invoke(false);
     }
     

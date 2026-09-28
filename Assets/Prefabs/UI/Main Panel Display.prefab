@@ -348,7 +348,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: UnityEngine.UI::UnityEngine.UI.Image
   m_Material: {fileID: 0}
-  m_Color: {r: 0.18798423, g: 1, b: 0, a: 1}
+  m_Color: {r: 0.3, g: 1, b: 0, a: 1}
   m_RaycastTarget: 1
   m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
   m_Maskable: 1
@@ -710,9 +710,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::MainPanelView
   facilitySlots:
-  - name: 
-    frame: {fileID: 0}
-    statusText: {fileID: 0}
+  - name: "\uC124\uBE44 A"
+    frame: {fileID: 9055243273759519707}
+    statusText: {fileID: 310147955571705621}
   progressFrame: {fileID: 3969832057002971648}
   progressText: {fileID: 5007373739346303588}
   progressBar: {fileID: 4688793351416821922}
@@ -722,7 +722,7 @@ MonoBehaviour:
   durabilityText: {fileID: 1435973312326159160}
   durabilityBar: {fileID: 8895773137544503199}
   safeColor: {r: 0.3, g: 1, b: 0, a: 1}
-  unsafeColor: {r: 0, g: 0, b: 0, a: 0}
+  unsafeColor: {r: 1, g: 0, b: 0, a: 1}
   previewInEditor: 1
 --- !u!1 &3275361346406501237
 GameObject:
@@ -903,8 +903,8 @@ MonoBehaviour:
   m_fontMaterials: []
   m_fontColor32:
     serializedVersion: 2
-    rgba: 4278255394
-  m_fontColor: {r: 0.13253415, g: 1, b: 0, a: 1}
+    rgba: 4278255436
+  m_fontColor: {r: 0.3, g: 1, b: 0, a: 1}
   m_enableVertexGradient: 0
   m_colorMode: 3
   m_fontColorGradient:

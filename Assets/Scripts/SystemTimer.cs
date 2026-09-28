@@ -1,33 +1,46 @@
+using System;
 using System.Collections;
 using UnityEngine;
 
 public class SystemTimer : MonoBehaviour
 {
+    public Action OnTimerEnd;
+
+    [SerializeField] private float fatalTime = 30;
     private GameManager _gameManager;
-    private float FatalTime;
-    private void Awake()
+
+    private bool _isActive = false;
+    private float _currentTime = 0;
+
+    
+    public bool IsActive  => _isActive;
+    public float CurrentTime => _currentTime;
+    public void Initialize(GameManager gameManager)
     {
-        FatalTime = 30;
+        _gameManager = gameManager;
     }
 
-    public void LimitTimer()
+    public void SetTimer()
     {
-        StartCoroutine(CountDown());
-        //if문으로 다른 스크립트에서 고장된걸 고치면 FatalTime을 30으로 초기화 하고 코루틴을 종료
+        _currentTime = fatalTime;
+        _isActive = true;
     }
-
-    IEnumerator CountDown()
+    public void Tick()
     {
-        while (true)
+        if (_isActive)
         {
-            FatalTime--;
-            yield return new WaitForSeconds(1f);
-            if (FatalTime < 0)
-            {
-                FatalTime = 30;
-
-            }
-
+            _currentTime -= Time.deltaTime;
+            if( _currentTime <= 0) TimeEnd();
         }
+        
+        
     }
+
+    private void TimeEnd()
+    {
+        _currentTime = fatalTime;
+        _isActive = true;
+        OnTimerEnd?.Invoke();
+    }
+
 }

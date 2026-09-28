@@ -29,16 +29,15 @@ public class FacilityA : Facility
 
     public override bool IsFault()
     {
-        bool solved = true;
-        for (int i = 0; i < 16; i++)
+        for (int i = 0; i < facilityButtons.Length; i++)
         {
             if (facilityButtons[i].Status != goalButtonStatuses[i])
             {
-                solved = false;
-                break;
+                return true;
             }
         }
-        return solved;
+
+        return false;
     }
 
     public override void MakeFault()

@@ -67,8 +67,8 @@ public class MainPanelDisplay : MonoBehaviour
     [Tooltip("인스펙터에서 강조색을 바꾸면 에디터에서 바로 반영")]
     [SerializeField] private bool previewInEditor = true;
 
-
-    private ButtonPanelManager _buttonPanelManager;
+    private FacilityManager _facilityManager;
+    private GameManager _gameManager;
 
     private void Awake()
     {
@@ -79,7 +79,10 @@ public class MainPanelDisplay : MonoBehaviour
 
     public void Initialize(GameManager gameManager)
     {
-        
+        _gameManager = gameManager;
+        _facilityManager = gameManager.FacilityManager;
+
+        _facilityManager.OnFacilityStatusChanged += OnFacilityStatusChanged;
 
     }
 
@@ -143,13 +146,7 @@ public class MainPanelDisplay : MonoBehaviour
         if (bar != null)
             bar.fillAmount = Mathf.Clamp01(normalized);
     }
-
-    // ---------- Facility ----------
-
-    public void SetFacilityStatus(int index, string status)
-    {
-        // TODO
-    }
+    
 
     // ---------- Progress ----------
 
@@ -161,10 +158,17 @@ public class MainPanelDisplay : MonoBehaviour
 
     // ---------- Timer ----------
 
-    public void SetRemainingTime(float seconds)
+    public void SetRemainingTime()
     {
-        // TODO
-        timerText.text = $"남은 시간\n{seconds:F0}s";
+        if (_gameManager.SystemTimer.IsActive)
+        {
+            timerText.text = $"남은 시간\n{_gameManager.SystemTimer.CurrentTime:F0}s";
+        }
+        else
+        {
+            timerText.text = $"--";    
+        }
+        
     }
 
     // ---------- Durability ----------
@@ -189,11 +193,25 @@ public class MainPanelDisplay : MonoBehaviour
         facilitySlots[index].frame.color = safeColor;
     }
 
-    public void RefreshUI()
+    private void SetFacilitySlot(int index , bool isFault)
     {
-        if (_buttonPanelManager.CheckAnswer()) OnFacilityNormalize(0);
-        else OnFacilityTrouble(0);
+        if (isFault)
+        {
+            OnFacilityTrouble(index);
+        }
+        else
+        {
+            OnFacilityNormalize(index);
+        }
+    }
+    
 
-
+    private void OnFacilityStatusChanged(bool isCompleted)
+    {
+        //인덱스 기반으로 상태 슬롯 갱신하기.
+        for (int i = 0; i < _facilityManager.Facilities.Length; i++)
+        {
+            SetFacilitySlot(i,_facilityManager.Facilities[i].IsFault());
+        }
     }
 }

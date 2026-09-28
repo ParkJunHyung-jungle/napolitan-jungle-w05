@@ -23,6 +23,7 @@ public class GameManager : MonoBehaviour
     
 
     public FacilityManager FacilityManager => _facilityManager;
+    public SystemTimer SystemTimer => _systemTimer;
     
     public bool IsNormal
     {
@@ -32,33 +33,42 @@ public class GameManager : MonoBehaviour
             return false;
         }
     }
-    void Awake()
+    void Start()
     {
-     
+     Initialize();
     }
 
     private void Initialize()
     {
 
         _facilityManager = GetComponent<FacilityManager>();
-
+        _systemTimer =  GetComponent<SystemTimer>();
+        
         _facilityManager.Initialize(this);
-
-
-
-
+        _systemTimer.Initialize(this);
+        mainPanelDisplay.Initialize(this);
+        
+        
         _facilityManager.OnFacilityStatusChanged += OnFacilityInteracted;
+        _systemTimer.OnTimerEnd += OnTimerEnd;
     }
 
     void Update()
     {
         if (IsNormal)
         {
+            
             _progressValue += deltaProgress * Time.deltaTime;
-            mainPanelDisplay.SetProgress(_progressValue / maxProgressValue);
             _facilityManager.FaultScheduler.TryMakeFault(_progressValue / maxProgressValue);
+            
+            mainPanelDisplay.SetProgress(_progressValue / maxProgressValue);
+            
 
         }
+
+        _systemTimer.Tick();
+        mainPanelDisplay.SetRemainingTime();
+        
         if (_progressValue / maxProgressValue > 1)
         {
             //게임 승리 결과 표시
@@ -67,17 +77,16 @@ public class GameManager : MonoBehaviour
     }
     public void OnFacilityInteracted(bool isCompleted)
     {
-
-        mainPanelDisplay.RefreshUI();
-
-        if(isCompleted)
-        {
-            //정상이 된다
-            //타이머 끄고. 
-        }
-
+        //내부에서 상태를 보고 처리하기.
+        //불안 상태
+        //1. 타이머가 꺼져 있으면 켜기
+        if(!_systemTimer.IsActive) _systemTimer.SetTimer();
     }
 
+    private void OnTimerEnd()
+    {
+        Debug.Log("시스템 유지 실패");
+    }
 
 }
 
