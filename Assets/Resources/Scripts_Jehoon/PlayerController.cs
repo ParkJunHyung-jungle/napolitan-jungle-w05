@@ -1,3 +1,4 @@
+using System;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
@@ -23,6 +24,19 @@ public class PlayerController : MonoBehaviour
     public Material highlightedMaterial;
     public Material selectedMaterial;
 
+    public event Action<GameObject> playerInteracted;
+    public bool canMove = true;
+
+    public void OnEnable()
+    {
+
+    }
+
+    public void OnDestroy()
+    {
+
+    }
+
     public void OnMove(InputAction.CallbackContext context)
     {
         moveInput = context.ReadValue<Vector2>();
@@ -30,17 +44,56 @@ public class PlayerController : MonoBehaviour
 
     public void OnInteract(InputAction.CallbackContext context)
     {
-        if (cursorItem != null) selectedItem = cursorItem;
-        targetRenderer.material = selectedMaterial;
-        Debug.Log($"Selected Item: {selectedItem}");
-        // gameManager.SetSelectedItem(selectedItem);
+        // 하이라이트 된 오브젝트와 상호작용(현재 e키)해서 UI로 진입하면.. canMove가 true가 되면서 Move, ShootCursor를 멈춘다
+        if (canMove == true)
+        {
+            if (cursorItem == null) return;
+
+            if (!CheckIsSelectable()) return;
+
+            if (selectedItem == null)
+            {
+                selectedItem = cursorItem;
+                targetRenderer.material = selectedMaterial;
+                Debug.Log($"Selected Item: {selectedItem}");
+                canMove = false;
+
+                ReturnCursorItemMaterial();
+
+                // 아이템을 선택했다는 이벤트를 invoke해서 카메라 뷰 이동이나 오브젝트 활성화 같은 데에 쓸 수 있도록 한다
+                playerInteracted?.Invoke(selectedItem);
+            }
+        }
+
+        else
+        {
+            return;
+        }
+    }
+
+    public void OnEscape(InputAction.CallbackContext context)
+    {
+        // UI에서 벗어나면 (현재 esc키 입력) canMove를 비활성화하고, Move와 ShootCursor가 다시 작동한다
+        if (canMove == false)
+        {
+            Debug.Log("Escaped");
+            canMove = true;
+            // 벗어날 때도 이벤트를 invoke해서 이벤트 구독자들이 상태 변화를 인지하도록 한다
+            playerInteracted?.Invoke(selectedItem);
+
+            // 벗어나면 selectedItem을 null로 바꾼다
+            selectedItem = null;
+        }
     }
 
     void Update()
     {
-        // 별다른 조건 없으면 이동 가능
-        Move();
-        ShootCursor();
+        // 별다른 조건 없으면 이동 & 상호작용 오브젝트 선택
+        if (canMove)
+        {
+            Move();
+            ShootCursor();
+        }
     }
 
     private void Move()
@@ -61,20 +114,29 @@ public class PlayerController : MonoBehaviour
 
         RaycastHit hitInfo;
 
+
+        // raycast로 인식할 layerMask를 확정해야 한다. (현재는 모든 레이어 인식 중)
         bool rayHit = Physics.Raycast(rayStartPoint, rayDirection, out hitInfo, maxCursorDistance, layerMask, QueryTriggerInteraction.Ignore);
 
-        if (rayHit)
-        {
-            if (cursorItem != null && cursorItem.name != hitInfo.collider.name) ReturnCursorItemMaterial();
-            cursorItem = hitInfo.collider.gameObject;
-            ChangeCursorItemMaterial();
-        }
+        // raycast에 맞은 오브젝트가 있으면 하이라이트할 오브젝트 저장
+        GameObject nextItem = rayHit ? hitInfo.collider.gameObject : null;
 
-        else
-        {
-            cursorItem = null;
-            ReturnCursorItemMaterial();
-        }
+        // 이전꺼랑 같으면 넘어가고 (null 포함)
+        if (cursorItem == nextItem) return;
+
+        // 아니면 이전꺼 머티리얼 돌려준 뒤에 새 아이템 지정 & 머티리얼 바꿔주기
+        ReturnCursorItemMaterial();
+
+        cursorItem = nextItem;
+        if (CheckIsSelectable()) ChangeCursorItemMaterial();
+    }
+
+    private bool CheckIsSelectable()
+    {
+        if (cursorItem == null) return false;
+        if (cursorItem.layer != LayerMask.NameToLayer("Front") && cursorItem.layer != LayerMask.NameToLayer("Back")
+                && cursorItem.layer != LayerMask.NameToLayer("Left") && cursorItem.layer != LayerMask.NameToLayer("Right")) return false;
+        else return true;
     }
 
     public void ChangeCursorItemMaterial()
@@ -91,9 +153,8 @@ public class PlayerController : MonoBehaviour
 
     public void ReturnCursorItemMaterial()
     {
-        Debug.Log($"target: {targetRenderer}, origin: {originMaterial}");
-        if (targetRenderer == null || originMaterial == null) return;
-        targetRenderer.material = originMaterial;
+        if (targetRenderer != null && originMaterial != null) targetRenderer.material = originMaterial;
+        cursorItem = null;
         targetRenderer = null;
         originMaterial = null;
     }
@@ -106,7 +167,7 @@ public class PlayerController : MonoBehaviour
         else return null;
     }
 
-    // 상호작용 키로 선택한 아이템을 매니저에 보낸다
+    // 상호작용 키로 선택한 아이템을 게임 매니저에 보낸다
     public GameObject SendSelectedItem()
     {
         if (selectedItem != null) return selectedItem;
