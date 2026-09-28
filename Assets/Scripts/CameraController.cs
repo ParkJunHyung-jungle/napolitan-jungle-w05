@@ -38,7 +38,7 @@ public class CameraController : MonoBehaviour
     // New Input system의 Look을 가져온다
     public void OnLook(InputAction.CallbackContext context)
     {
-        mouseDelta = context.ReadValue<Vector2>() * cameraSpeed;
+        if (!isFixed) mouseDelta = context.ReadValue<Vector2>() * cameraSpeed;
     }
 
     void Update()
