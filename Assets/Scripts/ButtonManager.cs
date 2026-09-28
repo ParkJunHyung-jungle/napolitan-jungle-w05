@@ -18,6 +18,8 @@ public class ButtonManager : MonoBehaviour
     public float animationDuration = 0.3f;
     public ChangeButtonColor changeColorScript;
 
+    public event System.Action<ButtonManager> PressCompleted;
+
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
@@ -44,6 +46,7 @@ public class ButtonManager : MonoBehaviour
         changeColorScript.changeColor(status);
         yield return MoveTo(InitialPosition);
         isAnimating = false;
+        PressCompleted?.Invoke(this);
     }
 
     private IEnumerator MoveTo(Vector3 target)
@@ -57,5 +60,9 @@ public class ButtonManager : MonoBehaviour
             yield return null;
         }
         animatedChild.localPosition = target;
+    }
+    public void setCurrentColor()
+    {
+        changeColorScript.changeColor(status);
     }
 }
