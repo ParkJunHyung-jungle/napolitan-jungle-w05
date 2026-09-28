@@ -66,13 +66,21 @@ public class MainPanelDisplay : MonoBehaviour
     
     [Tooltip("인스펙터에서 강조색을 바꾸면 에디터에서 바로 반영")]
     [SerializeField] private bool previewInEditor = true;
-    
+
+
+    private ButtonPanelManager _buttonPanelManager;
 
     private void Awake()
     {
         SetupFillBar(progressBar);
         SetupFillBar(durabilityBar);
         ApplysafeColor();
+    }
+
+    public void Initialize(GameManager gameManager)
+    {
+        _buttonPanelManager = gameManager.FacilityManager.ButtonPanelManager;
+
     }
 
     private void OnValidate()
@@ -179,5 +187,13 @@ public class MainPanelDisplay : MonoBehaviour
         facilitySlots[index].statusText.text = $"{facilitySlots[index].name}\n정상 작동";
         facilitySlots[index].statusText.color = safeColor;
         facilitySlots[index].frame.color = safeColor;
+    }
+
+    public void RefreshUI()
+    {
+        if (_buttonPanelManager.CheckAnswer()) OnFacilityNormalize(0);
+        else OnFacilityTrouble(0);
+
+
     }
 }

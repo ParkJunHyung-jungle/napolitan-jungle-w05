@@ -12,6 +12,7 @@ public class FaultScheduler : MonoBehaviour
     [SerializeField]
     private   FaultSchedule[] faultSchedules;
 
+    private FacilityManager _facilityManager;
     private int _faultIndex = 0;
 
     public float SoonFaultTiming => faultSchedules[_faultIndex].FaultTiming;
@@ -21,13 +22,17 @@ public class FaultScheduler : MonoBehaviour
 
     }
 
-    public void MakeFault()
+    public void TryMakeFault(float progress)
     {
-        //갯수 지정된 만큼 설비 망가뜨리기.
-        var currentFault = faultSchedules[_faultIndex];
-        //사고
-
-        _faultIndex++;
+        if(progress> SoonFaultTiming)
+        {
+            var currentFault = faultSchedules[_faultIndex];
+            //사고
+            _facilityManager.MakeFault(currentFault.FaultFacilityCount);
+            _faultIndex++;
+        }
+        
+      
     }
 
 }

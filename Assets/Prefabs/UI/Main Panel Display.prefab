@@ -631,7 +631,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 0, y: 0}
-  m_AnchoredPosition: {x: 1.313, y: 0}
+  m_AnchoredPosition: {x: 1.3129883, y: 0}
   m_SizeDelta: {x: 1000, y: 750}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!223 &8451852208588202092
@@ -679,7 +679,7 @@ MonoBehaviour:
   m_FallbackScreenDPI: 96
   m_DefaultSpriteDPI: 96
   m_DynamicPixelsPerUnit: 1
-  m_PresetInfoIsWorld: 1
+  m_PresetInfoIsWorld: 0
 --- !u!114 &2927868596617520833
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -710,7 +710,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::MainPanelView
   facilitySlots:
-  - frame: {fileID: 0}
+  - name: 
+    frame: {fileID: 0}
     statusText: {fileID: 0}
   progressFrame: {fileID: 3969832057002971648}
   progressText: {fileID: 5007373739346303588}
@@ -720,7 +721,8 @@ MonoBehaviour:
   durabilityFrame: {fileID: 4622630380772504856}
   durabilityText: {fileID: 1435973312326159160}
   durabilityBar: {fileID: 8895773137544503199}
-  accentColor: {r: 0.3, g: 1, b: 0, a: 1}
+  safeColor: {r: 0.3, g: 1, b: 0, a: 1}
+  unsafeColor: {r: 0, g: 0, b: 0, a: 0}
   previewInEditor: 1
 --- !u!1 &3275361346406501237
 GameObject:
@@ -1616,7 +1618,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: UnityEngine.UI::UnityEngine.UI.Image
   m_Material: {fileID: 0}
-  m_Color: {r: 0.38124943, g: 1, b: 0, a: 1}
+  m_Color: {r: 0.3, g: 1, b: 0, a: 1}
   m_RaycastTarget: 1
   m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
   m_Maskable: 1

@@ -318,6 +318,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1637372920}
   - component: {fileID: 1637372919}
+  - component: {fileID: 1637372921}
   m_Layer: 0
   m_Name: GameManager
   m_TagString: Untagged
@@ -337,6 +338,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9205dc96eb9b44449ab0d1b63a37e8a2, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::GameManager
+  mainPanelDisplay: {fileID: 0}
   _hp: 0
 --- !u!4 &1637372920
 Transform:
@@ -353,6 +355,23 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1637372921
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1637372918}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 641e95f27238f49499c1d92e5e56ecaa, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::FaultScheduler
+  faultSchedules:
+  - FaultTiming: 10
+    FaultFacilityCount: 1
+  - FaultTiming: 10
+    FaultFacilityCount: 1
 --- !u!1660057539 &9223372036854775807
 SceneRoots:
   m_ObjectHideFlags: 0

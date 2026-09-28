@@ -32,6 +32,11 @@ public class ButtonPanelManager : MonoBehaviour
 
     }
 
+    public void Initialize()
+    {
+
+    }
+
     public void resetButtonStatus()
     {
         for (int i = 0; i < 16; i++)
@@ -71,6 +76,8 @@ public class ButtonPanelManager : MonoBehaviour
 
     private void OnButtonPressCompleted(ButtonManager button)
     {
+        OnButtonPressed?.Invoke(CheckAnswer());
+
         if (CheckAnswer())
         {
             Debug.Log("정답!");
@@ -78,9 +85,10 @@ public class ButtonPanelManager : MonoBehaviour
         }
     }
     
-    public bool IsFault()
+
+    public void MakeFault()
     {
-        if(!buttonGuideScript.IsFault) return false;
-        return CheckAnswer();
+        setRandomImage();
+
     }
 }
