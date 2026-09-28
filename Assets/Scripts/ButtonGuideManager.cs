@@ -6,6 +6,11 @@ public class ButtonGuideManager : MonoBehaviour
     public Material green;
     public Material gray;
     public MeshRenderer[] spheres;
+
+    //고장 내면 flag on
+    private bool isFault;
+    
+    public bool IsFault => isFault;
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
