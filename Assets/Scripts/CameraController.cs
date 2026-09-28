@@ -43,13 +43,12 @@ public class CameraController : MonoBehaviour
 
     void Update()
     {
-        // 별다른 조건 없으면 마우스에 맞춰서 카메라 회전
+        // 플레이어가 물체와 상호작용한 상태인지 playerInteracted 이벤트 구독해서 확인, bool 값 토글해서 카메라 및 플레이어 위치 고정/해제
         if (isFixed) FixedItem();
         else MouseRotate();
-
-        // 특정 조건을 이벤트 구독해서 확인, 그 때는 카메라 및 플레이어 위치 고정시키기
     }
 
+    // 상호작용하는 물체가 없을 때 카메라를 회전시키는 함수
     private void MouseRotate()
     {
         // Vector2 입력값 x, y랑 실제 움직임은 반대로 묶어야 한다

@@ -44,7 +44,7 @@ public class PlayerController : MonoBehaviour
 
     public void OnInteract(InputAction.CallbackContext context)
     {
-        // 하이라이트 된 오브젝트와 상호작용(현재 e키)해서 UI로 진입하면.. canMove가 true가 되면서 Move, ShootCursor를 멈춘다
+        // 하이라이트 된 오브젝트와 상호작용(현재 e키)해서 UI로 진입하면.. canMove가 false가 되면서 Move, ShootCursor를 멈춘다
         if (canMove == true)
         {
             if (cursorItem == null) return;
@@ -73,7 +73,7 @@ public class PlayerController : MonoBehaviour
 
     public void OnEscape(InputAction.CallbackContext context)
     {
-        // UI에서 벗어나면 (현재 esc키 입력) canMove를 비활성화하고, Move와 ShootCursor가 다시 작동한다
+        // UI에서 벗어나면 (현재 esc키 입력) canMove를 true로 바꾸고, Move와 ShootCursor가 다시 작동한다
         if (canMove == false)
         {
             Debug.Log("Escaped");
