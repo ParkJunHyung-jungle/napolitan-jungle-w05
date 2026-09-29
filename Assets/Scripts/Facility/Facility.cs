@@ -7,7 +7,7 @@ using UnityEngine;
 /// - 정상일 때 장치 조작 : 장치는 반응하지만 설비에는 영향이 없다
 /// - 고장 중 목표 달성 : 정상으로 돌아가고, 장치를 초기화한 뒤, 수리 알림을 한 번 보낸다
 /// </summary>
-public abstract class Facility  : MonoBehaviour
+public abstract class Facility : MonoBehaviour
 {
     /// <summary>수리 완료 때만 (isFault = false, facilityID)로 온다.</summary>
     public Action<bool, int> OnFacilityInteracted;
@@ -22,6 +22,8 @@ public abstract class Facility  : MonoBehaviour
     public int FacilityID => facilityID;
 
     public bool IsFault() => isFault;
+
+    public GameObject guideLight;
 
     public abstract void Initialize();
 
