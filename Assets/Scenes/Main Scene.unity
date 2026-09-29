@@ -616,8 +616,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::FaultScheduler
   faultSchedules:
-  - FaultTiming: 0.01
-    FaultFacilityIDs: 02000000
+  - FaultTiming: 0.2
+    FaultFacilityIDs: 00000000
     FatalTime: 20
   - FaultTiming: 0.4
     FaultFacilityIDs: 01000000
@@ -679,6 +679,8 @@ MonoBehaviour:
   _countDown: {fileID: 0}
   _halfHp: {fileID: 8300000, guid: b7450293dcea61f49843e22e18d5df60, type: 3}
   _lowHp: {fileID: 8300000, guid: 79bb2f6df8151ad459558487de8c0db3, type: 3}
+  _gameOver: {fileID: 0}
+  _gameClear: {fileID: 0}
 --- !u!1 &312785761
 GameObject:
   m_ObjectHideFlags: 0
