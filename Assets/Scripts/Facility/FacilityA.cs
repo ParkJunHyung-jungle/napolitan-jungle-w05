@@ -7,6 +7,8 @@ public class FacilityA : Facility
     [SerializeField]
     private ButtonGuideManager buttonGuideManager;
 
+    [Header("Observation")] 
+    [SerializeField]private bool isFault;
     private ButtonStatus[] goalButtonStatuses;
 
     public override void Initialize()
@@ -49,8 +51,24 @@ public class FacilityA : Facility
         buttonGuideManager.SetGuide(goalButtonStatuses);
     }
 
+    public override void Clear()
+    {
+        foreach (FacilityButton facilityButton in facilityButtons)
+        {
+            facilityButton.Clear();
+        }
+
+        for (int i = 0; i < goalButtonStatuses.Length; i++)
+        {
+            goalButtonStatuses[i] = ButtonStatus.Deactivate;
+        }
+        buttonGuideManager.SetGuide(goalButtonStatuses);
+        
+    }
+
     private void OnButtonClicked()
     {
-        OnFacilityInteracted?.Invoke();
+        OnFacilityInteracted?.Invoke(IsFault(), facilityID);
+        isFault =IsFault();
     }
 }

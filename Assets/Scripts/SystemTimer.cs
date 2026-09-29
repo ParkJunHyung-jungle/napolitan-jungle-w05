@@ -42,5 +42,11 @@ public class SystemTimer : MonoBehaviour
         _isActive = true;
         OnTimerEnd?.Invoke();
     }
+    
+    public void SetTimerEnd()
+    {
+        _isActive = false;
+        _currentTime = 0;
+    }
 
 }

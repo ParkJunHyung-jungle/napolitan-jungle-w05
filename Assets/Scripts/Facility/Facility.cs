@@ -3,7 +3,7 @@ using UnityEngine;
 
 public abstract class Facility  : MonoBehaviour
 {
-    public Action OnFacilityInteracted;
+    public Action<bool, int> OnFacilityInteracted;
     
     [SerializeField]
     protected int facilityID;
@@ -14,6 +14,7 @@ public abstract class Facility  : MonoBehaviour
     public abstract void Initialize();
     public abstract bool IsFault();
     public abstract void MakeFault();
+    public abstract void Clear();
 
-    
+
 }

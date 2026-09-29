@@ -48,9 +48,10 @@ public class FacilityManager : MonoBehaviour
     }
     
 
-    private void OnFacilityInteracted()
+    private void OnFacilityInteracted(bool isFault, int facilityID)
     {
-        
+        OnFacilityStatusChanged?.Invoke(!isFault); 
+        if(!isFault) _facilities[facilityID].Clear();   
     }
     
     private void OnFaultMade(int count)

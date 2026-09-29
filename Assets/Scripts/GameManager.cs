@@ -42,7 +42,7 @@ public class GameManager : MonoBehaviour
     {
 
         _facilityManager = GetComponent<FacilityManager>();
-        _faultScheduler = _facilityManager.FaultScheduler;
+        
         _systemTimer =  GetComponent<SystemTimer>();
         
         _facilityManager.Initialize(this);
@@ -52,6 +52,8 @@ public class GameManager : MonoBehaviour
         
         _facilityManager.OnFacilityStatusChanged += OnFacilityInteracted;
         _systemTimer.OnTimerEnd += OnTimerEnd;
+        
+        _faultScheduler = _facilityManager.FaultScheduler;
     }
 
     void Update()
@@ -81,10 +83,21 @@ public class GameManager : MonoBehaviour
         //내부에서 상태를 보고 처리하기.
         //불안 상태
         //1. 타이머가 꺼져 있으면 켜기
-        if(!_systemTimer.IsActive) _systemTimer.SetTimer();
-        
+        if (!isCompleted)
+        {
+            if(!_systemTimer.IsActive) _systemTimer.SetTimer();
+        }
         //안정 상태
         // 1. 모든 설비가 정상 상태이면 타이머를 끄고 등등작업 해야함.
+        // 2. 
+        if (isCompleted)
+        {
+            //완료 사운드 재생.
+            if (IsNormal)
+            {
+                _systemTimer.SetTimerEnd();
+            }
+        }
     }
 
     private void OnTimerEnd()

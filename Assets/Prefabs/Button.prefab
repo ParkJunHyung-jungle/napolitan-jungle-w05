@@ -13,6 +13,7 @@ GameObject:
   - component: {fileID: 6856966133330633453}
   - component: {fileID: 8306451422878141697}
   - component: {fileID: 5239364122882056563}
+  - component: {fileID: 8315026606618215198}
   m_Layer: 6
   m_Name: Button
   m_TagString: Untagged
@@ -189,6 +190,28 @@ MonoBehaviour:
   outlineMaterial: {fileID: 2100000, guid: a6d194230dfae8d4f8a91c75e5899571, type: 2}
   clickableRenderer: {fileID: 3052612972647577082}
   FocusIndicatorRenderer: {fileID: 7193072570368000475}
+--- !u!95 &8315026606618215198
+Animator:
+  serializedVersion: 7
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3427821978948469919}
+  m_Enabled: 1
+  m_Avatar: {fileID: 0}
+  m_Controller: {fileID: 9100000, guid: 042b6483cf782ad40b68a2eefb5f2b24, type: 2}
+  m_CullingMode: 0
+  m_UpdateMode: 0
+  m_ApplyRootMotion: 0
+  m_LinearVelocityBlending: 0
+  m_StabilizeFeet: 0
+  m_AnimatePhysics: 0
+  m_WarningMessage: 
+  m_HasTransformHierarchy: 1
+  m_AllowConstantClipSamplingOptimization: 1
+  m_KeepAnimatorStateOnDisable: 0
+  m_WriteDefaultValuesOnDisable: 0
 --- !u!1 &4182817043407273604
 GameObject:
   m_ObjectHideFlags: 0

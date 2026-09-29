@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections;
 using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.UI;
@@ -11,8 +12,12 @@ public class FacilityButton : MonoBehaviour, IInteractable
     [SerializeField] private Material redColor;
     [SerializeField] private Material grayColor;
     
+    [SerializeField] private float animationDuration = 0.25f;
+    
     private Animator _animator;
     private MeshRenderer mesh;
+    
+    private bool _interactable = true;
     
     private ButtonStatus _status;
     private IInteractable _interactableImplementation;
@@ -22,7 +27,8 @@ public class FacilityButton : MonoBehaviour, IInteractable
     public void Initialize()
     {
         _animator = GetComponent<Animator>();
-        mesh = GetComponent<MeshRenderer>();
+        var clickable = transform.Find("Clickable");
+        mesh = clickable.GetComponent<MeshRenderer>();
         
         _status = ButtonStatus.Deactivate;
     }
@@ -30,14 +36,19 @@ public class FacilityButton : MonoBehaviour, IInteractable
 
     public void Interact()
     {
-        _animator.SetTrigger("ButtonPressed");
-        ChangeStatus();
-        OnButtonPressed?.Invoke();
+        if (_interactable)
+        {
+            _status = _status.Next();
+            StartCoroutine(WaitForAnimation());
+            _animator.SetTrigger("ButtonPressed");
+            OnButtonPressed?.Invoke();
+        }
+  
     }
 
     private void ChangeStatus()
     {
-        _status = _status.Next();
+        
         ChangeColor();
     }
 
@@ -55,5 +66,20 @@ public class FacilityButton : MonoBehaviour, IInteractable
                 mesh.material = greenColor;
                 break;
         }
+    }
+
+    public void Clear()
+    {
+        _status = ButtonStatus.Deactivate;
+        ChangeColor();
+    }
+
+    IEnumerator WaitForAnimation()
+    {
+        _interactable = false;
+        yield return new WaitForSeconds(animationDuration);
+        ChangeColor();
+        _interactable = true;
+        
     }
 }
