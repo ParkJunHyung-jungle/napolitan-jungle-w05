@@ -76,7 +76,7 @@ public class GameManager : MonoBehaviour
 
         _systemTimer.Tick();
         mainPanelDisplay.SetRemainingTime();
-        vignetteController.SetVignetteIntensity(Mathf.Clamp((_systemTimer.FatalTime - _systemTimer.CurrentTime) / _systemTimer.FatalTime, 0f, 0.5f));
+        vignetteController.SetVignetteIntensity((_systemTimer.FatalTime - _systemTimer.CurrentTime) / _systemTimer.FatalTime);
 
         if (_progressValue / maxProgressValue > 1)
         {

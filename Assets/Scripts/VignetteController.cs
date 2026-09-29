@@ -11,6 +11,7 @@ public class VignetteController : MonoBehaviour
     [SerializeField] private GameManager _gameManager;
     [SerializeField] private SystemTimer _systemTimer;
 
+    public float maxVignetteIntensity = 0.55f;
     public float distortionStrength = 15f;
     public float distortDuration = 0.3f;
     public int distortionWaveCount = 2;
@@ -58,7 +59,7 @@ public class VignetteController : MonoBehaviour
         if (_gameManager.SystemTimer.IsActive)
         {
             // vinette 강도 설정. 정상일 때는 0f, 위험할 때는 0.5f까지 - Durability 따라서? or Timer 따라서?
-            _vignette.intensity.value = Mathf.Clamp01(intensity);
+            _vignette.intensity.value = Mathf.Clamp(intensity, 0f, maxVignetteIntensity);
         }
         else
         {
