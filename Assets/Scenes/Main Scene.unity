@@ -616,8 +616,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::FaultScheduler
   faultSchedules:
-  - FaultTiming: 0.2
-    FaultFacilityIDs: 00000000
+  - FaultTiming: 0.01
+    FaultFacilityIDs: 02000000
     FatalTime: 20
   - FaultTiming: 0.4
     FaultFacilityIDs: 01000000
@@ -4550,12 +4550,12 @@ RectTransform:
   m_LocalScale: {x: 0, y: 0, z: 0}
   m_ConstrainProportionsScale: 0
   m_Children:
+  - {fileID: 1070797575}
+  - {fileID: 1149658303}
   - {fileID: 1027842972}
   - {fileID: 1243837237}
   - {fileID: 350003002}
   - {fileID: 108549028}
-  - {fileID: 1070797575}
-  - {fileID: 1149658303}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}

@@ -1,6 +1,7 @@
 using System.Collections;
 using UI;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class GameManager : MonoBehaviour
 {
@@ -94,11 +95,11 @@ public class GameManager : MonoBehaviour
 
         endPanel.Initialize(() =>
         {
-
+            SceneManager.LoadScene(SceneManager.GetActiveScene().name);
         });
         gameOverPanel.Initialize(() =>
         {
-
+            SceneManager.LoadScene(SceneManager.GetActiveScene().name);
         });
 
         endPanel.gameObject.SetActive(false);
