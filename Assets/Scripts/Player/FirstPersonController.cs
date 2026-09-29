@@ -48,6 +48,7 @@ public class FirstPersonController : MonoBehaviour
 
     public bool IsInputLocked => _lockCount > 0;
     public bool IsDragging => _dragTarget != null;
+    public FirstPersonCamera FirstPersonCamera => firstPersonCamera;
 
     private ButtonOutline currentOutline;
     // 컴포넌트를 처음 붙일 때 기본 레이어 마스크를 Button, Slider로 채운다
@@ -106,6 +107,9 @@ public class FirstPersonController : MonoBehaviour
 
         if (!context.performed) return;
 
+        // 입력이 잠겨 있으면(시작 패널, 매뉴얼 확대 등 UI를 쓰는 중) 커서도 다시 잠그지 않는다
+        if (IsInputLocked) return;
+
         // 커서가 풀린 상태의 클릭은 커서 재잠금만 하고 상호작용하지 않는다
         if (!firstPersonCamera.IsCursorLocked)
         {
@@ -113,7 +117,7 @@ public class FirstPersonController : MonoBehaviour
             return;
         }
 
-        if (IsInputLocked || IsDragging) return;
+        if (IsDragging) return;
 
         TryInteract();
     }

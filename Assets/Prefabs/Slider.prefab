@@ -148,6 +148,7 @@ MonoBehaviour:
   dragLoopSource: {fileID: 2384333505988618737}
   snapSource: {fileID: 4559739385454032868}
   dragSoundHoldTime: 0.1
+  inRangeMaterial: {fileID: 2100000, guid: 6f36fd6ff04379141935aa9d5f2bb069, type: 2}
 --- !u!82 &2384333505988618737
 AudioSource:
   m_ObjectHideFlags: 0
