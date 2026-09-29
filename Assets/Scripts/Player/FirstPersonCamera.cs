@@ -7,6 +7,7 @@ using UnityEngine.InputSystem;
 /// 이동과 상호작용 판정은 FirstPersonController가 한다.
 /// </summary>
 [DisallowMultipleComponent]
+[RequireComponent(typeof(Camera))]
 public class FirstPersonCamera : MonoBehaviour
 {
     [Header("Rotation")]
@@ -24,15 +25,21 @@ public class FirstPersonCamera : MonoBehaviour
     [Tooltip("활성화 시 커서 잠금")]
     [SerializeField] private bool lockCursorOnEnable = true;
 
+    private Camera _camera;
     private Vector2 _lookInput;
     private float _pitch;
     private bool _isLookLocked;
+    private float _lookScale = 1f;
     private bool _isCursorLockRequested;
 
     public bool IsCursorLocked => Cursor.lockState == CursorLockMode.Locked;
 
+    /// <summary>플레이어 카메라. 드래그 대상이 화면 좌표를 계산할 때 쓴다.</summary>
+    public Camera Camera => _camera;
+
     private void Awake()
     {
+        _camera = GetComponent<Camera>();
         if (playerBody == null) playerBody = transform.parent;
 
         // 카메라가 몸의 자식이 아니면 좌우 회전과 이동이 화면에 반영되지 않는다
@@ -86,7 +93,7 @@ public class FirstPersonCamera : MonoBehaviour
         }
 
         // 마우스 delta는 이미 프레임 이동량이므로 deltaTime을 곱하지 않는다
-        Vector2 delta = _lookInput * sensitivity;
+        Vector2 delta = _lookInput * (sensitivity * _lookScale);
         _lookInput = Vector2.zero;
 
         // 상하 : 카메라
@@ -105,10 +112,17 @@ public class FirstPersonCamera : MonoBehaviour
         return new Ray(transform.position, transform.forward);
     }
 
+    /// <summary>시점 완전 잠금. 감도 배율보다 우선한다.</summary>
     public void SetLookLocked(bool locked)
     {
         _isLookLocked = locked;
         if (locked) _lookInput = Vector2.zero;
+    }
+
+    /// <summary>시점 감도 배율. 1이면 원래 감도, 0이면 돌지 않는다. (슬라이더 드래그 중 저감도용)</summary>
+    public void SetLookScale(float scale)
+    {
+        _lookScale = Mathf.Max(0f, scale);
     }
 
     public void SetCursorLocked(bool locked)
