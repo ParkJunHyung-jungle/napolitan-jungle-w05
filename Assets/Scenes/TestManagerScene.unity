@@ -317,7 +317,6 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1637372920}
-  - component: {fileID: 1637372919}
   - component: {fileID: 1637372921}
   m_Layer: 0
   m_Name: GameManager
@@ -326,20 +325,6 @@ GameObject:
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
---- !u!114 &1637372919
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1637372918}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 9205dc96eb9b44449ab0d1b63a37e8a2, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::GameManager
-  mainPanelDisplay: {fileID: 0}
-  _hp: 0
 --- !u!4 &1637372920
 Transform:
   m_ObjectHideFlags: 0
@@ -364,14 +349,30 @@ MonoBehaviour:
   m_GameObject: {fileID: 1637372918}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 641e95f27238f49499c1d92e5e56ecaa, type: 3}
+  m_Script: {fileID: 11500000, guid: 36a8b25b919cfd7468ff66a7b4238b78, type: 3}
   m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::FaultScheduler
-  faultSchedules:
-  - FaultTiming: 10
-    FaultFacilityCount: 1
-  - FaultTiming: 10
-    FaultFacilityCount: 1
+  m_EditorClassIdentifier: Assembly-CSharp::SoundManager
+  _audioMixer: {fileID: 0}
+  _uiSource: {fileID: 0}
+  _sfxSoruce: {fileID: 0}
+  _engineSource: {fileID: 0}
+  _clockSource: {fileID: 0}
+  _sirenSource: {fileID: 0}
+  _countDownSource: {fileID: 0}
+  _warningSource: {fileID: 0}
+  ButtonClick: {fileID: 0}
+  ButtonHovering: {fileID: 0}
+  Slider: {fileID: 0}
+  Engine: {fileID: 0}
+  EngineOff: {fileID: 0}
+  TakingDamage: {fileID: 0}
+  FixCompleted: {fileID: 0}
+  Clock: {fileID: 0}
+  SimpleSiren: {fileID: 0}
+  ComplaxSiren: {fileID: 0}
+  CountDown: {fileID: 0}
+  HalfHp: {fileID: 0}
+  LowHp: {fileID: 0}
 --- !u!1660057539 &9223372036854775807
 SceneRoots:
   m_ObjectHideFlags: 0
