@@ -148,7 +148,7 @@ MonoBehaviour:
   dragLoopSource: {fileID: 2384333505988618737}
   snapSource: {fileID: 4559739385454032868}
   dragSoundHoldTime: 0.1
-  inRangeMaterial: {fileID: 2100000, guid: 6f36fd6ff04379141935aa9d5f2bb069, type: 2}
+  inRangeMaterial: {fileID: 2100000, guid: d19454555827edc42bc720119fc64e58, type: 2}
 --- !u!82 &2384333505988618737
 AudioSource:
   m_ObjectHideFlags: 0
@@ -652,7 +652,7 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: d19454555827edc42bc720119fc64e58, type: 2}
+  - {fileID: 2100000, guid: c1bd953647f77ff43b384f7f5ce933bf, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0

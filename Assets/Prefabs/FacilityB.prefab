@@ -47,6 +47,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::FacilityB
   facilityID: 1
   isFault: 0
+  guideLight: {fileID: 0}
   sliders:
   - {fileID: 7343749750754527277}
   - {fileID: 4024271706700605459}
@@ -223,6 +224,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: Slider
       objectReference: {fileID: 0}
+    - target: {fileID: 8911312732000217532, guid: 04939e446abdf1540b8537a74b5ce733, type: 3}
+      propertyPath: inRangeMaterial
+      value: 
+      objectReference: {fileID: 2100000, guid: d19454555827edc42bc720119fc64e58, type: 2}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []

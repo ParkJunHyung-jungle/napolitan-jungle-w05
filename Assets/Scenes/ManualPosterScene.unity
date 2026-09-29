@@ -462,6 +462,143 @@ MonoBehaviour:
   m_ShadowLayerMask: 1
   m_RenderingLayers: 1
   m_ShadowRenderingLayers: 1
+--- !u!1 &643722529
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 643722530}
+  - component: {fileID: 643722532}
+  - component: {fileID: 643722531}
+  m_Layer: 31
+  m_Name: Text (TMP) (2)
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!224 &643722530
+RectTransform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 643722529}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0.0002511}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 798043497}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_AnchorMin: {x: 0.1, y: 0.85}
+  m_AnchorMax: {x: 0.9, y: 0.95}
+  m_AnchoredPosition: {x: 0.0028686523, y: -2038}
+  m_SizeDelta: {x: 0, y: 0}
+  m_Pivot: {x: 0.5, y: 0.5}
+--- !u!114 &643722531
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 643722529}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f4688fdb7df04437aeb418b961361dc5, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Unity.TextMeshPro::TMPro.TextMeshProUGUI
+  m_Material: {fileID: 0}
+  m_Color: {r: 1, g: 1, b: 1, a: 1}
+  m_RaycastTarget: 1
+  m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
+  m_Maskable: 1
+  m_OnCullStateChanged:
+    m_PersistentCalls:
+      m_Calls: []
+  m_text: "\uD06C\uB798\uD504\uD1A4 \uC815\uAE00 \uC8FC\uC2DD\uD68C\uC0AC"
+  m_isRightToLeft: 0
+  m_fontAsset: {fileID: 11400000, guid: 24b2d33fd28b2b54aa0a01f7ea9b2e27, type: 2}
+  m_sharedMaterial: {fileID: -6034684366146500009, guid: 24b2d33fd28b2b54aa0a01f7ea9b2e27, type: 2}
+  m_fontSharedMaterials: []
+  m_fontMaterial: {fileID: 0}
+  m_fontMaterials: []
+  m_fontColor32:
+    serializedVersion: 2
+    rgba: 4279308561
+  m_fontColor: {r: 0.066037714, g: 0.066037714, b: 0.066037714, a: 1}
+  m_enableVertexGradient: 0
+  m_colorMode: 3
+  m_fontColorGradient:
+    topLeft: {r: 1, g: 1, b: 1, a: 1}
+    topRight: {r: 1, g: 1, b: 1, a: 1}
+    bottomLeft: {r: 1, g: 1, b: 1, a: 1}
+    bottomRight: {r: 1, g: 1, b: 1, a: 1}
+  m_fontColorGradientPreset: {fileID: 0}
+  m_spriteAsset: {fileID: 0}
+  m_tintAllSprites: 0
+  m_StyleSheet: {fileID: 0}
+  m_TextStyleHashCode: -1183493901
+  m_overrideHtmlColors: 0
+  m_faceColor:
+    serializedVersion: 2
+    rgba: 4294967295
+  m_fontSize: 86
+  m_fontSizeBase: 86
+  m_fontWeight: 400
+  m_enableAutoSizing: 0
+  m_fontSizeMin: 18
+  m_fontSizeMax: 72
+  m_fontStyle: 1
+  m_HorizontalAlignment: 2
+  m_VerticalAlignment: 256
+  m_textAlignment: 65535
+  m_characterSpacing: 0
+  m_characterHorizontalScale: 1
+  m_wordSpacing: 0
+  m_lineSpacing: 0
+  m_lineSpacingMax: 0
+  m_paragraphSpacing: 0
+  m_charWidthMaxAdj: 0
+  m_TextWrappingMode: 1
+  m_wordWrappingRatios: 0.4
+  m_overflowMode: 0
+  m_linkedTextComponent: {fileID: 0}
+  parentLinkedComponent: {fileID: 0}
+  m_enableKerning: 0
+  m_ActiveFontFeatures: 6e72656b
+  m_enableExtraPadding: 0
+  checkPaddingRequired: 0
+  m_isRichText: 1
+  m_EmojiFallbackSupport: 1
+  m_parseCtrlCharacters: 1
+  m_isOrthographic: 1
+  m_isCullingEnabled: 0
+  m_horizontalMapping: 0
+  m_verticalMapping: 0
+  m_uvLineOffset: 0
+  m_geometrySortingOrder: 0
+  m_IsTextObjectScaleStatic: 0
+  m_VertexBufferAutoSizeReduction: 0
+  m_useMaxVisibleDescender: 1
+  m_pageToDisplay: 1
+  m_margin: {x: 0, y: 0, z: 0, w: 0}
+  m_isUsingLegacyAnimationComponent: 0
+  m_isVolumetricText: 0
+  m_hasFontAssetChanged: 0
+  m_baseMaterial: {fileID: 0}
+  m_maskOffset: {x: 0, y: 0, z: 0, w: 0}
+--- !u!222 &643722532
+CanvasRenderer:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 643722529}
+  m_CullTransparentMesh: 1
 --- !u!1 &798043496
 GameObject:
   m_ObjectHideFlags: 0
@@ -493,6 +630,7 @@ RectTransform:
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 1831290891}
+  - {fileID: 643722530}
   - {fileID: 2014082607}
   m_Father: {fileID: 2054372234}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -834,7 +972,7 @@ RectTransform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 2014082606}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalPosition: {x: 0, y: 0, z: 0.00021901}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -842,7 +980,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.1, y: 0.05}
   m_AnchorMax: {x: 0.9, y: 0.85}
-  m_AnchoredPosition: {x: 0, y: 0}
+  m_AnchoredPosition: {x: 0.0028076172, y: 121}
   m_SizeDelta: {x: 0, y: 0}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &2014082608
@@ -865,21 +1003,20 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: " 1. \uAD00\uC81C\uC2E4\uC5D0\uB294 \uCEE4\uB2E4\uB780 \uB465\uAE00\uACE0
-    \uBD89\uC740 \uBC84\uD2BC\uC774 \uC5C6\uC2B5\uB2C8\uB2E4.\n\uB9CC\uC57D \uADF8\uB7F0
-    \uBC84\uD2BC\uC774 \uBCF4\uC778\uB2E4\uBA74 \uBB34\uC2DC\uD558\uC2ED\uC2DC\uC624.\n\n2.\uC124\uBE44
-    A \uACE0\uC7A5\uC2DC \uC870\uCE58\uC0AC\uD56D.\n\uBC84\uD2BC \uC88C\uCE21 \uD45C\uC2DC\uAE30\uC5D0
+  m_text: "1. \uD68C\uB85C \uACE0\uC7A5\n\uBC84\uD2BC \uC88C\uCE21 \uD45C\uC2DC\uAE30\uC5D0
     \uD45C\uC2DC \uB418\uB294 \n\uD615\uD0DC\uC640 \uB3D9\uC77C\uD558\uAC8C \uBC84\uD2BC\uC744
-    \uC870\uC791\uD558\uC2ED\uC2DC\uC624.\n\n3. \uC124\uBE44 B \uACE0\uC7A5\uC2DC
-    \uC870\uCE58\uC0AC\uD56D.\n\uBA54\uC778 \uD654\uBA74 \uC6B0\uCE21\uC5D0 \uC704\uCE58\uD55C
-    \uC2AC\uB77C\uC774\uB354\uB97C \n\uC62C\uBC14\uB978 \uC704\uCE58\uB85C \uC774\uB3D9\uC2DC\uD0A4\uC2ED\uC2DC\uC624.\n\uC2AC\uB77C\uC774\uB354\uB97C
-    \uC774\uB3D9 \uC2DC\uD0AC \uB54C\uC5D4, \uADC0\uB97C \uAE30\uC6B8\uC774\uC2ED\uC2DC\uC624.\n\n4.
-    \uC124\uBE44 C \uACE0\uC7A5\uC2DC \uC870\uCE58\uC0AC\uD56D.\n\uB808\uBC84\uB97C
-    \uB2F9\uAE30\uC2ED\uC2DC\uC624. \uACE0\uCCD0\uC9C8 \uB54C \uAE4C\uC9C0 \uB2F9\uAE30\uC2ED\uC2DC\uC624.\n\n\n5.
-    \uC2DC\uC124\uC744 \uBAA9\uC228\uACFC\uB3C4 \uAC19\uC774 \uAD00\uB9AC\uD558\uC2ED\uC2DC\uC624.\n\uC2DC\uAC04
+    \uC870\uC791\uD558\uC2ED\uC2DC\uC624.\n\n2. \uC8FC\uD30C\uC218 \uC218\uC2E0\uAE30
+    \uACE0\uC7A5\n\uC6B0\uCE21\uC5D0 \uC704\uCE58\uD55C \uC2AC\uB77C\uC774\uB354\uB97C
+    \n\uC62C\uBC14\uB978 \uC704\uCE58\uB85C \uC774\uB3D9\uC2DC\uD0A4\uC2ED\uC2DC\uC624.\n\n3.
+    \uBCC0\uC555\uAE30 \uACE0\uC7A5\n\uB808\uBC84\uB97C \uB2F9\uAE30\uC2ED\uC2DC\uC624.
+    \uACE0\uCCD0\uC9C8 \uB54C \uAE4C\uC9C0 \uB2F9\uAE30\uC2ED\uC2DC\uC624.\n\n4.
+    \uAD00\uC81C\uC2E4\uC5D0\uB294 \uCEE4\uB2E4\uB780 \uB465\uAE00\uACE0 \uBD89\uC740
+    \uBC84\uD2BC\uC774 \uC5C6\uC2B5\uB2C8\uB2E4.\n\uB9CC\uC57D \uADF8\uB7F0 \uBC84\uD2BC\uC774
+    \uBCF4\uC778\uB2E4\uBA74 \uBB34\uC2DC\uD558\uC2ED\uC2DC\uC624.\n\n5. \uC2DC\uC124\uC744
+    \uBAA9\uC228\uACFC\uB3C4 \uAC19\uC774 \uAD00\uB9AC\uD558\uC2ED\uC2DC\uC624.\n\uC2DC\uAC04
     \uB0B4\uC5D0 \uC870\uCE58\uB97C \uCDE8\uD558\uC9C0 \uBABB\uD55C\uB2E4\uBA74\n\uC2DC\uC124\uC774
-    \uBD95\uAD34\uB420 \uAC83\uC785\uB2C8\uB2E4.\n\n\uD06C\uB798\uD504\uD1A4 \uC815\uAE00
-    \uC8FC\uC2DD\uD68C\uC0AC\n"
+    \uBD95\uAD34\uB420 \uAC83\uC785\uB2C8\uB2E4.\n\n\uC870\uC791\uBC95\n\uC774\uB3D9:
+    WASD  \uC0C1\uD638\uC791\uC6A9: \uB9C8\uC6B0\uC2A4 \uC88C\uD074\uB9AD\n"
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 24b2d33fd28b2b54aa0a01f7ea9b2e27, type: 2}
   m_sharedMaterial: {fileID: -6034684366146500009, guid: 24b2d33fd28b2b54aa0a01f7ea9b2e27, type: 2}
@@ -913,7 +1050,7 @@ MonoBehaviour:
   m_fontSizeMin: 18
   m_fontSizeMax: 72
   m_fontStyle: 1
-  m_HorizontalAlignment: 2
+  m_HorizontalAlignment: 1
   m_VerticalAlignment: 256
   m_textAlignment: 65535
   m_characterSpacing: 0
