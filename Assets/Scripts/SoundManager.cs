@@ -14,6 +14,7 @@ public class SoundManager : MonoBehaviour
     [SerializeField] private AudioSource _sirenSource;
     [SerializeField] private AudioSource _countDownSource;
     [SerializeField] private AudioSource _warningSource;
+    [SerializeField] private AudioSource _gameClearSource;
 
     [Header("오디오 클립")]
     [Header("버튼, 슬라이더 오디오 클립")]
@@ -162,7 +163,7 @@ public class SoundManager : MonoBehaviour
     }
     public void GameClearSound()
     {
-        SoundPlay(_sfxSoruce, _gameClear, false);
+        SoundPlay(_gameClearSource, _gameClear, false);
 
     }
 }
