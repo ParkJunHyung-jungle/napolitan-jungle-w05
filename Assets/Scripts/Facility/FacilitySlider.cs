@@ -6,7 +6,7 @@ using UnityEngine;
 /// 손잡이(Slider 레이어 콜라이더)를 잡고 드래그하면 레일(RailStart → RailEnd)을 따라 0 ~ 1 값으로 움직인다.
 /// 마우스 이동량을 화면에 보이는 레일 방향으로 투영하므로, weight 1이면 손잡이가 레일 기준으로 마우스를 1:1로 따라온다.
 /// 드래그 중에도 시점이 낮은 감도로 돌기 때문에 화면상 레일 축은 매번 다시 구한다.
-/// 목표 범위에 들어가는 순간 '철컥' 소리만 내고, 시각 표시는 하지 않는다.
+/// 목표 범위에 들어가는 순간 '철컥' 소리를 내고, 범위 안에 있는 동안 손잡이 머터리얼을 바꾼다.
 /// </summary>
 [DisallowMultipleComponent]
 public class FacilitySlider : MonoBehaviour, IDraggable
@@ -44,6 +44,13 @@ public class FacilitySlider : MonoBehaviour, IDraggable
     [Tooltip("이 시간(초) 동안 값이 변하지 않으면 끄는 소리를 멈춘다")]
     [SerializeField, Min(0f)] private float dragSoundHoldTime = 0.1f;
 
+    [Header("Visual")]
+    [Tooltip("목표 범위 안에 있는 동안 손잡이에 씌울 머터리얼. 비어 있으면 색을 바꾸지 않는다")]
+    [SerializeField] private Material inRangeMaterial;
+
+    private Renderer _handleRenderer;
+    private Material _defaultHandleMaterial;
+
     private float _value;
     private Vector2 _screenAxis;
     private Camera _dragCamera;     // 드래그 중에만 값이 있다
@@ -72,6 +79,10 @@ public class FacilitySlider : MonoBehaviour, IDraggable
 
         if (dragLoopSource != null) dragLoopSource.loop = true;
 
+        // 초기화 때 되돌릴 원래 머터리얼을 기억해 둔다
+        if (handle != null) _handleRenderer = handle.GetComponentInChildren<Renderer>();
+        if (_handleRenderer != null) _defaultHandleMaterial = _handleRenderer.sharedMaterial;
+
         // 설비에 등록되기 전(단독 테스트)에도 손잡이가 시작 값 위치에 오도록 여기서 한 번 맞춘다
         ResetState();
     }
@@ -99,13 +110,15 @@ public class FacilitySlider : MonoBehaviour, IDraggable
 
         // 지정 직후 이미 범위 안이어도 '철컥'이 나지 않도록 현재 상태로 맞춰 둔다
         _isInRange = IsInRange;
+        UpdateHandleMaterial();
     }
 
-    /// <summary>목표를 해제한다. 목표가 없으면 범위 진입 소리를 내지 않는다.</summary>
+    /// <summary>목표를 해제한다. 목표가 없으면 범위 진입 소리를 내지 않고, 손잡이는 원래 머터리얼로 돌아간다.</summary>
     public void ClearTarget()
     {
         _hasTarget = false;
         _isInRange = false;
+        UpdateHandleMaterial();
     }
 
     // ---------- IDraggable ----------
@@ -200,6 +213,7 @@ public class FacilitySlider : MonoBehaviour, IDraggable
     }
 
     // 범위 밖 → 안으로 바뀌는 순간에만 '철컥'. 안 → 밖은 소리 없음
+    // 머터리얼은 들어갈 때 · 나올 때 모두 바꾼다
     private void CheckRange()
     {
         bool inRange = IsInRange;
@@ -207,6 +221,15 @@ public class FacilitySlider : MonoBehaviour, IDraggable
         if (inRange && !_isInRange && snapSource != null && snapSource.clip != null)
             snapSource.PlayOneShot(snapSource.clip);
 
+        bool changed = inRange != _isInRange;
         _isInRange = inRange;
+        if (changed) UpdateHandleMaterial();
+    }
+
+    // 범위 안이면 inRangeMaterial, 아니면 원래 머터리얼. sharedMaterial을 바꿔 머터리얼 인스턴스를 만들지 않는다
+    private void UpdateHandleMaterial()
+    {
+        if (_handleRenderer == null || inRangeMaterial == null) return;
+        _handleRenderer.sharedMaterial = _isInRange ? inRangeMaterial : _defaultHandleMaterial;
     }
 }
