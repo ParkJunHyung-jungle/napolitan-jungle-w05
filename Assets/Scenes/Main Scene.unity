@@ -473,7 +473,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::GameManager
   mainPanelDisplay: {fileID: 1328914252}
   soundManager: {fileID: 240280603}
-  startPanelView: {fileID: 1243837240}
   playerController: {fileID: 1124839531}
   deltaProgress: 0.2
   maxProgressValue: 10
@@ -523,10 +522,10 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::FaultScheduler
   faultSchedules:
-  - FaultTiming: 0.3
-    FaultFacilityIDs: 01000000
-    FatalTime: 20
   - FaultTiming: 0.1
+    FaultFacilityIDs: 010000000000000002000000
+    FatalTime: 20
+  - FaultTiming: 0.3
     FaultFacilityIDs: 00000000
     FatalTime: 20
   - FaultTiming: 0.5
@@ -578,6 +577,7 @@ MonoBehaviour:
   _engineOff: {fileID: 8300000, guid: 0ec5af34269ed134b819421121dbcc0f, type: 3}
   _takingDamage: {fileID: 8300000, guid: 10409f24d70b4274f909f85980e7a4e1, type: 3}
   _fixCompleted: {fileID: 8300000, guid: d2895e13eaf57e244959370648964b55, type: 3}
+  _mediumFix: {fileID: 8300000, guid: 25ae331e8a1152a46b7fa8d3993b8f35, type: 3}
   _ambient: {fileID: 8300000, guid: ddb8759b9310ff943a1075482e0da7da, type: 3}
   _clock: {fileID: 8300000, guid: 28980863f1ad8884b84d49d70f80162c, type: 3}
   _simpleSiren: {fileID: 8300000, guid: cef22b6ebd5aa494a928029d0317feca, type: 3}
@@ -1916,7 +1916,7 @@ AudioSource:
   m_Resource: {fileID: 0}
   m_PlayOnAwake: 1
   m_Volume: 0.9
-  m_Pitch: 0.6
+  m_Pitch: 1
   Loop: 0
   Mute: 0
   Spatialize: 0

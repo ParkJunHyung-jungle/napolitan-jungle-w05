@@ -68,23 +68,6 @@ public class GameManager : MonoBehaviour
 
         if (playerController == null) playerController = FindFirstObjectByType<FirstPersonController>();
 
-        // 시작 패널 동안 플레이어 입력을 잠그고 커서를 푼다.
-        // Cursor를 직접 바꾸지 않고 FirstPersonCamera를 거쳐야 포커스 복귀 때 다시 잠기지 않는다
-        playerController.SetInputLocked(true);
-        playerController.FirstPersonCamera.SetCursorLocked(false);
-
-        Time.timeScale = 0f;
-
-        startPanelView.Initialize(() =>
-        {
-            startPanelView.gameObject.SetActive(false);
-            Time.timeScale = 1f;
-
-            playerController.SetInputLocked(false);
-            playerController.FirstPersonCamera.SetCursorLocked(true);
-        });
-
-
     }
 
     void Update()

@@ -148,7 +148,7 @@ public class SoundManager : MonoBehaviour
 
     public void MediumFixSound()
     {
-        SoundPlay(_sfxSoruce, _mediumFix, true);
+        SoundPlay(_sfxSoruce, _mediumFix, false);
     }
 
 }
