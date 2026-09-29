@@ -24,6 +24,9 @@ public class CameraController : MonoBehaviour
     private float movingTime = 0.6f;
     private float currentMovingTime = 0f;
 
+    // 첫 값이 튀는 것을 무시한다
+    private bool ignoreFirstLook = true;
+
     void Awake()
     {
         // 임시로 playercontroller랑 직접 연결해서 이벤트 구독. 나중에 매니저를 통해서 연결하자
@@ -38,6 +41,14 @@ public class CameraController : MonoBehaviour
     // New Input system의 Look을 가져온다
     public void OnLook(InputAction.CallbackContext context)
     {
+        if (!context.performed) return;
+        if (ignoreFirstLook)
+        {
+            ignoreFirstLook = false;
+            mouseDelta = Vector2.zero;
+            return;
+        }
+
         if (!isFixed) mouseDelta = context.ReadValue<Vector2>() * cameraSpeed;
     }
 
