@@ -6,8 +6,9 @@ public class EmergencyLightController : MonoBehaviour
     [SerializeField] private GameManager _gameManager;
     [SerializeField] private SystemTimer _systemTimer;
 
-    private bool isLightExists = false;
-    public float lightDuration = 1.5f;
+    public Light emergencyLight;
+
+    public float lightDuration = 2f;
 
     private Coroutine _emergencyLightCoroutine = null;
 
@@ -23,7 +24,7 @@ public class EmergencyLightController : MonoBehaviour
 
     public void StartEmergencyLight()
     {
-        if (!isLightExists) return;
+        if (emergencyLight == null) return;
 
         if (_emergencyLightCoroutine != null) return;
 
@@ -35,17 +36,16 @@ public class EmergencyLightController : MonoBehaviour
         if (_emergencyLightCoroutine == null) return;
 
         StopCoroutine(_emergencyLightCoroutine);
+        emergencyLight.intensity = 0f;
         _emergencyLightCoroutine = null;
     }
 
     IEnumerator EmergencyLightCoroutine()
     {
-        gameObject.SetActive(true);
-        isLightExists = true;
+        emergencyLight.intensity = 10f;
         yield return new WaitForSeconds(lightDuration);
 
-        gameObject.SetActive(false);
+        emergencyLight.intensity = 0f;
         _emergencyLightCoroutine = null;
-        isLightExists = false;
     }
 }
