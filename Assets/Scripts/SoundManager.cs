@@ -44,6 +44,10 @@ public class SoundManager : MonoBehaviour
     [SerializeField] private AudioClip _halfHp;
     [SerializeField] private AudioClip _lowHp;
 
+    [Header("위험상태 오디오 클립")]
+    [SerializeField] private AudioClip _gameOver;
+    [SerializeField] private AudioClip _gameClear;
+
     private void SoundPlay(AudioSource source, AudioClip clip, bool loop = false)
     {
         source.Stop();
@@ -151,4 +155,14 @@ public class SoundManager : MonoBehaviour
         SoundPlay(_sfxSoruce, _mediumFix, false);
     }
 
+    public void GameOverSound()
+    {
+        SoundPlay(_sfxSoruce, _gameOver, false);
+
+    }
+    public void GameOverClear()
+    {
+        SoundPlay(_sfxSoruce, _gameClear, false);
+
+    }
 }
