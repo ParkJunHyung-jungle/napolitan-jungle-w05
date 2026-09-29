@@ -34,6 +34,7 @@ public class GameManager : MonoBehaviour
     private FacilityManager _facilityManager;
     private FaultScheduler _faultScheduler;
     private float _progressValue;
+    private bool _isFinished;
 
     private int _durability;
 
@@ -105,6 +106,7 @@ public class GameManager : MonoBehaviour
         endPanel.gameObject.SetActive(false);
         gameOverPanel.gameObject.SetActive(false);
 
+        _isFinished = false;
 
     }
 
@@ -123,12 +125,13 @@ public class GameManager : MonoBehaviour
         mainPanelDisplay.SetRemainingTime();
         vignetteController.SetVignetteIntensity((_systemTimer.FatalTime - _systemTimer.CurrentTime) / _systemTimer.FatalTime);
 
-        if (_progressValue / maxProgressValue > 1)
+        if (_progressValue / maxProgressValue > 1 && !_isFinished)
         {
             //게임 승리 결과 표시
+            _isFinished = true;
+            soundManager.GameClearSound();
             playerController.SetInputLocked(true);
             playerController.FirstPersonCamera.SetCursorLocked(false);
-
             endPanel.gameObject.SetActive(true);
         }
 
@@ -201,7 +204,8 @@ public class GameManager : MonoBehaviour
         {
             //gameOver
             //사운드
-
+            soundManager.GameOverSound();
+            _isFinished = true;
             playerController.SetInputLocked(true);
             playerController.FirstPersonCamera.SetCursorLocked(false);
 

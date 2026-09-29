@@ -570,7 +570,7 @@ MonoBehaviour:
   playerController: {fileID: 1124839531}
   deltaProgress: 0.2
   maxProgressValue: 10
-  maxDurability: 3
+  maxDurability: 5
   vignetteController: {fileID: 2047260029}
 --- !u!4 &240280599
 Transform:
@@ -617,20 +617,20 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::FaultScheduler
   faultSchedules:
   - FaultTiming: 0.2
-    FaultFacilityIDs: 00000000
-    FatalTime: 15
+    FaultFacilityIDs: 01000000
+    FatalTime: 20
   - FaultTiming: 0.4
     FaultFacilityIDs: 01000000
     FatalTime: 15
   - FaultTiming: 0.5
     FaultFacilityIDs: 02000000
-    FatalTime: 7
+    FatalTime: 15
   - FaultTiming: 0.7
     FaultFacilityIDs: 0000000001000000
-    FatalTime: 25
+    FatalTime: 15
   - FaultTiming: 0.9
     FaultFacilityIDs: 000000000100000002000000
-    FatalTime: 30
+    FatalTime: 15
 --- !u!114 &240280602
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -679,8 +679,8 @@ MonoBehaviour:
   _countDown: {fileID: 0}
   _halfHp: {fileID: 8300000, guid: b7450293dcea61f49843e22e18d5df60, type: 3}
   _lowHp: {fileID: 8300000, guid: 79bb2f6df8151ad459558487de8c0db3, type: 3}
-  _gameOver: {fileID: 0}
-  _gameClear: {fileID: 0}
+  _gameOver: {fileID: 8300000, guid: ccced3ccc46bea14d97f0885e1fc3d69, type: 3}
+  _gameClear: {fileID: 8300000, guid: bc7ca1f926bc6b44ca4d7fca396a358d, type: 3}
 --- !u!1 &312785761
 GameObject:
   m_ObjectHideFlags: 0
@@ -1277,6 +1277,18 @@ PrefabInstance:
       value: FacilityB
       objectReference: {fileID: 0}
     - target: {fileID: 5131278716453232977, guid: aab5f3014ee40d549a6a281f0da6eaa7, type: 3}
+      propertyPath: m_LocalScale.x
+      value: 1.25
+      objectReference: {fileID: 0}
+    - target: {fileID: 5131278716453232977, guid: aab5f3014ee40d549a6a281f0da6eaa7, type: 3}
+      propertyPath: m_LocalScale.y
+      value: 1.25
+      objectReference: {fileID: 0}
+    - target: {fileID: 5131278716453232977, guid: aab5f3014ee40d549a6a281f0da6eaa7, type: 3}
+      propertyPath: m_LocalScale.z
+      value: 1.25
+      objectReference: {fileID: 0}
+    - target: {fileID: 5131278716453232977, guid: aab5f3014ee40d549a6a281f0da6eaa7, type: 3}
       propertyPath: m_LocalPosition.x
       value: 4.35
       objectReference: {fileID: 0}
@@ -1316,16 +1328,33 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 5131278716453232977, guid: aab5f3014ee40d549a6a281f0da6eaa7, type: 3}
+      propertyPath: m_ConstrainProportionsScale
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 7048336418905235356, guid: aab5f3014ee40d549a6a281f0da6eaa7, type: 3}
+      propertyPath: targetMax
+      value: 0.9
+      objectReference: {fileID: 0}
+    - target: {fileID: 7048336418905235356, guid: aab5f3014ee40d549a6a281f0da6eaa7, type: 3}
+      propertyPath: targetMin
+      value: 0.1
+      objectReference: {fileID: 0}
     - target: {fileID: 7048336418905235356, guid: aab5f3014ee40d549a6a281f0da6eaa7, type: 3}
       propertyPath: tolerance
-      value: 0.025
+      value: 0.1
       objectReference: {fileID: 0}
     - target: {fileID: 7048336418905235356, guid: aab5f3014ee40d549a6a281f0da6eaa7, type: 3}
       propertyPath: guideLight
       value: 
       objectReference: {fileID: 1924852248}
+    - target: {fileID: 7048336418905235356, guid: aab5f3014ee40d549a6a281f0da6eaa7, type: 3}
+      propertyPath: sliders.Array.size
+      value: 3
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
-    m_RemovedGameObjects: []
+    m_RemovedGameObjects:
+    - {fileID: 6439608481188219759, guid: aab5f3014ee40d549a6a281f0da6eaa7, type: 3}
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: aab5f3014ee40d549a6a281f0da6eaa7, type: 3}

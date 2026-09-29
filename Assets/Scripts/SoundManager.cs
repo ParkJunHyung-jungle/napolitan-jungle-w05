@@ -160,7 +160,7 @@ public class SoundManager : MonoBehaviour
         SoundPlay(_sfxSoruce, _gameOver, false);
 
     }
-    public void GameOverClear()
+    public void GameClearSound()
     {
         SoundPlay(_sfxSoruce, _gameClear, false);
 
