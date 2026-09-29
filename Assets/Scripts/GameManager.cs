@@ -1,4 +1,5 @@
 using System.Collections;
+using UI;
 using UnityEngine;
 
 public class GameManager : MonoBehaviour
@@ -7,6 +8,13 @@ public class GameManager : MonoBehaviour
     private MainPanelDisplay mainPanelDisplay;
     [SerializeField]
     private SoundManager soundManager;
+    [SerializeField]
+    private StartPanelView startPanelView;
+    [SerializeField]
+    private EndPanel endPanel;
+    [SerializeField]
+    private EndPanel gameOverPanel;
+
     [Tooltip("시작 패널 동안 입력을 잠글 플레이어. 비어 있으면 씬에서 찾는다")]
     [SerializeField]
     private FirstPersonController playerController;
@@ -68,6 +76,35 @@ public class GameManager : MonoBehaviour
 
         if (playerController == null) playerController = FindFirstObjectByType<FirstPersonController>();
 
+        // 시작 패널 동안 플레이어 입력을 잠그고 커서를 푼다.
+        // Cursor를 직접 바꾸지 않고 FirstPersonCamera를 거쳐야 포커스 복귀 때 다시 잠기지 않는다
+        playerController.SetInputLocked(true);
+        playerController.FirstPersonCamera.SetCursorLocked(false);
+
+        Time.timeScale = 0f;
+
+        startPanelView.Initialize(() =>
+        {
+            startPanelView.gameObject.SetActive(false);
+            Time.timeScale = 1f;
+
+            playerController.SetInputLocked(false);
+            playerController.FirstPersonCamera.SetCursorLocked(true);
+        });
+
+        endPanel.Initialize(() =>
+        {
+
+        });
+        gameOverPanel.Initialize(() =>
+        {
+
+        });
+
+        endPanel.gameObject.SetActive(false);
+        gameOverPanel.gameObject.SetActive(false);
+
+
     }
 
     void Update()
@@ -88,6 +125,10 @@ public class GameManager : MonoBehaviour
         if (_progressValue / maxProgressValue > 1)
         {
             //게임 승리 결과 표시
+            playerController.SetInputLocked(true);
+            playerController.FirstPersonCamera.SetCursorLocked(false);
+
+            endPanel.gameObject.SetActive(true);
         }
 
     }
@@ -115,8 +156,6 @@ public class GameManager : MonoBehaviour
         if (isCompleted)
         {
 
-            //완료 사운드 재생.
-
             if (IsNormal)
             {
 
@@ -125,7 +164,6 @@ public class GameManager : MonoBehaviour
 
                 //불안한 루프 끄고, 편안한 루프 키는
 
-                soundManager.FixCompletedSound();
                 _systemTimer.SetTimerEnd();
                 soundManager.StopClockSound();
                 soundManager.StopSirenSound();
@@ -162,6 +200,11 @@ public class GameManager : MonoBehaviour
         {
             //gameOver
             //사운드
+
+            playerController.SetInputLocked(true);
+            playerController.FirstPersonCamera.SetCursorLocked(false);
+
+            gameOverPanel.gameObject.SetActive(true);
             Debug.Log("장치가 전부 망가져버렸습니다.");
         }
     }
