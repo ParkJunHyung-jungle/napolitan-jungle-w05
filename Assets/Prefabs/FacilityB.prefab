@@ -53,7 +53,7 @@ MonoBehaviour:
   - {fileID: 4024271706700605459}
   - {fileID: 7704510456531725803}
   - {fileID: 3856842891649074100}
-  tolerance: 0.1
+  tolerance: 0.04
   targetMin: 0.05
   targetMax: 0.95
 --- !u!1 &8223741819678167969
