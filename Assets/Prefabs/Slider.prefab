@@ -142,7 +142,7 @@ MonoBehaviour:
   handle: {fileID: 2861129882106509842}
   railStart: {fileID: 4143147452825717946}
   railEnd: {fileID: 2179808331026660174}
-  weight: 0.1
+  weight: 0.3
   initialValue: 0.462
   minScreenAxisLength: 50
   dragLoopSource: {fileID: 2384333505988618737}

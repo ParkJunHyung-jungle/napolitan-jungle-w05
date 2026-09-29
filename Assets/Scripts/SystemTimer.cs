@@ -12,9 +12,10 @@ public class SystemTimer : MonoBehaviour
     private bool _isActive = false;
     private float _currentTime = 0;
 
-    
-    public bool IsActive  => _isActive;
+
+    public bool IsActive => _isActive;
     public float CurrentTime => _currentTime;
+    public float FatalTime => fatalTime;
     public void Initialize(GameManager gameManager)
     {
         _gameManager = gameManager;
@@ -30,10 +31,10 @@ public class SystemTimer : MonoBehaviour
         if (_isActive)
         {
             _currentTime -= Time.deltaTime;
-            if( _currentTime <= 0) TimeEnd();
+            if (_currentTime <= 0) TimeEnd();
         }
-        
-        
+
+
     }
 
     private void TimeEnd()
@@ -42,7 +43,7 @@ public class SystemTimer : MonoBehaviour
         _isActive = true;
         OnTimerEnd?.Invoke();
     }
-    
+
     public void SetTimerEnd()
     {
         _isActive = false;

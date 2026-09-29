@@ -7,7 +7,7 @@ using UnityEngine;
 /// - 정상일 때 장치 조작 : 장치는 반응하지만 설비에는 영향이 없다
 /// - 고장 중 목표 달성 : 정상으로 돌아가고, 장치를 초기화한 뒤, 수리 알림을 한 번 보낸다
 /// </summary>
-public abstract class Facility  : MonoBehaviour
+public abstract class Facility : MonoBehaviour
 {
     /// <summary>수리 완료 때만 (isFault = false, facilityID)로 온다.</summary>
     public Action<bool, int> OnFacilityInteracted;
@@ -23,6 +23,8 @@ public abstract class Facility  : MonoBehaviour
 
     public bool IsFault() => isFault;
 
+    public GameObject guideLight;
+
     public abstract void Initialize();
 
     /// <summary>고장 발생. 새 목표를 만들고 고장 상태가 된다. 장치는 현재 상태를 유지한다. 이미 고장이면 무시.</summary>
@@ -31,6 +33,7 @@ public abstract class Facility  : MonoBehaviour
         if (isFault) return;
         GenerateGoal();
         isFault = true;
+        SetLight(lightState.red);
     }
 
     /// <summary>강제로 정상으로 돌리고 장치를 초기화한다. 재시작용.</summary>
@@ -38,6 +41,16 @@ public abstract class Facility  : MonoBehaviour
     {
         isFault = false;
         ResetDevices();
+        SetLight(lightState.green);
+    }
+
+    public void SetLight(lightState state)
+    {
+        LightController lightController = guideLight.GetComponent<LightController>();
+
+        if (lightController == null) return;
+
+        lightController.SetLightState(state);
     }
 
     /// <summary>장치가 바뀔 때마다 하위 클래스가 부른다.</summary>
@@ -52,8 +65,14 @@ public abstract class Facility  : MonoBehaviour
         // 수리 완료 : 알림을 받는 쪽이 정리된 상태를 보도록 초기화를 먼저 한다
         isFault = false;
         ResetDevices();
+        SetLight(lightState.green);
         OnFacilityInteracted?.Invoke(false, facilityID);
     }
+
+    /// <summary>
+    /// 장치 상태가 바뀔 때 연결된 조명의 색상을 바꾼다
+    /// </summary>
+    /// <param name="state">enum lightState: lightState.green / lightState.red / lightState.blink</param>
 
     /// <summary>새 목표를 만든다. 현재 장치 상태와 겹치지 않게 한다.</summary>
     protected abstract void GenerateGoal();
@@ -63,4 +82,5 @@ public abstract class Facility  : MonoBehaviour
 
     /// <summary>장치를 초기 상태로 되돌리고 목표를 해제한다.</summary>
     protected abstract void ResetDevices();
+
 }
