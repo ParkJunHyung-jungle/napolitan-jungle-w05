@@ -413,7 +413,7 @@ MonoBehaviour:
   redColor: {fileID: 2100000, guid: 1bd4f78e0affaa343a30f7ac0cb28be4, type: 2}
   grayColor: {fileID: 2100000, guid: 45888bb309ff47f48853d419d22dcb2f, type: 2}
   animationDuration: 0.25
-  clickSource: {fileID: 0}
+  clickSource: {fileID: 9068694429742212664}
 --- !u!95 &6108694569046474641
 Animator:
   serializedVersion: 7
