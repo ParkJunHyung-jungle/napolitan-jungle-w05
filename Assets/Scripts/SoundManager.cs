@@ -87,9 +87,9 @@ public class SoundManager : MonoBehaviour
     //퍼즐 완료 소리
     public void FixCompletedSound()
     {
-        _sirenSource.Stop();
-        _clockSource.Stop();
-        _countDownSource.Stop();
+        //_sirenSource.Stop();
+        //_clockSource.Stop();
+        //_countDownSource.Stop();
         _sfxSoruce.PlayOneShot(_fixCompleted);
     }
 

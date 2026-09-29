@@ -145,8 +145,8 @@ MonoBehaviour:
   weight: 0.1
   initialValue: 0.462
   minScreenAxisLength: 50
-  dragLoopSource: {fileID: 0}
-  snapSource: {fileID: 0}
+  dragLoopSource: {fileID: 2384333505988618737}
+  snapSource: {fileID: 4559739385454032868}
   dragSoundHoldTime: 0.1
 --- !u!82 &2384333505988618737
 AudioSource:
@@ -256,7 +256,7 @@ AudioSource:
   serializedVersion: 4
   OutputAudioMixerGroup: {fileID: 0}
   m_audioClip: {fileID: 0}
-  m_Resource: {fileID: 0}
+  m_Resource: {fileID: 8300000, guid: 73e76321f9cc0724cbf3cbde063dd2e0, type: 3}
   m_PlayOnAwake: 1
   m_Volume: 1
   m_Pitch: 1
