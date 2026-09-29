@@ -5,6 +5,8 @@ public class GameManager : MonoBehaviour
 {
     [SerializeField]
     private MainPanelDisplay mainPanelDisplay;
+    [SerializeField]
+    private SoundManager  soundManager;
 
     [Header("진행 상태 값")]
     [SerializeField]
@@ -20,6 +22,8 @@ public class GameManager : MonoBehaviour
     private FacilityManager _facilityManager;
     private FaultScheduler _faultScheduler;
     private float _progressValue;
+    
+    private int _durability;
     
 
     public FacilityManager FacilityManager => _facilityManager;
@@ -54,6 +58,8 @@ public class GameManager : MonoBehaviour
         _systemTimer.OnTimerEnd += OnTimerEnd;
         
         _faultScheduler = _facilityManager.FaultScheduler;
+        
+        _durability = maxDurability;
     }
 
     void Update()
@@ -85,7 +91,13 @@ public class GameManager : MonoBehaviour
         //1. 타이머가 꺼져 있으면 켜기
         if (!isCompleted)
         {
-            if(!_systemTimer.IsActive) _systemTimer.SetTimer();
+            if(!_systemTimer.IsActive)
+            {
+                _systemTimer.SetTimer();
+                soundManager.ClockSound();
+                soundManager.EngineOffSound();  
+                soundManager.SimpleSirenSound();
+            }
         }
         //안정 상태
         // 1. 모든 설비가 정상 상태이면 타이머를 끄고 등등작업 해야함.
@@ -93,9 +105,13 @@ public class GameManager : MonoBehaviour
         if (isCompleted)
         {
             //완료 사운드 재생.
+            soundManager.FixCompletedSound();
             if (IsNormal)
             {
+                //불안한 루프 끄고, 편안한 루프 키는
+                
                 _systemTimer.SetTimerEnd();
+                soundManager.StopClockSound();
             }
         }
     }
@@ -103,6 +119,15 @@ public class GameManager : MonoBehaviour
     private void OnTimerEnd()
     {
         Debug.Log("시스템 유지 실패");
+        _durability--;
+        if(_durability == 3) soundManager.HalfHpSound();
+        else if(_durability == 2) soundManager.HalfHpSound();
+        else if(_durability == 1) soundManager.LowHpSound();
+        if (_durability == 0)
+        {
+            //gameOver
+            //사운드
+        }
     }
 
 }
