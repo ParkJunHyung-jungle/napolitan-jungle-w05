@@ -49,6 +49,7 @@ public class FirstPersonController : MonoBehaviour
     public bool IsInputLocked => _lockCount > 0;
     public bool IsDragging => _dragTarget != null;
 
+    private ButtonOutline currentOutline;
     // 컴포넌트를 처음 붙일 때 기본 레이어 마스크를 Button, Slider로 채운다
     private void Reset()
     {
@@ -65,6 +66,11 @@ public class FirstPersonController : MonoBehaviour
     private void OnDisable()
     {
         StopDrag();
+
+        if (currentOutline != null)
+            currentOutline.SetHighlighted(false);
+
+        currentOutline = null;
     }
 
     // 창 밖에서 버튼을 떼면 canceled가 오지 않을 수 있으므로 포커스를 잃으면 놓는다
@@ -119,6 +125,24 @@ public class FirstPersonController : MonoBehaviour
         UpdateDrag();
         Move();
     }
+    private void LateUpdate()
+    {
+        ButtonOutline next = null;
+
+        if (TryGetTarget(out RaycastHit hit))
+            next = hit.collider.GetComponentInParent<ButtonOutline>();
+
+        if (currentOutline == next) return;
+
+        // 이전 버튼은 끄고, 새 버튼은 켜기
+        if (currentOutline != null)
+            currentOutline.SetHighlighted(false);
+
+        currentOutline = next;
+
+        if (currentOutline != null)
+            currentOutline.SetHighlighted(true);
+    }
 
     private void Move()
     {
@@ -137,9 +161,21 @@ public class FirstPersonController : MonoBehaviour
     }
 
     // ---------- Interaction ----------
+    // 아웃라인과 클릭이 함께 사용하는 거리 검사
+    private bool TryGetTarget(out RaycastHit hit)
+    {
+        hit = default;
 
+        if (!firstPersonCamera.IsCursorLocked || IsInputLocked || IsDragging)
+            return false;
+
+        return Physics.Raycast(firstPersonCamera.GetAimRay(), out hit, interactDistance, interactLayerMask, QueryTriggerInteraction.Ignore);
+    }
     private void TryInteract()
     {
+        if (!TryGetTarget(out RaycastHit asdf))
+            return;
+
         Ray ray = firstPersonCamera.GetAimRay();
 
         if (!Physics.Raycast(ray, out RaycastHit hit, interactDistance, interactLayerMask, QueryTriggerInteraction.Ignore))
