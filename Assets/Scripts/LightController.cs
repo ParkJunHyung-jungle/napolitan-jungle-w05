@@ -2,8 +2,16 @@ using System.Collections;
 using Unity.VisualScripting;
 using UnityEngine;
 
+public enum lightState
+{
+    green,
+    red,
+    blink
+}
+
 public class LightController : MonoBehaviour
 {
+    public lightState _lightState;
     public float blinkInterval = 1f;
 
     public Renderer _renderer;
@@ -19,6 +27,8 @@ public class LightController : MonoBehaviour
     {
         _renderer = gameObject.GetComponent<Renderer>();
         _light = gameObject.GetComponent<Light>();
+
+        SetLightState(_lightState);
     }
 
     void OnDisable()
@@ -26,37 +36,57 @@ public class LightController : MonoBehaviour
         StopBlink();
     }
 
-    public void SetGreen()
+    public void SetLightState(lightState state)
     {
+        _lightState = state;
+        switch (state)
+        {
+            case lightState.green:
+                SetGreen();
+                break;
+            case lightState.red:
+                SetRed();
+                break;
+            case lightState.blink:
+                StartBlink();
+                break;
+        }
+    }
+
+    private void SetGreen()
+    {
+        if (_lightState != lightState.blink) StopBlink();
         _renderer.material.color = green;
         _light.enabled = true;
         _light.color = green;
     }
 
-    public void SetRed()
+    private void SetRed()
     {
+        if (_lightState != lightState.blink) StopBlink();
         _renderer.material.color = red;
         _light.enabled = true;
         _light.color = red;
     }
 
-    public void SetGray()
+    private void SetGray()
     {
+        if (_lightState != lightState.blink) StopBlink();
         _renderer.material.color = gray;
         _light.enabled = false;
     }
 
-    public void StartBlink()
+    private void StartBlink()
     {
         if (blinkCoroutine != null) return;
         blinkCoroutine = StartCoroutine(Blink());
     }
 
-    public void StopBlink()
+    private void StopBlink()
     {
         if (blinkCoroutine == null) return;
 
-        StopCoroutine(Blink());
+        StopCoroutine(blinkCoroutine);
         blinkCoroutine = null;
     }
 
