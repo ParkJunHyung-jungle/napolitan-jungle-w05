@@ -1,12 +1,14 @@
 using System;
 using System.Collections.Generic;
 using UnityEngine;
-using Random = UnityEngine.Random;
 
 public class FacilityManager : MonoBehaviour
 {
 
     public Action<bool> OnFacilityStatusChanged;
+
+    /// <summary>스케줄대로 고장이 났을 때. 제한 시간(FatalTime)은 스케줄에 들어 있다.</summary>
+    public Action<FaultSchedule> OnFaultOccurred;
 
     
     [SerializeField] private Facility[] _facilities;
@@ -55,13 +57,40 @@ public class FacilityManager : MonoBehaviour
         OnFacilityStatusChanged?.Invoke(!isFault);
     }
     
-    private void OnFaultMade(int count)
+    // 스케줄에 적힌 설비를 고장 낸다. 새로 고장 난 설비가 있을 때만 알린다
+    private void OnFaultMade(FaultSchedule schedule)
     {
-        //임시 코드
-        var rand = Random.Range(0, _facilities.Length);
-        _facilities[rand].MakeFault();
-        
+        var faultCount = 0;
+        if (schedule.FaultFacilityIDs != null)
+        {
+            foreach (var id in schedule.FaultFacilityIDs)
+            {
+                var facility = FindFacility(id);
+                if (facility == null)
+                {
+                    Debug.LogWarning($"[FacilityManager] 고장 스케줄의 설비 ID {id}에 해당하는 설비가 없습니다.", this);
+                    continue;
+                }
+
+                if (facility.IsFault()) continue;
+                facility.MakeFault();
+                faultCount++;
+            }
+        }
+
+        if (faultCount == 0) return;
+
+        OnFaultOccurred?.Invoke(schedule);
         OnFacilityStatusChanged?.Invoke(false);
+    }
+
+    private Facility FindFacility(int facilityID)
+    {
+        foreach (var f in _facilities)
+        {
+            if (f.FacilityID == facilityID) return f;
+        }
+        return null;
     }
     
 }

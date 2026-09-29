@@ -42,10 +42,11 @@ public class FacilityButton : MonoBehaviour, IInteractable
     {
         if (_interactable)
         {
+            _interactable = false;
             _status = _status.Next();
-            StartCoroutine(WaitForAnimation());
             _animator.SetTrigger("ButtonPressed");
-            PlayClickSound();
+            StartCoroutine(WaitForAnimation());
+           
             OnButtonPressed?.Invoke();
         }
 
@@ -88,9 +89,11 @@ public class FacilityButton : MonoBehaviour, IInteractable
 
     IEnumerator WaitForAnimation()
     {
-        _interactable = false;
-        yield return new WaitForSeconds(animationDuration);
+        
+        yield return new WaitForSeconds(animationDuration/2);
+        PlayClickSound();
         ChangeColor();
+        yield return new WaitForSeconds(animationDuration/2);
         _interactable = true;
         
     }

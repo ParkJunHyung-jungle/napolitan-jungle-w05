@@ -5,12 +5,13 @@ using UnityEngine;
 public struct FaultSchedule
 {
     public float FaultTiming;
-    public int FaultFacilityCount;
+    public int[] FaultFacilityIDs;
+    public float FatalTime;
 
 }
 public class FaultScheduler : MonoBehaviour
 {
-    public Action<int> OnFaultMade;
+    public Action<FaultSchedule> OnFaultMade;
 
     [SerializeField]
     private FaultSchedule[] faultSchedules;
@@ -33,7 +34,7 @@ public class FaultScheduler : MonoBehaviour
         {
             var currentFault = faultSchedules[_faultIndex];
             //사고
-            OnFaultMade?.Invoke(currentFault.FaultFacilityCount);
+            OnFaultMade?.Invoke(currentFault);
             _faultIndex++;
         }
 

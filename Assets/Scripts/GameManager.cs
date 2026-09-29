@@ -56,6 +56,7 @@ public class GameManager : MonoBehaviour
 
 
         _facilityManager.OnFacilityStatusChanged += OnFacilityInteracted;
+        _facilityManager.OnFaultOccurred += OnFaultOccurred;
         _systemTimer.OnTimerEnd += OnTimerEnd;
 
         _faultScheduler = _facilityManager.FaultScheduler;
@@ -84,22 +85,22 @@ public class GameManager : MonoBehaviour
         }
 
     }
+
+    // 불안 상태 : 스케줄대로 고장이 났다. 타이머가 꺼져 있으면 스케줄의 제한 시간으로 켠다
+    private void OnFaultOccurred(FaultSchedule schedule)
+    {
+        if (_systemTimer.IsActive) return;
+
+        _systemTimer.SetTimer(schedule.FatalTime);
+        soundManager.ClockSound();
+        soundManager.EngineOffSound();
+        soundManager.SimpleSirenSound();
+        soundManager.AmbientSound();
+    }
+
+    // 고장 발생(false)은 OnFaultOccurred가 처리하므로 여기서는 수리 완료(true)만 본다
     public void OnFacilityInteracted(bool isCompleted)
     {
-        // 내부에서 상태를 보고 처리하기.
-        // 불안 상태
-        // 1. 타이머가 꺼져 있으면 켜기
-        if (!isCompleted)
-        {
-            if(!_systemTimer.IsActive)
-            {
-                _systemTimer.SetTimer();
-                soundManager.ClockSound();
-                soundManager.EngineOffSound();  
-                soundManager.SimpleSirenSound();
-                soundManager.AmbientSound();
-            }
-        }
         // 안정 상태
         // 1. 모든 설비가 정상 상태이면 타이머를 끄고 등등작업 해야함.
         // 2. 
@@ -123,7 +124,7 @@ public class GameManager : MonoBehaviour
     {
         Debug.Log("시스템 유지 실패");
         _durability--;
-        mainPanelDisplay.SetDurability(_durability/maxDurability);
+        mainPanelDisplay.SetDurability(((float)_durability)/((float)maxDurability));
         soundManager.TakingDamageSound();
         if(_durability == 3) soundManager.HalfHpSound();
         else if(_durability == 2) soundManager.HalfHpSound();
