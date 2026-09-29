@@ -6,25 +6,14 @@ public class ButtonGuideManager : MonoBehaviour
     public Material green;
     public Material gray;
     public MeshRenderer[] spheres;
-    // Start is called once before the first execution of Update after the MonoBehaviour is created
-    void Start()
-    {
 
-    }
-
-    // Update is called once per frame
-    void Update()
-    {
-
-    }
-
-    public void setGuide(ButtonStatus[] statusList)
+    public void SetGuide(ButtonStatus[] statusList)
     {
         for (int i = 0; i < 16; i++)
         {
             switch (statusList[i])
             {
-                case ButtonStatus.Deactivated:
+                case ButtonStatus.Deactivate:
                     spheres[i].material = gray;
                     break;
                 case ButtonStatus.Red:
@@ -37,4 +26,5 @@ public class ButtonGuideManager : MonoBehaviour
             }
         }
     }
+
 }

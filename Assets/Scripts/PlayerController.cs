@@ -81,9 +81,9 @@ public class PlayerController : MonoBehaviour
         Vector2 clickPosition = Mouse.current.position.ReadValue();
 
         // cursorItem이 Button 레이어일 경우 ButtonManager를 가져온 뒤, 거기 있는 ClickButton을 실행시킨다.
-        if (cursorItem.layer == LayerMask.NameToLayer("Button") && cursorItem.TryGetComponent<ButtonManager>(out var buttonManager))
+        if (cursorItem.layer == LayerMask.NameToLayer("Button") && cursorItem.TryGetComponent<IInteractable>(out var interactable))
         {
-            buttonManager.ClickButton();
+            interactable.Interact();
         }
     }
 
