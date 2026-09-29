@@ -11,9 +11,9 @@ public struct FaultSchedule
 public class FaultScheduler : MonoBehaviour
 {
     public Action<int> OnFaultMade;
-    
+
     [SerializeField]
-    private   FaultSchedule[] faultSchedules;
+    private FaultSchedule[] faultSchedules;
 
     private FacilityManager _facilityManager;
     private int _faultIndex = 0;
@@ -27,15 +27,17 @@ public class FaultScheduler : MonoBehaviour
 
     public void TryMakeFault(float progress)
     {
-        if(progress> SoonFaultTiming)
+        if (_faultIndex >= faultSchedules.Length) return;
+
+        if (progress > SoonFaultTiming)
         {
             var currentFault = faultSchedules[_faultIndex];
             //사고
             OnFaultMade?.Invoke(currentFault.FaultFacilityCount);
             _faultIndex++;
         }
-        
-      
+
+
     }
 
 }
