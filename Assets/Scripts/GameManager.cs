@@ -97,6 +97,7 @@ public class GameManager : MonoBehaviour
                 soundManager.ClockSound();
                 soundManager.EngineOffSound();  
                 soundManager.SimpleSirenSound();
+                soundManager.AmbientSound();
             }
         }
         //안정 상태
@@ -112,6 +113,8 @@ public class GameManager : MonoBehaviour
                 
                 _systemTimer.SetTimerEnd();
                 soundManager.StopClockSound();
+                soundManager.StopSirenSound();
+                soundManager.AmbientSoundOff();
             }
         }
     }
@@ -120,6 +123,8 @@ public class GameManager : MonoBehaviour
     {
         Debug.Log("시스템 유지 실패");
         _durability--;
+        mainPanelDisplay.SetDurability(_durability/maxDurability);
+        soundManager.TakingDamageSound();
         if(_durability == 3) soundManager.HalfHpSound();
         else if(_durability == 2) soundManager.HalfHpSound();
         else if(_durability == 1) soundManager.LowHpSound();

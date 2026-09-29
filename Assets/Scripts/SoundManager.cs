@@ -9,7 +9,7 @@ public class SoundManager : MonoBehaviour
     [SerializeField] private AudioSource _buttonSource;
     [SerializeField] private AudioSource _sliderSource;
     [SerializeField] private AudioSource _sfxSoruce;
-    [SerializeField] private AudioSource _engineSoruce;
+    [SerializeField] private AudioSource _ambientSource;
     [SerializeField] private AudioSource _clockSource;
     [SerializeField] private AudioSource _sirenSource;
     [SerializeField] private AudioSource _countDownSource;
@@ -26,8 +26,8 @@ public class SoundManager : MonoBehaviour
     [SerializeField] private AudioClip _takingDamage;
     [SerializeField] private AudioClip _fixCompleted;
 
-    [Header("엔진 오디오 클립")]
-    [SerializeField] private AudioClip _engine;
+    [Header("엠비언트 오디오 클립")]
+    [SerializeField] private AudioClip _ambient;
 
     [Header("시계 오디오 클립")]
     [SerializeField] private AudioClip _clock;
@@ -67,15 +67,19 @@ public class SoundManager : MonoBehaviour
     }
 
     //엔진 루프 소리
-    public void EngineSound()
+    public void AmbientSound()
     {
-        SoundPlay(_engineSoruce, _engine, true);
+        SoundPlay(_ambientSource, _ambient, true);
     }
 
+    public void AmbientSoundOff()
+    {
+        _ambientSource.Stop();
+    }
     //엔진 꺼지는 알림 소리
     public void EngineOffSound()
     {
-        SoundPlay(_engineSoruce, _engineOff, false);
+        SoundPlay(_sfxSoruce, _engineOff, false);
     }
 
     //내구도 깎이는 알림 소리
