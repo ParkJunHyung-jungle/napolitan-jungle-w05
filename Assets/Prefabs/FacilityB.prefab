@@ -50,6 +50,8 @@ MonoBehaviour:
   sliders:
   - {fileID: 7343749750754527277}
   - {fileID: 4024271706700605459}
+  - {fileID: 7704510456531725803}
+  - {fileID: 3856842891649074100}
   tolerance: 0.05
   targetMin: 0.05
   targetMax: 0.95
@@ -154,6 +156,17 @@ Transform:
   m_CorrespondingSourceObject: {fileID: 1629846303730415853, guid: 04939e446abdf1540b8537a74b5ce733, type: 3}
   m_PrefabInstance: {fileID: 1243201062464308311}
   m_PrefabAsset: {fileID: 0}
+--- !u!114 &7704510456531725803 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 8911312732000217532, guid: 04939e446abdf1540b8537a74b5ce733, type: 3}
+  m_PrefabInstance: {fileID: 1243201062464308311}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4e3f746da8274f299bb6d6be35543bfc, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::FacilitySlider
 --- !u!1001 &2180141112526610833
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -369,6 +382,17 @@ PrefabInstance:
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 04939e446abdf1540b8537a74b5ce733, type: 3}
+--- !u!114 &3856842891649074100 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 8911312732000217532, guid: 04939e446abdf1540b8537a74b5ce733, type: 3}
+  m_PrefabInstance: {fileID: 5633182468106496520}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4e3f746da8274f299bb6d6be35543bfc, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::FacilitySlider
 --- !u!4 &6391580974096290533 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 1629846303730415853, guid: 04939e446abdf1540b8537a74b5ce733, type: 3}
