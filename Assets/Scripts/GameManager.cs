@@ -1,5 +1,4 @@
 using System.Collections;
-using UI;
 using UnityEngine;
 
 public class GameManager : MonoBehaviour
@@ -170,11 +169,19 @@ public class GameManager : MonoBehaviour
                 soundManager.AmbientSoundOff();
             }
 
-            // 1개로 줄어들면 사이렌 종류만 바꾼다
-            else if (_facilityManager.FaultCount == 1)
+
+            else
             {
-                soundManager.StopSirenSound();
-                soundManager.SimpleSirenSound();
+                soundManager.MediumFixSound();
+
+                // 1개로 줄어들면 사이렌 종류만 바꾼다
+                if ((_facilityManager.FaultCount == 1))
+                {
+                    soundManager.StopSirenSound();
+                    soundManager.SimpleSirenSound();
+
+                }
+
             }
         }
     }
