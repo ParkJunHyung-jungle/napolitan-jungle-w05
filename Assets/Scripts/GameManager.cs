@@ -1,4 +1,5 @@
 using System.Collections;
+using UI;
 using UnityEngine;
 
 public class GameManager : MonoBehaviour
@@ -9,6 +10,11 @@ public class GameManager : MonoBehaviour
     private SoundManager soundManager;
     [SerializeField]
     private StartPanelView startPanelView;
+    [SerializeField]
+    private EndPanel endPanel;
+    [SerializeField]
+    private EndPanel gameOverPanel;
+    
     [Tooltip("시작 패널 동안 입력을 잠글 플레이어. 비어 있으면 씬에서 찾는다")]
     [SerializeField]
     private FirstPersonController playerController;
@@ -85,6 +91,18 @@ public class GameManager : MonoBehaviour
             playerController.SetInputLocked(false);
             playerController.FirstPersonCamera.SetCursorLocked(true);
         });
+        
+        endPanel.Initialize(() =>
+        {
+            
+        });
+        gameOverPanel.Initialize(() =>
+        {
+            
+        });
+        
+        endPanel.gameObject.SetActive(false);
+        gameOverPanel.gameObject.SetActive(false);
 
         
     }
@@ -107,6 +125,10 @@ public class GameManager : MonoBehaviour
         if (_progressValue / maxProgressValue > 1)
         {
             //게임 승리 결과 표시
+            playerController.SetInputLocked(true);
+            playerController.FirstPersonCamera.SetCursorLocked(false);
+            
+            endPanel.gameObject.SetActive(true);
         }
 
     }
@@ -170,6 +192,11 @@ public class GameManager : MonoBehaviour
         {
             //gameOver
             //사운드
+            
+            playerController.SetInputLocked(true);
+            playerController.FirstPersonCamera.SetCursorLocked(false);
+            
+            gameOverPanel.gameObject.SetActive(true);
             Debug.Log("장치가 전부 망가져버렸습니다.");
         }
     }
