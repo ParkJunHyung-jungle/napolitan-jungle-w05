@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using UnityEngine;
+using Random = UnityEngine.Random;
 
 public class FacilityManager : MonoBehaviour
 {
@@ -57,7 +58,8 @@ public class FacilityManager : MonoBehaviour
     private void OnFaultMade(int count)
     {
         //임시 코드
-        _facilities[0].MakeFault();
+        var rand = Random.Range(0, _facilities.Length);
+        _facilities[rand].MakeFault();
         
         OnFacilityStatusChanged?.Invoke(false);
     }
