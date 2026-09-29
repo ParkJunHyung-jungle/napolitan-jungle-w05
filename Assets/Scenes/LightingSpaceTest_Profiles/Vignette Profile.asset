@@ -29,27 +29,27 @@ MonoBehaviour:
   active: 1
   enabled:
     overrideState: 1
-    value: 0
+    value: 1
   mode:
     overrideState: 1
     value: 0
   color:
     overrideState: 1
-    value: {r: 1, g: 0.2792635, b: 0.23137254, a: 1}
+    value: {r: 0.754717, g: 0.06190783, b: 0, a: 1}
   center:
     overrideState: 1
     value: {x: 0.5, y: 0.5}
   intensity:
     overrideState: 1
-    value: 0.529
+    value: 0.3
   smoothness:
     overrideState: 1
-    value: 0.189
+    value: 0.5
   roundness:
     overrideState: 1
     value: 1
   rounded:
-    overrideState: 1
+    overrideState: 0
     value: 0
   mask:
     overrideState: 0
