@@ -7,8 +7,6 @@ public class GameManager : MonoBehaviour
     private MainPanelDisplay mainPanelDisplay;
     [SerializeField]
     private SoundManager soundManager;
-    [SerializeField]
-    private StartPanelView startPanelView;
     [Tooltip("시작 패널 동안 입력을 잠글 플레이어. 비어 있으면 씬에서 찾는다")]
     [SerializeField]
     private FirstPersonController playerController;
@@ -27,9 +25,9 @@ public class GameManager : MonoBehaviour
     private FacilityManager _facilityManager;
     private FaultScheduler _faultScheduler;
     private float _progressValue;
-    
+
     private int _durability;
-    
+
 
     public FacilityManager FacilityManager => _facilityManager;
     public SystemTimer SystemTimer => _systemTimer;
@@ -65,7 +63,7 @@ public class GameManager : MonoBehaviour
         _systemTimer.OnTimerEnd += OnTimerEnd;
 
         _faultScheduler = _facilityManager.FaultScheduler;
-        
+
         _durability = maxDurability;
 
         if (playerController == null) playerController = FindFirstObjectByType<FirstPersonController>();
@@ -86,7 +84,7 @@ public class GameManager : MonoBehaviour
             playerController.FirstPersonCamera.SetCursorLocked(true);
         });
 
-        
+
     }
 
     void Update()
@@ -133,17 +131,17 @@ public class GameManager : MonoBehaviour
         // 2. 
         if (isCompleted)
         {
-            
+
             //완료 사운드 재생.
 
             if (IsNormal)
             {
-                
+
                 //완료 사운드 재생.
                 soundManager.FixCompletedSound();
-                
+
                 //불안한 루프 끄고, 편안한 루프 키는
-                
+
                 soundManager.FixCompletedSound();
                 _systemTimer.SetTimerEnd();
                 soundManager.StopClockSound();
