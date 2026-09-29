@@ -57,6 +57,7 @@ public class LightController : MonoBehaviour
     {
         if (_lightState != lightState.blink) StopBlink();
         _renderer.material.color = green;
+        _renderer.material.SetColor("_EmissionColor", green);
         _light.enabled = true;
         _light.color = green;
     }
@@ -65,6 +66,7 @@ public class LightController : MonoBehaviour
     {
         if (_lightState != lightState.blink) StopBlink();
         _renderer.material.color = red;
+        _renderer.material.SetColor("_EmissionColor", red);
         _light.enabled = true;
         _light.color = red;
     }
@@ -73,6 +75,7 @@ public class LightController : MonoBehaviour
     {
         if (_lightState != lightState.blink) StopBlink();
         _renderer.material.color = gray;
+        _renderer.material.SetColor("_EmissionColor", Color.black);
         _light.enabled = false;
     }
 
