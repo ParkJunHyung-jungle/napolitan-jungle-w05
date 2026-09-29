@@ -63,3 +63,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::VignetteController
   volume: {fileID: 2286549700746856507}
+  _gameManager: {fileID: 0}
+  _systemTimer: {fileID: 0}
+  distortionStrength: 30
+  distortDuration: 0.6
+  distortionWaveCount: 2

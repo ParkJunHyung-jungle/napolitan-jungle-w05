@@ -167,6 +167,10 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: -90
       objectReference: {fileID: 0}
+    - target: {fileID: 5835829506368412524, guid: 3507b2ec4096b5f458fbfce97ae8b0fe, type: 3}
+      propertyPath: guideLight
+      value: 
+      objectReference: {fileID: 1186001952}
     - target: {fileID: 9014948365585703744, guid: 3507b2ec4096b5f458fbfce97ae8b0fe, type: 3}
       propertyPath: m_Name
       value: Facility_A
@@ -212,6 +216,7 @@ MonoBehaviour:
   deltaProgress: 0.1
   maxProgressValue: 10
   maxDurability: 5
+  vignetteController: {fileID: 2047260029}
 --- !u!4 &240280599
 Transform:
   m_ObjectHideFlags: 0
@@ -272,7 +277,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7cf17dddbc2bb2b49a71be95dbc5c923, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::SystemTimer
-  fatalTime: 20
+  fatalTime: 5
 --- !u!1 &337997720
 GameObject:
   m_ObjectHideFlags: 0
@@ -637,6 +642,10 @@ PrefabInstance:
       propertyPath: m_ConstrainProportionsScale
       value: 1
       objectReference: {fileID: 0}
+    - target: {fileID: 7048336418905235356, guid: aab5f3014ee40d549a6a281f0da6eaa7, type: 3}
+      propertyPath: guideLight
+      value: 
+      objectReference: {fileID: 1924852248}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -1256,6 +1265,10 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 90
       objectReference: {fileID: 0}
+    - target: {fileID: 8304398110351741458, guid: c21116e997a821d40afb44638ba048d4, type: 3}
+      propertyPath: guideLight
+      value: 
+      objectReference: {fileID: 1653482050}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -1340,6 +1353,11 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &1186001952 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 292952842821682864, guid: 6414728dbd9a6c844b53f47b2bad6657, type: 3}
+  m_PrefabInstance: {fileID: 5199046238117773478}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1 &1250494859
 GameObject:
   m_ObjectHideFlags: 0
@@ -1924,6 +1942,11 @@ MonoBehaviour:
   m_BeforeTransparentBundles: []
   m_BeforeStackBundles: []
   m_AfterStackBundles: []
+--- !u!1 &1653482050 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 292952842821682864, guid: 6414728dbd9a6c844b53f47b2bad6657, type: 3}
+  m_PrefabInstance: {fileID: 1259952718}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1 &1670365261
 GameObject:
   m_ObjectHideFlags: 0
@@ -2196,6 +2219,11 @@ PrefabInstance:
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 6414728dbd9a6c844b53f47b2bad6657, type: 3}
+--- !u!1 &1924852248 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 292952842821682864, guid: 6414728dbd9a6c844b53f47b2bad6657, type: 3}
+  m_PrefabInstance: {fileID: 1878610411}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1 &1937799741
 GameObject:
   m_ObjectHideFlags: 0
@@ -2517,6 +2545,17 @@ Transform:
   m_Children: []
   m_Father: {fileID: 836604608}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &2047260029 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 4498778004455668066, guid: 62b675a7b5b659c47a6b8eabd858bfd3, type: 3}
+  m_PrefabInstance: {fileID: 4376449510304508770}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 89d5fd8994f44fa4b98a4a4cc835f246, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::VignetteController
 --- !u!1001 &4376449510304508770
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -2529,6 +2568,14 @@ PrefabInstance:
       propertyPath: m_Name
       value: Vignette
       objectReference: {fileID: 0}
+    - target: {fileID: 4498778004455668066, guid: 62b675a7b5b659c47a6b8eabd858bfd3, type: 3}
+      propertyPath: _gameManager
+      value: 
+      objectReference: {fileID: 240280598}
+    - target: {fileID: 4498778004455668066, guid: 62b675a7b5b659c47a6b8eabd858bfd3, type: 3}
+      propertyPath: _systemTimer
+      value: 
+      objectReference: {fileID: 240280602}
     - target: {fileID: 4858799865930409288, guid: 62b675a7b5b659c47a6b8eabd858bfd3, type: 3}
       propertyPath: m_LocalPosition.x
       value: 0
