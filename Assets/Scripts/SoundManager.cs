@@ -25,6 +25,7 @@ public class SoundManager : MonoBehaviour
     [SerializeField] private AudioClip _engineOff;
     [SerializeField] private AudioClip _takingDamage;
     [SerializeField] private AudioClip _fixCompleted;
+    [SerializeField] private AudioClip _mediumFix;
 
     [Header("엠비언트 오디오 클립")]
     [SerializeField] private AudioClip _ambient;
@@ -87,7 +88,7 @@ public class SoundManager : MonoBehaviour
     {
         _sfxSoruce.PlayOneShot(_takingDamage);
     }
-    
+
     //퍼즐 완료 소리
     public void FixCompletedSound()
     {
@@ -101,6 +102,7 @@ public class SoundManager : MonoBehaviour
     public void ClockSound()
     {
         SoundPlay(_clockSource, _clock, true);
+
     }
 
     public void StopClockSound()
@@ -142,6 +144,11 @@ public class SoundManager : MonoBehaviour
     public void StopSirenSound()
     {
         _sirenSource.Stop();
+    }
+
+    public void MediumFixSound()
+    {
+        SoundPlay(_sfxSoruce, _mediumFix, true);
     }
 
 }
