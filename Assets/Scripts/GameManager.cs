@@ -6,7 +6,7 @@ public class GameManager : MonoBehaviour
     [SerializeField]
     private MainPanelDisplay mainPanelDisplay;
     [SerializeField]
-    private SoundManager  soundManager;
+    private SoundManager soundManager;
 
     [Header("진행 상태 값")]
     [SerializeField]
@@ -22,9 +22,9 @@ public class GameManager : MonoBehaviour
     private FacilityManager _facilityManager;
     private FaultScheduler _faultScheduler;
     private float _progressValue;
-    
+
     private int _durability;
-    
+
 
     public FacilityManager FacilityManager => _facilityManager;
     public SystemTimer SystemTimer => _systemTimer;
@@ -60,7 +60,7 @@ public class GameManager : MonoBehaviour
         _systemTimer.OnTimerEnd += OnTimerEnd;
 
         _faultScheduler = _facilityManager.FaultScheduler;
-        
+
         _durability = maxDurability;
     }
 
@@ -94,7 +94,9 @@ public class GameManager : MonoBehaviour
         _systemTimer.SetTimer(schedule.FatalTime);
         soundManager.ClockSound();
         soundManager.EngineOffSound();
-        soundManager.SimpleSirenSound();
+        // 첫 시작 때 개수에 따라 사이렌 종류 바꾸기
+        if (_facilityManager.FaultCount > 1) soundManager.ComplaxSirenSound();
+        else soundManager.SimpleSirenSound();
         soundManager.AmbientSound();
     }
 
@@ -111,11 +113,18 @@ public class GameManager : MonoBehaviour
             if (IsNormal)
             {
                 //불안한 루프 끄고, 편안한 루프 키는
-                
+
                 _systemTimer.SetTimerEnd();
                 soundManager.StopClockSound();
                 soundManager.StopSirenSound();
                 soundManager.AmbientSoundOff();
+            }
+
+            // 1개로 줄어들면 사이렌 종류만 바꾼다
+            else if (_facilityManager.FaultCount == 1)
+            {
+                soundManager.StopSirenSound();
+                soundManager.SimpleSirenSound();
             }
         }
     }
@@ -124,11 +133,11 @@ public class GameManager : MonoBehaviour
     {
         Debug.Log("시스템 유지 실패");
         _durability--;
-        mainPanelDisplay.SetDurability(((float)_durability)/((float)maxDurability));
+        mainPanelDisplay.SetDurability(((float)_durability) / ((float)maxDurability));
         soundManager.TakingDamageSound();
-        if(_durability == 3) soundManager.HalfHpSound();
-        else if(_durability == 2) soundManager.HalfHpSound();
-        else if(_durability == 1) soundManager.LowHpSound();
+        if (_durability == 3) soundManager.HalfHpSound();
+        else if (_durability == 2) soundManager.HalfHpSound();
+        else if (_durability == 1) soundManager.LowHpSound();
         if (_durability == 0)
         {
             //gameOver
