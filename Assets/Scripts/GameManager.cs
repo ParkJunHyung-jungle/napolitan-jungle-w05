@@ -134,6 +134,8 @@ public class GameManager : MonoBehaviour
         if (isCompleted)
         {
             
+            //완료 사운드 재생.
+
             if (IsNormal)
             {
                 
@@ -142,17 +144,26 @@ public class GameManager : MonoBehaviour
                 
                 //불안한 루프 끄고, 편안한 루프 키는
                 
+                soundManager.FixCompletedSound();
                 _systemTimer.SetTimerEnd();
                 soundManager.StopClockSound();
                 soundManager.StopSirenSound();
                 soundManager.AmbientSoundOff();
             }
 
-            // 1개로 줄어들면 사이렌 종류만 바꾼다
-            else if (_facilityManager.FaultCount == 1)
+
+            else
             {
-                soundManager.StopSirenSound();
-                soundManager.SimpleSirenSound();
+                soundManager.MediumFixSound();
+
+                // 1개로 줄어들면 사이렌 종류만 바꾼다
+                if ((_facilityManager.FaultCount == 1))
+                {
+                    soundManager.StopSirenSound();
+                    soundManager.SimpleSirenSound();
+
+                }
+
             }
         }
     }
