@@ -521,10 +521,21 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::FaultScheduler
   faultSchedules:
-  - FaultTiming: 0.05
-    FaultFacilityCount: 1
-  - FaultTiming: 0.2
-    FaultFacilityCount: 1
+  - FaultTiming: 0.1
+    FaultFacilityIDs: 00000000
+    FatalTime: 20
+  - FaultTiming: 0.3
+    FaultFacilityIDs: 01000000
+    FatalTime: 20
+  - FaultTiming: 0.5
+    FaultFacilityIDs: 02000000
+    FatalTime: 10
+  - FaultTiming: 0.7
+    FaultFacilityIDs: 0000000001000000
+    FatalTime: 30
+  - FaultTiming: 0.9
+    FaultFacilityIDs: 000000000100000002000000
+    FatalTime: 35
 --- !u!114 &240280602
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -952,8 +963,13 @@ PrefabInstance:
       propertyPath: guideLight
       value: 
       objectReference: {fileID: 1924852248}
+    - target: {fileID: 7048336418905235356, guid: aab5f3014ee40d549a6a281f0da6eaa7, type: 3}
+      propertyPath: sliders.Array.size
+      value: 3
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
-    m_RemovedGameObjects: []
+    m_RemovedGameObjects:
+    - {fileID: 6439608481188219759, guid: aab5f3014ee40d549a6a281f0da6eaa7, type: 3}
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: aab5f3014ee40d549a6a281f0da6eaa7, type: 3}
@@ -3020,7 +3036,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 0, y: 0}
-  m_AnchoredPosition: {x: 0, y: 3.75}
+  m_AnchoredPosition: {x: 0, y: 3.25}
   m_SizeDelta: {x: 3, y: 4.2}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!1 &1732222436
