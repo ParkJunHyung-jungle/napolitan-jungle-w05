@@ -13,19 +13,33 @@ public class ButtonOutline : MonoBehaviour
     }
 
     // Update is called once per frame
-    void Update()
-    {
+    // void Update()
+    // {
 
-    }
-    private void OnMouseEnter()
+    // }
+    // private void OnMouseEnter()
+    // {
+    //     EnableOutline(clickableRenderer);
+    //     EnableOutline(FocusIndicatorRenderer);
+    // }
+    // private void OnMouseExit()
+    // {
+    //     DisableOutline(clickableRenderer);
+    //     DisableOutline(FocusIndicatorRenderer);
+    // }
+
+    public void SetHighlighted(bool highlighted)
     {
-        EnableOutline(clickableRenderer);
-        EnableOutline(FocusIndicatorRenderer);
-    }
-    private void OnMouseExit()
-    {
-        DisableOutline(clickableRenderer);
-        DisableOutline(FocusIndicatorRenderer);
+        if (highlighted)
+        {
+            EnableOutline(clickableRenderer);
+            EnableOutline(FocusIndicatorRenderer);
+        }
+        else
+        {
+            DisableOutline(clickableRenderer);
+            DisableOutline(FocusIndicatorRenderer);
+        }
     }
 
     private void EnableOutline(Renderer targetRenderer)
