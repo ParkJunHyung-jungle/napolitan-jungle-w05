@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections;
 using Unity.VisualScripting;
 using UnityEngine;
@@ -7,11 +7,11 @@ using UnityEngine.UI;
 public class FacilityButton : MonoBehaviour, IInteractable
 {
     public Action OnButtonPressed;
-    
+
     [SerializeField] private Material greenColor;
     [SerializeField] private Material redColor;
     [SerializeField] private Material grayColor;
-    
+
     [SerializeField] private float animationDuration = 0.25f;
 
     [Tooltip("클릭음을 낼 AudioSource (clip에 클릭음 지정). 비어 있으면 같은 오브젝트에서 찾는다")]
@@ -19,14 +19,14 @@ public class FacilityButton : MonoBehaviour, IInteractable
 
     private Animator _animator;
     private MeshRenderer mesh;
-    
+
     private bool _interactable = true;
-    
+
     private ButtonStatus _status;
     private IInteractable _interactableImplementation;
 
     public ButtonStatus Status => _status;
-    
+
     public void Initialize()
     {
         _animator = GetComponent<Animator>();
@@ -36,7 +36,7 @@ public class FacilityButton : MonoBehaviour, IInteractable
 
         _status = ButtonStatus.Deactivate;
     }
-    
+
 
     public void Interact()
     {
@@ -46,7 +46,7 @@ public class FacilityButton : MonoBehaviour, IInteractable
             _status = _status.Next();
             _animator.SetTrigger("ButtonPressed");
             StartCoroutine(WaitForAnimation());
-           
+
             OnButtonPressed?.Invoke();
         }
 
@@ -61,7 +61,7 @@ public class FacilityButton : MonoBehaviour, IInteractable
 
     private void ChangeStatus()
     {
-        
+
         ChangeColor();
     }
 
@@ -89,12 +89,12 @@ public class FacilityButton : MonoBehaviour, IInteractable
 
     IEnumerator WaitForAnimation()
     {
-        
-        yield return new WaitForSeconds(animationDuration/2);
+
+        yield return new WaitForSeconds(animationDuration / 2);
         PlayClickSound();
         ChangeColor();
-        yield return new WaitForSeconds(animationDuration/2);
+        yield return new WaitForSeconds(animationDuration / 2);
         _interactable = true;
-        
+
     }
 }

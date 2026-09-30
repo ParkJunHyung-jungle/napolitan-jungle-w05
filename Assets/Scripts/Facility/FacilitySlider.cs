@@ -217,7 +217,7 @@ public class FacilitySlider : MonoBehaviour, IDraggable
     private void CheckRange()
     {
         bool inRange = IsInRange;
-        if(inRange) Debug.Log("InRange");
+        if (inRange) Debug.Log("InRange");
         if (inRange && !_isInRange && snapSource != null && snapSource.clip != null)
             snapSource.PlayOneShot(snapSource.clip);
 

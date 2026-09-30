@@ -1,4 +1,4 @@
-﻿using UnityEngine;
+using UnityEngine;
 
 /// <summary>
 /// 포스터 굽기 설정. 굽기용 Canvas(Screen Space - Camera) 루트에 붙인다.

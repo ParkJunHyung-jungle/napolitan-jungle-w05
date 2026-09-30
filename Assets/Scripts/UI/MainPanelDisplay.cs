@@ -17,7 +17,7 @@ public class MainPanelDisplay : MonoBehaviour
     {
         [Tooltip("설비 이름")]
         public string name;
-        
+
         [Tooltip("FacilitySlot (테두리 Image)")]
         public Image frame;
 
@@ -60,10 +60,10 @@ public class MainPanelDisplay : MonoBehaviour
     [Tooltip("안전 강조색")]
     [SerializeField] private Color safeColor = new Color(0.3f, 1f, 0f, 1f);
 
-    [Tooltip("불안정 강조색")] 
-    [SerializeField] 
+    [Tooltip("불안정 강조색")]
+    [SerializeField]
     private Color unsafeColor;
-    
+
     [Tooltip("인스펙터에서 강조색을 바꾸면 에디터에서 바로 반영")]
     [SerializeField] private bool previewInEditor = true;
 
@@ -146,7 +146,7 @@ public class MainPanelDisplay : MonoBehaviour
         if (bar != null)
             bar.fillAmount = Mathf.Clamp01(normalized);
     }
-    
+
 
     // ---------- Progress ----------
 
@@ -166,9 +166,9 @@ public class MainPanelDisplay : MonoBehaviour
         }
         else
         {
-            timerText.text = $"--";    
+            timerText.text = $"--";
         }
-        
+
     }
 
     // ---------- Durability ----------
@@ -193,7 +193,7 @@ public class MainPanelDisplay : MonoBehaviour
         facilitySlots[index].frame.color = safeColor;
     }
 
-    private void SetFacilitySlot(int index , bool isFault)
+    private void SetFacilitySlot(int index, bool isFault)
     {
         if (isFault)
         {
@@ -204,14 +204,14 @@ public class MainPanelDisplay : MonoBehaviour
             OnFacilityNormalize(index);
         }
     }
-    
+
 
     private void OnFacilityStatusChanged(bool isCompleted)
     {
         //인덱스 기반으로 상태 슬롯 갱신하기.
         for (int i = 0; i < _facilityManager.Facilities.Length; i++)
         {
-            SetFacilitySlot(i,_facilityManager.Facilities[i].IsFault());
+            SetFacilitySlot(i, _facilityManager.Facilities[i].IsFault());
         }
     }
 }

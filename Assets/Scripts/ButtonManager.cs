@@ -2,9 +2,9 @@ using System.Collections;
 using UnityEngine;
 public enum ButtonStatus
 {
-    Deactivate=0,
-    Red =1,
-    Green=2
+    Deactivate = 0,
+    Red = 1,
+    Green = 2
 }
 
 public class ButtonManager : MonoBehaviour

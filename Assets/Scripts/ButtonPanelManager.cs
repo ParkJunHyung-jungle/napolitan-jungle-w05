@@ -6,13 +6,13 @@ using Random = UnityEngine.Random;
 public class ButtonPanelManager : MonoBehaviour
 {
     public Action<bool> OnButtonPressed;
-    
+
     public ButtonManager[] buttonList;
     public ButtonGuideManager buttonGuideScript;
 
     private ButtonStatus[] GuideImage;
 
-    
+
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
@@ -84,7 +84,7 @@ public class ButtonPanelManager : MonoBehaviour
             // 성공 UI 표시나 다음 단계 진행
         }
     }
-    
+
 
     public void MakeFault()
     {
