@@ -7,7 +7,7 @@ public enum ButtonStatus
     Green = 2
 }
 
-public class ButtonManager : MonoBehaviour
+public class ButtonController : MonoBehaviour
 {
     public bool isClickable;
     public bool isAnimating;
@@ -18,7 +18,7 @@ public class ButtonManager : MonoBehaviour
     public float animationDuration = 0.3f;
     public ChangeButtonColor changeColorScript;
 
-    public event System.Action<ButtonManager> PressCompleted;
+    public event System.Action<ButtonController> PressCompleted;
 
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()

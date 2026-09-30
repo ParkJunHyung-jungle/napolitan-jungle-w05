@@ -3,12 +3,12 @@ using UnityEngine;
 using UnityEngine.UIElements;
 using Random = UnityEngine.Random;
 
-public class ButtonPanelManager : MonoBehaviour
+public class ButtonPanelController : MonoBehaviour
 {
     public Action<bool> OnButtonPressed;
 
-    public ButtonManager[] buttonList;
-    public ButtonGuideManager buttonGuideScript;
+    public ButtonController[] buttonList;
+    public ButtonGuideController buttonGuideScript;
 
     private ButtonStatus[] GuideImage;
 
@@ -18,7 +18,7 @@ public class ButtonPanelManager : MonoBehaviour
     {
         GuideImage = new ButtonStatus[16];
 
-        foreach (ButtonManager button in buttonList)
+        foreach (ButtonController button in buttonList)
         {
             button.PressCompleted += OnButtonPressCompleted;
         }
@@ -70,11 +70,11 @@ public class ButtonPanelManager : MonoBehaviour
     }
     void OnDestroy()
     {
-        foreach (ButtonManager button in buttonList)
+        foreach (ButtonController button in buttonList)
             button.PressCompleted -= OnButtonPressCompleted;
     }
 
-    private void OnButtonPressCompleted(ButtonManager button)
+    private void OnButtonPressCompleted(ButtonController button)
     {
         OnButtonPressed?.Invoke(CheckAnswer());
 
