@@ -8,7 +8,7 @@ public class FacilityA : Facility
     [SerializeField]
     private FacilityButton[] facilityButtons;
     [SerializeField]
-    private ButtonGuideManager buttonGuideManager;
+    private ButtonGuideController buttonGuideManager;
 
     private ButtonStatus[] goalButtonStatuses;
 

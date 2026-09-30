@@ -1,6 +1,6 @@
 using UnityEngine;
 
-public class ButtonGuideManager : MonoBehaviour
+public class ButtonGuideController : MonoBehaviour
 {
     public Material red;
     public Material green;
