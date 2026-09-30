@@ -5,8 +5,15 @@ public class Managers : MonoBehaviour
     private static Managers _instance;
     public static Managers Instance { get { Init(); return _instance; } }
 
+    #region Core
     private readonly InputManager _inputManager = new();
     public static InputManager Input => Instance._inputManager;
+    #endregion
+
+    #region Contents
+    private readonly DateManager _dateManager = new();
+    public static DateManager Date => Instance._dateManager;
+    #endregion
 
     void Start()
     {
@@ -28,7 +35,9 @@ public class Managers : MonoBehaviour
 
             _instance._inputManager.Init();
 
-            GameObject eventSystem = Instantiate(Resources.Load<GameObject>("KCH/Prefabs/UIs/EventSystem"));
+            _instance._dateManager.Init();
+
+            GameObject eventSystem = Instantiate(Resources.Load<GameObject>("Prefabs/UIs/EventSystem"));
 
             eventSystem.transform.SetParent(_instance.transform);
         }
@@ -37,5 +46,6 @@ public class Managers : MonoBehaviour
     public static void Clear()
     {
         Input.Clear();
+        Date.Clear();
     }
 }
