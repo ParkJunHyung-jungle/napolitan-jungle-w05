@@ -110,7 +110,6 @@ public class LegacyGameManager : MonoBehaviour
         }
 
         _systemTimer.Tick();
-        Managers.Light.SetVignetteIntensity((_systemTimer.FatalTime - _systemTimer.CurrentTime) / _systemTimer.FatalTime, _systemTimer.IsActive);
 
     }
 
@@ -136,7 +135,6 @@ public class LegacyGameManager : MonoBehaviour
         // 2. 
         if (isCompleted)
         {
-
             if (IsNormal)
             {
 
@@ -169,8 +167,8 @@ public class LegacyGameManager : MonoBehaviour
     }
 
     /// <summary>
-    /// 타이머 종료 시 설비 실패를 반영한다.
-    /// 현재 내구도를 감소시키고 남은 내구도에 따른 효과음을 재생한다.
+    /// 타이머 종료 시 고장 난 레버 설비가 있으면 실패 조명 효과를 실행한다.
+    /// 시설 목록을 확인하고 현재 내구도를 감소시킨 뒤 효과음을 재생한다.
     /// </summary>
     private void OnTimerEnd()
     {

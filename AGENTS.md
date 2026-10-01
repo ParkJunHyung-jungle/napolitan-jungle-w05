@@ -1,9 +1,10 @@
 # AGENTS.md
 
-## 0. Git
+## 0. Git & Validation
 
 - 커밋 메세지 제안만 가능
 - git cli 수행 금지
+- unity cli 등을 사용해 검증 금지
 
 ## 1. Comment
 

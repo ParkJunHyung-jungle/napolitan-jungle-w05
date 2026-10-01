@@ -4,11 +4,10 @@ public class EmergencyLightController : MonoBehaviour
 {
     [Header("Emergency Light")]
     public Light emergencyLight;
-    public float lightDuration = 2f;
 
     void OnEnable()
     {
-        Managers.Light.RegisterEmergencyLight(this, emergencyLight, lightDuration);
+        Managers.Light.RegisterEmergencyLight(this, emergencyLight);
     }
 
     void OnDisable()
