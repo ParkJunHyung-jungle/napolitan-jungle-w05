@@ -617,20 +617,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::FaultScheduler
   faultSchedules:
   - FaultTiming: 0.2
-    FaultFacilityIDs: 00000000
-    FatalTime: 15
-  - FaultTiming: 0.4
-    FaultFacilityIDs: 01000000
-    FatalTime: 15
-  - FaultTiming: 0.5
     FaultFacilityIDs: 02000000
-    FatalTime: 7
-  - FaultTiming: 0.7
-    FaultFacilityIDs: 0000000001000000
-    FatalTime: 25
-  - FaultTiming: 0.9
-    FaultFacilityIDs: 000000000100000002000000
-    FatalTime: 30
+    FatalTime: 15
 --- !u!114 &240280602
 MonoBehaviour:
   m_ObjectHideFlags: 0

@@ -1,5 +1,7 @@
 using System;
+using TMPro;
 using UnityEngine;
+using UnityEngine.Purchasing;
 
 [System.Serializable]
 public struct FaultSchedule
@@ -15,30 +17,33 @@ public class FaultScheduler : MonoBehaviour
 
     [SerializeField]
     private FaultSchedule[] faultSchedules;
+    private DateManager _dateManager;
 
     private FacilityManager _facilityManager;
     private int _faultIndex = 0;
 
-    public float SoonFaultTiming => faultSchedules[_faultIndex].FaultTiming;
+    public float SoonFaultTiming => faultSchedules[_faultIndex].FaultTiming; // 스케쥴의 타이밍을 가져옴
+
+
+    private void Start()
+    {
+        Managers.Date.OnMinuteChange += TryMakeFault;
+        TryMakeFault(0);
+    }
 
     public void Initialize()
     {
 
     }
 
-    public void TryMakeFault(float progress)
+    public void TryMakeFault(int minute)
     {
-        if (_faultIndex >= faultSchedules.Length) return;
-
-        if (progress > SoonFaultTiming)
+        if (minute % 60 == 0)
         {
             var currentFault = faultSchedules[_faultIndex];
             //사고
             OnFaultMade?.Invoke(currentFault);
-            _faultIndex++;
         }
-
-
     }
 
 }
