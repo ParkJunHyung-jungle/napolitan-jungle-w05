@@ -16,6 +16,7 @@ public class SoundManager
     private AudioSource _sliderSource;
     private AudioSource _sfxSoruce;
     private AudioSource _ambientSource;
+    private AudioSource _subAmbientSource;
     private AudioSource _clockSource;
     private AudioSource _sirenSource;
     private AudioSource _countDownSource;
@@ -46,6 +47,7 @@ public class SoundManager
         _sliderSource = CreateSource("Slider");
         _sfxSoruce = CreateSource("Sfx", pitch: 0.5f);
         _ambientSource = CreateSource("Ambient", volume: 0.5f, pitch: 0.6f);
+        _subAmbientSource = CreateSource("SubAmbient", volume: 0.5f, pitch: 0.6f);
         _clockSource = CreateSource("Clock");
         _sirenSource = CreateSource("Siren", volume: 0.9f);
         _countDownSource = CreateSource("CountDown");
@@ -154,6 +156,18 @@ public class SoundManager
     public void AmbientSoundOff()
     {
         _ambientSource.Stop();
+    }
+
+    /// <summary>Loops the catalog ambient clip on the initialized ambient channel.</summary>
+    public void SubAmbientSound()
+    {
+        SoundPlay(_subAmbientSource, _catalog.SubAmbient, true);
+    }
+
+    /// <summary>Stops playback on the initialized ambient channel without affecting other channels.</summary>
+    public void SubAmbientSoundOff()
+    {
+        _subAmbientSource.Stop();
     }
 
     /// <summary>Plays the catalog engine-off clip once, replacing the initialized Sfx channel.</summary>

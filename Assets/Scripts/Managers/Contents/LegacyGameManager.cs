@@ -124,7 +124,8 @@ public class LegacyGameManager : MonoBehaviour
         // 첫 시작 때 개수에 따라 사이렌 종류 바꾸기
         if (_facilityManager.FaultCount > 1) Managers.Sound.ComplaxSirenSound();
         else Managers.Sound.SimpleSirenSound();
-        Managers.Sound.AmbientSound();
+        Managers.Sound.AmbientSoundOff();
+        Managers.Sound.SubAmbientSound();
     }
 
     // 고장 발생(false)은 OnFaultOccurred가 처리하므로 여기서는 수리 완료(true)만 본다
@@ -144,9 +145,10 @@ public class LegacyGameManager : MonoBehaviour
                 //불안한 루프 끄고, 편안한 루프 키는
 
                 _systemTimer.SetTimerEnd();
+                Managers.Sound.AmbientSound();
                 Managers.Sound.StopClockSound();
                 Managers.Sound.StopSirenSound();
-                Managers.Sound.AmbientSoundOff();
+                Managers.Sound.SubAmbientSoundOff();
             }
 
 
@@ -167,11 +169,21 @@ public class LegacyGameManager : MonoBehaviour
     }
 
     /// <summary>
-    /// 타이머 종료 시 고장 난 레버 설비가 있으면 실패 조명 효과를 실행한다.
-    /// 시설 목록을 확인하고 현재 내구도를 감소시킨 뒤 효과음을 재생한다.
+    /// 타이머 종료 시 고장 난 시설을 정상 상태로 초기화하고 실패 조명 효과를 실행한다.
+    /// 시설 목록과 타이머를 정리하고 현재 내구도를 감소시킨 뒤 효과음을 재생한다.
     /// </summary>
     private void OnTimerEnd()
     {
+        foreach (Facility facility in _facilityManager.Facilities)
+        {
+            if (facility.IsFault()) facility.Clear();
+        }
+
+        _systemTimer.SetTimerEnd();
+        Managers.Sound.AmbientSound();
+        Managers.Sound.StopClockSound();
+        Managers.Sound.StopSirenSound();
+        Managers.Sound.SubAmbientSoundOff();
         Managers.Light.TriggerTimerFailure();
         Debug.Log("시스템 유지 실패");
         _durability--;
@@ -180,5 +192,4 @@ public class LegacyGameManager : MonoBehaviour
         else if (_durability == 2) Managers.Sound.HalfHpSound();
         else if (_durability == 1) Managers.Sound.LowHpSound();
     }
-
 }

@@ -14,6 +14,8 @@ public class SceneContext : MonoBehaviour
     {
         Managers.Input.SetInputMode(InputMode.UI);
         _dateCanvas.gameObject.SetActive(true);
+
+        Managers.Sound.AmbientSound();
     }
 
     void Update()

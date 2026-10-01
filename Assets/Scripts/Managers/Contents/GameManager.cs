@@ -14,6 +14,7 @@ public class GameManager
         GameInfo = Resources.Load<GameInfo>("Datas/GameInfo");
         Managers.Date.OnMinuteChange += PrintFaxInstruction;
         Managers.Date.OnDayEnd += ShowEndCanvas;
+        PrintFaxInstruction(0);
     }
 
     public void Clear()

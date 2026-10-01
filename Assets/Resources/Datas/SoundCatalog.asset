@@ -11,7 +11,7 @@ MonoBehaviour:
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: dfa2fb5a2ed34afbbf2e6b9c54b20d11, type: 3}
   m_Name: SoundCatalog
-  m_EditorClassIdentifier:
+  m_EditorClassIdentifier: 
   _buttonClick: {fileID: 8300000, guid: 456996748a6572f4c80d19f99bb99a45, type: 3}
   _buttonHovering: {fileID: 8300000, guid: 997b2ab60bba6a94aba056e9def8d94c, type: 3}
   _slider: {fileID: 8300000, guid: 73e76321f9cc0724cbf3cbde063dd2e0, type: 3}
@@ -22,7 +22,8 @@ MonoBehaviour:
   _fixCompleted: {fileID: 8300000, guid: d2895e13eaf57e244959370648964b55, type: 3}
   _mediumFix: {fileID: 8300000, guid: 25ae331e8a1152a46b7fa8d3993b8f35, type: 3}
   _gameOver: {fileID: 8300000, guid: ccced3ccc46bea14d97f0885e1fc3d69, type: 3}
-  _ambient: {fileID: 8300000, guid: ddb8759b9310ff943a1075482e0da7da, type: 3}
+  _ambient: {fileID: 8300000, guid: adc6bd2aee7f03b418491f7c777bf5bd, type: 3}
+  _subAmbient: {fileID: 8300000, guid: ddb8759b9310ff943a1075482e0da7da, type: 3}
   _clock: {fileID: 8300000, guid: 28980863f1ad8884b84d49d70f80162c, type: 3}
   _countDown: {fileID: 8300000, guid: 7e648e9371d24ae4ea224a876fd64ef8, type: 3}
   _simpleSiren: {fileID: 8300000, guid: cef22b6ebd5aa494a928029d0317feca, type: 3}

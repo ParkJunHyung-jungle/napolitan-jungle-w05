@@ -30,9 +30,11 @@ public class SoundCatalog : ScriptableObject
 
     [Header("Ambient And Timer Clips")]
     [SerializeField] private AudioClip _ambient;
+    [SerializeField] private AudioClip _subAmbient;
     [SerializeField] private AudioClip _clock;
     [SerializeField] private AudioClip _countDown;
     public AudioClip Ambient => _ambient;
+    public AudioClip SubAmbient => _subAmbient;
     public AudioClip Clock => _clock;
     public AudioClip CountDown => _countDown;
 
