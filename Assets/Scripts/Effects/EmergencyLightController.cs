@@ -3,7 +3,7 @@ using UnityEngine;
 
 public class EmergencyLightController : MonoBehaviour
 {
-    [SerializeField] private GameManager _gameManager;
+    [SerializeField] private LegacyGameManager _gameManager;
     [SerializeField] private SystemTimer _systemTimer;
 
     public Light emergencyLight;

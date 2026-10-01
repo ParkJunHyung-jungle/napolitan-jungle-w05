@@ -96,7 +96,7 @@ public class FirstPersonController : MonoBehaviour
         _dragDelta += context.ReadValue<Vector2>();
     }
 
-    public void OnClick(InputAction.CallbackContext context)
+    public void OnInteract(InputAction.CallbackContext context)
     {
         // 뗌 : 드래그 중에는 스스로 잠금을 걸어 두므로 잠금 검사보다 먼저 처리한다
         if (context.canceled)
@@ -177,6 +177,14 @@ public class FirstPersonController : MonoBehaviour
     }
     private void TryInteract()
     {
+        //명령서 들고 있으면 떨어트리기
+        FaxInstructionController heldFax = GetComponentInChildren<FaxInstructionController>();
+        if (heldFax != null)
+        {
+            heldFax.Drop();
+            return;
+        }
+
         if (!TryGetTarget(out RaycastHit asdf))
             return;
 

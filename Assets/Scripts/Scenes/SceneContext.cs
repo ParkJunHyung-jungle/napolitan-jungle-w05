@@ -12,6 +12,7 @@ public class SceneContext : MonoBehaviour
 
     void Awake()
     {
+        Managers.Input.SetInputMode(InputMode.UI);
         _dateCanvas.gameObject.SetActive(true);
     }
 

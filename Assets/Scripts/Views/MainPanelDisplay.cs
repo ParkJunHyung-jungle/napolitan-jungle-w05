@@ -68,7 +68,7 @@ public class MainPanelDisplay : MonoBehaviour
     [SerializeField] private bool previewInEditor = true;
 
     private FacilityManager _facilityManager;
-    private GameManager _gameManager;
+    private LegacyGameManager _gameManager;
 
     private void Awake()
     {
@@ -77,7 +77,7 @@ public class MainPanelDisplay : MonoBehaviour
         ApplysafeColor();
     }
 
-    public void Initialize(GameManager gameManager)
+    public void Initialize(LegacyGameManager gameManager)
     {
         _gameManager = gameManager;
         _facilityManager = gameManager.FacilityManager;

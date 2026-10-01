@@ -33,8 +33,10 @@ public class DateManager
         set => _elapsedTime = value;
     }
 
-    public int CurrentDay => Mathf.FloorToInt(_elapsedTime / GameInfo.SecondsPerDay) + 1;
-    public float DayProgress => _elapsedTime % GameInfo.SecondsPerDay / GameInfo.SecondsPerDay;
+    public int CurrentDay =>
+        Mathf.FloorToInt(_elapsedTime / Managers.Game.GameInfo.SecondsPerDay) + 1;
+    public float DayProgress =>
+        _elapsedTime % Managers.Game.GameInfo.SecondsPerDay / Managers.Game.GameInfo.SecondsPerDay;
     public int CurrentMinute
     {
         get
@@ -59,13 +61,10 @@ public class DateManager
             return $"{hour:00}:{minute:00}";
         }
     }
-    public GameInfo GameInfo { get; private set; }
 
     public void Init()
     {
         _elapsedTime = 0f;
-
-        GameInfo = Resources.Load<GameInfo>("Datas/GameInfo");
     }
 
     public void Clear()

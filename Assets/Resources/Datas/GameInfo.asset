@@ -13,3 +13,21 @@ MonoBehaviour:
   m_Name: GameInfo
   m_EditorClassIdentifier: Assembly-CSharp::GameInfo
   _secondsPerDay: 60
+  _startTime: 0
+  _endTime: 6
+  _instructions:
+  - time: 0
+    rule: "<color=red>\uBA85\uB839\uC790</color>\uC758 \uB9D0\uC744 \uB530\uB77C\uC57C
+      \uD55C\uB2E4."
+  - time: 60
+    rule: "\uB178\uD06C \uC18C\uB9AC\uAC00 \uB4E4\uB9AC\uBA74 \uBB38\uC744 \uC5F4\uC5B4\uC57C
+      \uD55C\uB2E4."
+  - time: 120
+    rule: "\uC804\uD654\uAC00 \uC6B8\uB9AC\uBA74 \uC804\uD654\uB97C \uBC1B\uC544\uC57C
+      \uD55C\uB2E4."
+  - time: 180
+    rule: "\uB178\uD06C \uC18C\uB9AC\uC640 \uAC19\uC774 \uC6B8\uB9AC\uB294 \uC804\uD654\uB294
+      \uBC1B\uC9C0 \uB9D0\uC544\uC57C \uD55C\uB2E4."
+  - time: 240
+    rule: "3\uC2DC\uC5D0\uC11C 4\uC2DC \uC0AC\uC774\uC5D0\uB294 \uBB38\uC744 \uB2EB\uC544\uC57C
+      \uD55C\uB2E4."
