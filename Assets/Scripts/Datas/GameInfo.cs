@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.Drawing;
 using UnityEngine;
 
 [CreateAssetMenu(fileName = "GameInfo", menuName = "Scriptable Objects/GameInfo")]
@@ -33,6 +34,14 @@ public class GameInfo : ScriptableObject
         {
             if (entry.time == currentMinute)
             {
+                if (entry.time == 240)
+                {
+                    string hardCodedRule = entry.rule;
+                    if (Managers.Game.IsLeverPulledAtTwo)
+                        hardCodedRule = hardCodedRule.Replace("<size=160%>왜 안 당겼어?</size>", "<size=240%>고마워</size>");
+                    return hardCodedRule;
+                }
+
                 return entry.rule;
             }
         }

@@ -6,6 +6,9 @@ public class GameManager
 
     private bool _isDayEnd = false;
 
+    private bool _isLeverPulledAtTwo = false;
+    public bool IsLeverPulledAtTwo => _isLeverPulledAtTwo;
+
     public void Init()
     {
         GameInfo = Resources.Load<GameInfo>("Datas/GameInfo");
@@ -33,5 +36,10 @@ public class GameManager
             return;
         _isDayEnd = true;
         Object.Instantiate(Resources.Load<GameObject>("Prefabs/UIs/EndCanvas"));
+    }
+
+    public void MarkLeverPulledAtTwo()
+    {
+        _isLeverPulledAtTwo = true;
     }
 }
