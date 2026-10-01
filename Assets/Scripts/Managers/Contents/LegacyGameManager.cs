@@ -109,7 +109,7 @@ public class LegacyGameManager : MonoBehaviour
         {
 
             _progressValue += deltaProgress * Time.deltaTime;
-            _faultScheduler.TryMakeFault(_progressValue / maxProgressValue);
+            //_faultScheduler.TryMakeFault(_progressValue / maxProgressValue);
         }
 
         _systemTimer.Tick();
