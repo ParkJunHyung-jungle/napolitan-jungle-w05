@@ -13,6 +13,10 @@ public class Managers : MonoBehaviour
     #region Contents
     private readonly DateManager _dateManager = new();
     public static DateManager Date => Instance._dateManager;
+    private readonly FaxManager _faxManager = new();
+    public static FaxManager Fax => Instance._faxManager;
+    private readonly GameManager _gameManager = new();
+    public static GameManager Game => Instance._gameManager;
     #endregion
 
     void Start()
@@ -36,6 +40,8 @@ public class Managers : MonoBehaviour
             _instance._inputManager.Init();
 
             _instance._dateManager.Init();
+            _instance._faxManager.Init();
+            _instance._gameManager.Init();
 
             GameObject eventSystem = Instantiate(Resources.Load<GameObject>("Prefabs/UIs/EventSystem"));
 
@@ -47,5 +53,7 @@ public class Managers : MonoBehaviour
     {
         Input.Clear();
         Date.Clear();
+        Fax.Clear();
+        Game.Clear();
     }
 }

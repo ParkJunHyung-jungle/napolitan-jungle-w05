@@ -8,7 +8,7 @@ public class SystemTimer : MonoBehaviour
 
     [Tooltip("고장 스케줄에 제한 시간이 없을 때(0 이하) 쓰는 기본값")]
     [SerializeField] private float fatalTime = 30;
-    private GameManager _gameManager;
+    private LegacyGameManager _gameManager;
 
     private bool _isActive = false;
     private float _currentTime = 0;
@@ -19,7 +19,7 @@ public class SystemTimer : MonoBehaviour
     public float CurrentTime => _currentTime;
     /// <summary>지금 돌고 있는(마지막으로 켠) 타이머의 제한 시간.</summary>
     public float FatalTime => _currentFatalTime;
-    public void Initialize(GameManager gameManager)
+    public void Initialize(LegacyGameManager gameManager)
     {
         _gameManager = gameManager;
         _currentFatalTime = fatalTime;

@@ -8,7 +8,7 @@ public class VignetteController : MonoBehaviour
     public PostProcessVolume volume;
     private bool isVignetteExists = false;
     private bool isDistortionExists = false;
-    [SerializeField] private GameManager _gameManager;
+    [SerializeField] private LegacyGameManager _gameManager;
     [SerializeField] private SystemTimer _systemTimer;
 
     public float maxVignetteIntensity = 0.55f;
@@ -22,7 +22,7 @@ public class VignetteController : MonoBehaviour
     Vignette _vignette;
     LensDistortion _distortion;
 
-    public void Initialize(GameManager gameManager)
+    public void Initialize(LegacyGameManager gameManager)
     {
         _gameManager = gameManager;
     }

@@ -34,7 +34,7 @@ public class FacilityManager : MonoBehaviour
         }
     }
 
-    public void Initialize(GameManager gameManager)
+    public void Initialize(LegacyGameManager gameManager)
     {
 
         _faultScheduler = GetComponent<FaultScheduler>();
