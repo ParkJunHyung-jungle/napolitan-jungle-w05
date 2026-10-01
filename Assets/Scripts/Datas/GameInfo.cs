@@ -9,6 +9,7 @@ public class GameInfo : ScriptableObject
     public struct Entry
     {
         public int time;
+        [TextArea(6, 10)]
         public string rule;
     }
 
