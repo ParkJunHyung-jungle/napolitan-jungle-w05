@@ -7,6 +7,7 @@ using UnityEngine.Rendering.PostProcessing;
 public class LightManager
 {
     private const float EMERGENCY_LIGHT_INTENSITY = 10f;
+    private const float FAILURE_FADE_DURATION = 3f;
 
     [Header("Vignette")]
     private VignetteController _vignetteController;
@@ -19,11 +20,11 @@ public class LightManager
     private int _distortionWaveCount;
     private float _distortionElapsed;
     private Coroutine _distortionCoroutine;
+    private Coroutine _vignetteFadeCoroutine;
 
     [Header("Emergency Light")]
     private EmergencyLightController _emergencyLightController;
     private Light _emergencyLight;
-    private float _emergencyLightDuration;
     private Coroutine _emergencyLightCoroutine;
 
     [Header("Facility Lights")]
@@ -118,21 +119,24 @@ public class LightManager
     }
 
     /// <summary>
-    /// 타이머 실패 한 번에 비네트 왜곡과 비상등 펄스를 함께 요청한다.
-    /// 이미 실행 중인 각 효과는 중복 코루틴을 만들지 않고 기존 효과를 유지한다.
+    /// 타이머 실패 시 비네트와 비상등을 켜고 3초 동안 서서히 끈다.
+    /// 이미 실행 중인 효과는 중복 코루틴을 만들지 않고 유지한다.
     /// </summary>
     public void TriggerTimerFailure()
     {
         StartVignetteDistortion();
+        if (IsVignetteBindingAlive() && _vignette != null && _vignetteFadeCoroutine == null)
+        {
+            _vignetteFadeCoroutine = Managers.Instance.StartCoroutine(VignetteFadeCoroutine());
+        }
         StartEmergencyLightPulse();
     }
 
     /// <summary>
-    /// 씬의 비상등 어댑터와 Light 및 지속 시간을 등록한다.
-    /// controller의 새 바인딩을 저장하고 기존 펄스와 광도를 초기화한다.
+    /// 씬의 비상등 어댑터와 Light를 등록한다.
+    /// controller의 새 바인딩을 저장하고 기존 효과와 광도를 초기화한다.
     /// </summary>
-    internal void RegisterEmergencyLight(EmergencyLightController controller, Light emergencyLight,
-        float lightDuration)
+    internal void RegisterEmergencyLight(EmergencyLightController controller, Light emergencyLight)
     {
         if (controller == null || emergencyLight == null) return;
 
@@ -140,7 +144,6 @@ public class LightManager
 
         _emergencyLightController = controller;
         _emergencyLight = emergencyLight;
-        _emergencyLightDuration = lightDuration;
     }
 
     /// <summary>
@@ -221,6 +224,12 @@ public class LightManager
     {
         StopVignetteDistortion();
 
+        if (_vignetteFadeCoroutine != null)
+        {
+            Managers.Instance.StopCoroutine(_vignetteFadeCoroutine);
+            _vignetteFadeCoroutine = null;
+        }
+
         if (_vignette != null)
         {
             _vignette.intensity.value = 0f;
@@ -234,6 +243,27 @@ public class LightManager
         _distortionStrength = 0f;
         _distortionDuration = 0f;
         _distortionWaveCount = 0;
+    }
+
+    /// <summary>
+    /// 등록된 비네트의 최대 강도부터 3초 동안 0까지 줄인다.
+    /// 종료 후 비네트 강도와 코루틴 상태를 초기화한다.
+    /// </summary>
+    private IEnumerator VignetteFadeCoroutine()
+    {
+        float elapsed = 0f;
+        _vignette.intensity.value = _maxVignetteIntensity;
+
+        while (elapsed < FAILURE_FADE_DURATION)
+        {
+            elapsed += Time.deltaTime;
+            _vignette.intensity.value = _maxVignetteIntensity
+                * (1f - Mathf.Clamp01(elapsed / FAILURE_FADE_DURATION));
+            yield return null;
+        }
+
+        _vignette.intensity.value = 0f;
+        _vignetteFadeCoroutine = null;
     }
 
     /// <summary>
@@ -318,14 +348,13 @@ public class LightManager
 
     /// <summary>
     /// 실행 중인 비상등 펄스를 중지하고 광도를 0으로 초기화한다.
-    /// 현재 비상등 씬 바인딩과 지속 시간 설정을 해제한다.
+    /// 현재 비상등 씬 바인딩을 해제한다.
     /// </summary>
     private void ClearEmergencyLightBinding()
     {
         StopEmergencyLightPulse();
         _emergencyLightController = null;
         _emergencyLight = null;
-        _emergencyLightDuration = 0f;
     }
 
     /// <summary>
@@ -365,15 +394,22 @@ public class LightManager
     }
 
     /// <summary>
-    /// 등록된 비상등 광도를 10으로 설정하고 scaled time 기준 지속 시간만큼 유지한다.
-    /// 대기 후 살아 있는 Light를 0으로 되돌리고 Coroutine 상태를 비운다.
+    /// 등록된 비상등 광도를 10에서 3초 동안 0까지 줄인다.
+    /// 종료 후 살아 있는 Light와 Coroutine 상태를 초기화한다.
     /// </summary>
     private IEnumerator EmergencyLightCoroutine()
     {
         Light emergencyLight = _emergencyLight;
         emergencyLight.intensity = EMERGENCY_LIGHT_INTENSITY;
 
-        yield return new WaitForSeconds(_emergencyLightDuration);
+        float elapsed = 0f;
+        while (elapsed < FAILURE_FADE_DURATION)
+        {
+            elapsed += Time.deltaTime;
+            emergencyLight.intensity = EMERGENCY_LIGHT_INTENSITY
+                * (1f - Mathf.Clamp01(elapsed / FAILURE_FADE_DURATION));
+            yield return null;
+        }
 
         if (emergencyLight != null)
         {

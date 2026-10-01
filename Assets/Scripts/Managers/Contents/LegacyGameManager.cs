@@ -30,7 +30,6 @@ public class LegacyGameManager : MonoBehaviour
     private FacilityManager _facilityManager;
     private FaultScheduler _faultScheduler;
     private float _progressValue;
-    private bool _isFinished;
 
     private int _durability;
 
@@ -99,8 +98,6 @@ public class LegacyGameManager : MonoBehaviour
         endPanel.gameObject.SetActive(false);
         gameOverPanel.gameObject.SetActive(false);
 
-        _isFinished = false;
-
     }
 
     void Update()
@@ -113,17 +110,6 @@ public class LegacyGameManager : MonoBehaviour
         }
 
         _systemTimer.Tick();
-        Managers.Light.SetVignetteIntensity((_systemTimer.FatalTime - _systemTimer.CurrentTime) / _systemTimer.FatalTime, _systemTimer.IsActive);
-
-        if (_progressValue / maxProgressValue > 1 && !_isFinished)
-        {
-            //게임 승리 결과 표시
-            _isFinished = true;
-            Managers.Sound.GameClearSound();
-            playerController.SetInputLocked(true);
-            playerController.FirstPersonCamera.SetCursorLocked(false);
-            endPanel.gameObject.SetActive(true);
-        }
 
     }
 
@@ -149,7 +135,6 @@ public class LegacyGameManager : MonoBehaviour
         // 2. 
         if (isCompleted)
         {
-
             if (IsNormal)
             {
 
@@ -181,6 +166,10 @@ public class LegacyGameManager : MonoBehaviour
         }
     }
 
+    /// <summary>
+    /// 타이머 종료 시 고장 난 레버 설비가 있으면 실패 조명 효과를 실행한다.
+    /// 시설 목록을 확인하고 현재 내구도를 감소시킨 뒤 효과음을 재생한다.
+    /// </summary>
     private void OnTimerEnd()
     {
         Managers.Light.TriggerTimerFailure();
@@ -190,18 +179,6 @@ public class LegacyGameManager : MonoBehaviour
         if (_durability == 3) Managers.Sound.HalfHpSound();
         else if (_durability == 2) Managers.Sound.HalfHpSound();
         else if (_durability == 1) Managers.Sound.LowHpSound();
-        if (_durability == 0)
-        {
-            //gameOver
-            //사운드
-            Managers.Sound.GameOverSound();
-            _isFinished = true;
-            playerController.SetInputLocked(true);
-            playerController.FirstPersonCamera.SetCursorLocked(false);
-
-            gameOverPanel.gameObject.SetActive(true);
-            Debug.Log("장치가 전부 망가져버렸습니다.");
-        }
     }
 
 }
