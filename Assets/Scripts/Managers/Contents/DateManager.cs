@@ -1,4 +1,4 @@
-using System.Collections.Generic;
+using System;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
@@ -27,10 +27,26 @@ public class DateManager
 {
     private float _elapsedTime;
 
+    public Action<int> OnMinuteChange;
+    public Action OnDayEnd;
+
     public float ElapsedTime
     {
         get => _elapsedTime;
-        set => _elapsedTime = value;
+        set
+        {
+            int pastMinute = CurrentMinute;
+            int pastDay = CurrentDay;
+            _elapsedTime = value;
+            if (pastMinute != CurrentMinute)
+            {
+                OnMinuteChange?.Invoke(CurrentMinute);
+            }
+            if (pastDay != CurrentDay)
+            {
+                OnDayEnd?.Invoke();
+            }
+        }
     }
 
     public int CurrentDay =>
@@ -41,14 +57,13 @@ public class DateManager
     {
         get
         {
-            float dayProgress = DayProgress;
+            float startTime = Managers.Game.GameInfo.StartTime;
+            float endTime = Managers.Game.GameInfo.EndTime;
 
-            int minutesPerDay = 24 * 60;
-
-            return Mathf.FloorToInt(dayProgress * minutesPerDay)
-                % minutesPerDay;
+            return Mathf.FloorToInt((startTime + DayProgress * (endTime - startTime)) * 60f);
         }
     }
+
     public string CurrentTime
     {
         get
