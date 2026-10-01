@@ -17,6 +17,10 @@ public class Managers : MonoBehaviour
     public static FaxManager Fax => Instance._faxManager;
     private readonly GameManager _gameManager = new();
     public static GameManager Game => Instance._gameManager;
+    private readonly SoundManager _soundManager = new();
+    public static SoundManager Sound => Instance._soundManager;
+    private readonly LightManager _lightManager = new();
+    public static LightManager Light => Instance._lightManager;
     #endregion
 
     void Start()
@@ -42,6 +46,8 @@ public class Managers : MonoBehaviour
             _instance._dateManager.Init();
             _instance._faxManager.Init();
             _instance._gameManager.Init();
+            _instance._soundManager.Init();
+            _instance._lightManager.Init();
 
             GameObject eventSystem = Instantiate(Resources.Load<GameObject>("Prefabs/UIs/EventSystem"));
 
@@ -55,5 +61,7 @@ public class Managers : MonoBehaviour
         Date.Clear();
         Fax.Clear();
         Game.Clear();
+        Sound.Clear();
+        Light.Clear();
     }
 }

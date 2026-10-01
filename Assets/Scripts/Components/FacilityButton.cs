@@ -14,9 +14,6 @@ public class FacilityButton : MonoBehaviour, IInteractable
 
     [SerializeField] private float animationDuration = 0.25f;
 
-    [Tooltip("클릭음을 낼 AudioSource (clip에 클릭음 지정). 비어 있으면 같은 오브젝트에서 찾는다")]
-    [SerializeField] private AudioSource clickSource;
-
     private Animator _animator;
     private MeshRenderer mesh;
 
@@ -32,8 +29,6 @@ public class FacilityButton : MonoBehaviour, IInteractable
         _animator = GetComponent<Animator>();
         var clickable = transform.Find("Clickable");
         mesh = clickable.GetComponent<MeshRenderer>();
-        if (clickSource == null) clickSource = GetComponent<AudioSource>();
-
         _status = ButtonStatus.Deactivate;
     }
 
@@ -50,13 +45,6 @@ public class FacilityButton : MonoBehaviour, IInteractable
             OnButtonPressed?.Invoke();
         }
 
-    }
-
-    // 연속 클릭 시 앞 소리가 끊기지 않도록 PlayOneShot으로 겹쳐 재생한다
-    private void PlayClickSound()
-    {
-        if (clickSource != null && clickSource.clip != null)
-            clickSource.PlayOneShot(clickSource.clip);
     }
 
     private void ChangeStatus()
@@ -91,7 +79,7 @@ public class FacilityButton : MonoBehaviour, IInteractable
     {
 
         yield return new WaitForSeconds(animationDuration / 2);
-        PlayClickSound();
+        Managers.Sound.FacilityButtonClickSound();
         ChangeColor();
         yield return new WaitForSeconds(animationDuration / 2);
         _interactable = true;

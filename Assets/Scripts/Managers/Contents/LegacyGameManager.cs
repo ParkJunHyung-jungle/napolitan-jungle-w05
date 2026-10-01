@@ -6,10 +6,6 @@ using UnityEngine.SceneManagement;
 public class LegacyGameManager : MonoBehaviour
 {
     [SerializeField]
-    private MainPanelDisplay mainPanelDisplay;
-    [SerializeField]
-    private SoundManager soundManager;
-    [SerializeField]
     private StartPanelView startPanelView;
     [SerializeField]
     private EndPanel endPanel;
@@ -41,7 +37,6 @@ public class LegacyGameManager : MonoBehaviour
 
     public FacilityManager FacilityManager => _facilityManager;
     public SystemTimer SystemTimer => _systemTimer;
-    [SerializeField] private VignetteController vignetteController;
 
     public bool IsNormal
     {
@@ -65,8 +60,6 @@ public class LegacyGameManager : MonoBehaviour
 
         _facilityManager.Initialize(this);
         _systemTimer.Initialize(this);
-        mainPanelDisplay.Initialize(this);
-
 
         _facilityManager.OnFacilityStatusChanged += OnFacilityInteracted;
         _facilityManager.OnFaultOccurred += OnFaultOccurred;
@@ -117,19 +110,16 @@ public class LegacyGameManager : MonoBehaviour
 
             _progressValue += deltaProgress * Time.deltaTime;
             _faultScheduler.TryMakeFault(_progressValue / maxProgressValue);
-
-            mainPanelDisplay.SetProgress(_progressValue / maxProgressValue);
         }
 
         _systemTimer.Tick();
-        mainPanelDisplay.SetRemainingTime();
-        vignetteController.SetVignetteIntensity((_systemTimer.FatalTime - _systemTimer.CurrentTime) / _systemTimer.FatalTime);
+        Managers.Light.SetVignetteIntensity((_systemTimer.FatalTime - _systemTimer.CurrentTime) / _systemTimer.FatalTime, _systemTimer.IsActive);
 
         if (_progressValue / maxProgressValue > 1 && !_isFinished)
         {
             //게임 승리 결과 표시
             _isFinished = true;
-            soundManager.GameClearSound();
+            Managers.Sound.GameClearSound();
             playerController.SetInputLocked(true);
             playerController.FirstPersonCamera.SetCursorLocked(false);
             endPanel.gameObject.SetActive(true);
@@ -143,12 +133,12 @@ public class LegacyGameManager : MonoBehaviour
         if (_systemTimer.IsActive) return;
 
         _systemTimer.SetTimer(schedule.FatalTime);
-        soundManager.ClockSound();
-        soundManager.EngineOffSound();
+        Managers.Sound.ClockSound();
+        Managers.Sound.EngineOffSound();
         // 첫 시작 때 개수에 따라 사이렌 종류 바꾸기
-        if (_facilityManager.FaultCount > 1) soundManager.ComplaxSirenSound();
-        else soundManager.SimpleSirenSound();
-        soundManager.AmbientSound();
+        if (_facilityManager.FaultCount > 1) Managers.Sound.ComplaxSirenSound();
+        else Managers.Sound.SimpleSirenSound();
+        Managers.Sound.AmbientSound();
     }
 
     // 고장 발생(false)은 OnFaultOccurred가 처리하므로 여기서는 수리 완료(true)만 본다
@@ -164,26 +154,26 @@ public class LegacyGameManager : MonoBehaviour
             {
 
                 //완료 사운드 재생.
-                soundManager.FixCompletedSound();
+                Managers.Sound.FixCompletedSound();
 
                 //불안한 루프 끄고, 편안한 루프 키는
 
                 _systemTimer.SetTimerEnd();
-                soundManager.StopClockSound();
-                soundManager.StopSirenSound();
-                soundManager.AmbientSoundOff();
+                Managers.Sound.StopClockSound();
+                Managers.Sound.StopSirenSound();
+                Managers.Sound.AmbientSoundOff();
             }
 
 
             else
             {
-                soundManager.MediumFixSound();
+                Managers.Sound.MediumFixSound();
 
                 // 1개로 줄어들면 사이렌 종류만 바꾼다
                 if ((_facilityManager.FaultCount == 1))
                 {
-                    soundManager.StopSirenSound();
-                    soundManager.SimpleSirenSound();
+                    Managers.Sound.StopSirenSound();
+                    Managers.Sound.SimpleSirenSound();
 
                 }
 
@@ -193,18 +183,18 @@ public class LegacyGameManager : MonoBehaviour
 
     private void OnTimerEnd()
     {
+        Managers.Light.TriggerTimerFailure();
         Debug.Log("시스템 유지 실패");
         _durability--;
-        mainPanelDisplay.SetDurability(((float)_durability) / ((float)maxDurability));
-        soundManager.TakingDamageSound();
-        if (_durability == 3) soundManager.HalfHpSound();
-        else if (_durability == 2) soundManager.HalfHpSound();
-        else if (_durability == 1) soundManager.LowHpSound();
+        Managers.Sound.TakingDamageSound();
+        if (_durability == 3) Managers.Sound.HalfHpSound();
+        else if (_durability == 2) Managers.Sound.HalfHpSound();
+        else if (_durability == 1) Managers.Sound.LowHpSound();
         if (_durability == 0)
         {
             //gameOver
             //사운드
-            soundManager.GameOverSound();
+            Managers.Sound.GameOverSound();
             _isFinished = true;
             playerController.SetInputLocked(true);
             playerController.FirstPersonCamera.SetCursorLocked(false);
@@ -215,4 +205,3 @@ public class LegacyGameManager : MonoBehaviour
     }
 
 }
-

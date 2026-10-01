@@ -107,6 +107,7 @@ InitTestScene*.unity*
 
 # AI
 .ai
+.omo
 
 #IDE
 .idea
