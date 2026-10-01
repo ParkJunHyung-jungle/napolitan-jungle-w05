@@ -38,7 +38,7 @@ public class FaultScheduler : MonoBehaviour
 
     public void TryMakeFault(int minute)
     {
-        if (minute % 60 == 0)
+        if (minute % 60 == 20)
         {
             var currentFault = faultSchedules[_faultIndex];
             //사고
