@@ -1,7 +1,5 @@
 using System;
-using TMPro;
 using UnityEngine;
-using UnityEngine.Purchasing;
 
 [System.Serializable]
 public struct FaultSchedule
@@ -17,6 +15,7 @@ public class FaultScheduler : MonoBehaviour
 
     [SerializeField]
     private FaultSchedule[] faultSchedules;
+
     private DateManager _dateManager;
 
     private FacilityManager _facilityManager;
@@ -27,8 +26,13 @@ public class FaultScheduler : MonoBehaviour
 
     private void Start()
     {
-        Managers.Date.OnMinuteChange += TryMakeFault;
-        TryMakeFault(0);
+        _facilityManager = GetComponent<FacilityManager>();
+        Managers.Date.OnMinuteChange += TryMakeAFault;
+        TryMakeAFault(0);
+        Managers.Date.OnMinuteChange += TryMakeBFault;
+        TryMakeBFault(0);
+        Managers.Date.OnMinuteChange += TryMakeCFault;
+        TryMakeCFault(0);
     }
 
     public void Initialize()
@@ -36,14 +40,34 @@ public class FaultScheduler : MonoBehaviour
 
     }
 
-    public void TryMakeFault(int minute)
+    public void TryMakeAFault(int minute)
     {
-        if (minute % 60 == 20)
-        {
-            var currentFault = faultSchedules[_faultIndex];
-            //사고
-            OnFaultMade?.Invoke(currentFault);
-        }
+        if (minute % 60 != 35)
+            return;
+
+        var currentFault = faultSchedules[0];
+        //사고
+        OnFaultMade?.Invoke(currentFault);
+    }
+
+    public void TryMakeBFault(int minute)
+    {
+        if (minute % 60 != 5)
+            return;
+
+        var currentFault = faultSchedules[1];
+        //사고
+        OnFaultMade?.Invoke(currentFault);
+    }
+
+    public void TryMakeCFault(int minute)
+    {
+        if (minute % 60 != 20)
+            return;
+
+        var currentFault = faultSchedules[2];
+        //사고
+        OnFaultMade?.Invoke(currentFault);
     }
 
 }

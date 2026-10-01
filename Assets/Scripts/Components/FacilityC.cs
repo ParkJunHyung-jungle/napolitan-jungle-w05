@@ -30,7 +30,7 @@ public class FacilityC : Facility
     // 목표 상태가 없다
     protected override void GenerateGoal()
     {
-        requiredPullCount = Random.Range(5, 8); // 5, 6, 7 중 하나
+        requiredPullCount = 1;
         currentPullCount = 0;
     }
 
@@ -51,7 +51,7 @@ public class FacilityC : Facility
 
     private void OnLeverPulled()
     {
-        if (Managers.Date.CurrentMinute >= 120 && Managers.Date.CurrentMinute <= 135)
+        if (Managers.Date.CurrentMinute >= 120 && Managers.Date.CurrentMinute <= 130)
         {
             Managers.Game.MarkLeverPulledAtTwo();
         }

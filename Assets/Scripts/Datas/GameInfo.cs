@@ -38,7 +38,7 @@ public class GameInfo : ScriptableObject
                 {
                     string hardCodedRule = entry.rule;
                     if (Managers.Game.IsLeverPulledAtTwo)
-                        hardCodedRule = hardCodedRule.Replace("<size=160%>왜 안 당겼어?</size>", "<size=240%>고마워</size>");
+                        hardCodedRule = hardCodedRule.Replace("<s color=#8B0000>왜 안 당겼어?</s>", "고마워");
                     return hardCodedRule;
                 }
 

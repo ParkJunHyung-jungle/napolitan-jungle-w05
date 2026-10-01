@@ -355,8 +355,14 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::FaultScheduler
   faultSchedules:
   - FaultTiming: 0.2
+    FaultFacilityIDs: 00000000
+    FatalTime: 20
+  - FaultTiming: 0.2
+    FaultFacilityIDs: 01000000
+    FatalTime: 20
+  - FaultTiming: 0.2
     FaultFacilityIDs: 02000000
-    FatalTime: 15
+    FatalTime: 10
 --- !u!114 &240280602
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -3700,9 +3706,9 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: "\uACE0\uC6A9\uC744 \uCD95\uD558\uB4DC\uB9BD\uB2C8\uB2E4!\n1\uC2DC\uAC04\uB9C8\uB2E4
-    \uCD9C\uB825\uB418\uB294\n\uC5C5\uBB34 \uC9C0\uC2DC\uC11C\uB97C \uC77D\uACE0\n\uC5C5\uBB34\uB97C
-    \uC218\uD589\uD558\uC138\uC694.\n\n\uC548\uC804\uD55C \uADFC\uBB34\uB418\uC138\uC694!\n"
+  m_text: "\uACE0\uC6A9\uC744 \uCD95\uD558\uB4DC\uB9BD\uB2C8\uB2E4!\n1\uC2DC\uAC04\u25A0\uB2E4
+    \uCD9C\uB825\uB418\u25A0\n\uC5C5\uBB34 \uC9C0\uC2DC\uC11C\u25A0 \u25A0\uACE0\n\u25A0\uBB34\uB97C
+    \uC218\u25A0\u25A0\uC138\uC694.\n\n\uC548\uC804\uD55C \u25A0\u25A0\uB418\uC138\uC694!\n"
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: c27a5f3ff75f097438fe970137a374e4, type: 2}
   m_sharedMaterial: {fileID: -1423517255853659089, guid: c27a5f3ff75f097438fe970137a374e4, type: 2}

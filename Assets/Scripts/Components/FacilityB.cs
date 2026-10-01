@@ -61,6 +61,9 @@ public class FacilityB : Facility
     /// </summary>
     private float MakeTarget(float current)
     {
+        if (Managers.Date.CurrentMinute > 330f)
+            return 0;
+
         float leftEnd = Mathf.Min(current - tolerance, targetMax);
         float rightStart = Mathf.Max(current + tolerance, targetMin);
 
