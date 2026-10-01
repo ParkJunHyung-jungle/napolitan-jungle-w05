@@ -51,6 +51,11 @@ public class FacilityC : Facility
 
     private void OnLeverPulled()
     {
+        if (Managers.Date.CurrentMinute >= 120 && Managers.Date.CurrentMinute <= 125)
+        {
+            Managers.Game.MarkLeverPulledAtTwo();
+        }
+
         if (!isFault) return;
 
         currentPullCount++;
