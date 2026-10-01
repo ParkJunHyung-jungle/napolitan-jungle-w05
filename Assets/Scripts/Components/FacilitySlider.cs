@@ -35,12 +35,6 @@ public class FacilitySlider : MonoBehaviour, IDraggable
     [SerializeField, Min(1f)] private float minScreenAxisLength = 50f;
 
     [Header("Sound")]
-    [Tooltip("움직이는 동안 반복 재생하는 끄는 소리")]
-    [SerializeField] private AudioSource dragLoopSource;
-
-    [Tooltip("목표 범위에 들어가는 순간 재생하는 '철컥' 소리 (clip에 지정)")]
-    [SerializeField] private AudioSource snapSource;
-
     [Tooltip("이 시간(초) 동안 값이 변하지 않으면 끄는 소리를 멈춘다")]
     [SerializeField, Min(0f)] private float dragSoundHoldTime = 0.1f;
 
@@ -61,6 +55,7 @@ public class FacilitySlider : MonoBehaviour, IDraggable
     private bool _isInRange;
 
     private float _lastMoveTime;
+    private bool _isDragSoundPlaying;
 
     public float Value => _value;
 
@@ -77,8 +72,6 @@ public class FacilitySlider : MonoBehaviour, IDraggable
         if (!IsConfigured)
             Debug.LogWarning($"[FacilitySlider] {name}의 Handle / RailStart / RailEnd 참조가 비어 있습니다.", this);
 
-        if (dragLoopSource != null) dragLoopSource.loop = true;
-
         // 초기화 때 되돌릴 원래 머터리얼을 기억해 둔다
         if (handle != null) _handleRenderer = handle.GetComponentInChildren<Renderer>();
         if (_handleRenderer != null) _defaultHandleMaterial = _handleRenderer.sharedMaterial;
@@ -89,8 +82,19 @@ public class FacilitySlider : MonoBehaviour, IDraggable
 
     private void Update()
     {
-        if (dragLoopSource != null && dragLoopSource.isPlaying && Time.time - _lastMoveTime > dragSoundHoldTime)
-            dragLoopSource.Stop();
+        if (_isDragSoundPlaying && Time.time - _lastMoveTime > dragSoundHoldTime)
+        {
+            Managers.Sound.StopFacilitySliderDragSound();
+            _isDragSoundPlaying = false;
+        }
+    }
+
+    private void OnDisable()
+    {
+        if (!_isDragSoundPlaying) return;
+
+        Managers.Sound.StopFacilitySliderDragSound();
+        _isDragSoundPlaying = false;
     }
 
     // ---------- Facility API ----------
@@ -149,7 +153,8 @@ public class FacilitySlider : MonoBehaviour, IDraggable
     public void EndDrag()
     {
         _dragCamera = null;
-        if (dragLoopSource != null) dragLoopSource.Stop();
+        if (_isDragSoundPlaying) Managers.Sound.StopFacilitySliderDragSound();
+        _isDragSoundPlaying = false;
     }
 
     public bool IsDragging => _dragCamera != null;
@@ -162,7 +167,8 @@ public class FacilitySlider : MonoBehaviour, IDraggable
         _value = initialValue;
         ClearTarget();
         UpdateHandlePosition();
-        if (dragLoopSource != null) dragLoopSource.Stop();
+        if (_isDragSoundPlaying) Managers.Sound.StopFacilitySliderDragSound();
+        _isDragSoundPlaying = false;
     }
 
     // 값 0 → 1이 화면에서 차지하는 픽셀 벡터를 구한다
@@ -209,7 +215,8 @@ public class FacilitySlider : MonoBehaviour, IDraggable
     private void PlayDragSound()
     {
         _lastMoveTime = Time.time;
-        if (dragLoopSource != null && !dragLoopSource.isPlaying) dragLoopSource.Play();
+        Managers.Sound.StartFacilitySliderDragSound();
+        _isDragSoundPlaying = true;
     }
 
     // 범위 밖 → 안으로 바뀌는 순간에만 '철컥'. 안 → 밖은 소리 없음
@@ -218,8 +225,8 @@ public class FacilitySlider : MonoBehaviour, IDraggable
     {
         bool inRange = IsInRange;
         if (inRange) Debug.Log("InRange");
-        if (inRange && !_isInRange && snapSource != null && snapSource.clip != null)
-            snapSource.PlayOneShot(snapSource.clip);
+        if (inRange && !_isInRange)
+            Managers.Sound.FacilitySliderSnapSound();
 
         bool changed = inRange != _isInRange;
         _isInRange = inRange;

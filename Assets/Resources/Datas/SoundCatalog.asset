@@ -1,0 +1,33 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: dfa2fb5a2ed34afbbf2e6b9c54b20d11, type: 3}
+  m_Name: SoundCatalog
+  m_EditorClassIdentifier:
+  _buttonClick: {fileID: 8300000, guid: 456996748a6572f4c80d19f99bb99a45, type: 3}
+  _buttonHovering: {fileID: 8300000, guid: 997b2ab60bba6a94aba056e9def8d94c, type: 3}
+  _slider: {fileID: 8300000, guid: 73e76321f9cc0724cbf3cbde063dd2e0, type: 3}
+  _facilitySliderDrag: {fileID: 8300000, guid: a25a8e248a9e3dd49ac359068a238724, type: 3}
+  _facilitySliderSnap: {fileID: 8300000, guid: 7f96dc028b54d6940bbbe03a943fd5b1, type: 3}
+  _engineOff: {fileID: 8300000, guid: 0ec5af34269ed134b819421121dbcc0f, type: 3}
+  _takingDamage: {fileID: 8300000, guid: 10409f24d70b4274f909f85980e7a4e1, type: 3}
+  _fixCompleted: {fileID: 8300000, guid: d2895e13eaf57e244959370648964b55, type: 3}
+  _mediumFix: {fileID: 8300000, guid: 25ae331e8a1152a46b7fa8d3993b8f35, type: 3}
+  _gameOver: {fileID: 8300000, guid: ccced3ccc46bea14d97f0885e1fc3d69, type: 3}
+  _ambient: {fileID: 8300000, guid: ddb8759b9310ff943a1075482e0da7da, type: 3}
+  _clock: {fileID: 8300000, guid: 28980863f1ad8884b84d49d70f80162c, type: 3}
+  _countDown: {fileID: 8300000, guid: 7e648e9371d24ae4ea224a876fd64ef8, type: 3}
+  _simpleSiren: {fileID: 8300000, guid: cef22b6ebd5aa494a928029d0317feca, type: 3}
+  _complaxSiren: {fileID: 8300000, guid: bd06d474851f0e74d894aa22505593ef, type: 3}
+  _halfHp: {fileID: 8300000, guid: b7450293dcea61f49843e22e18d5df60, type: 3}
+  _lowHp: {fileID: 8300000, guid: 79bb2f6df8151ad459558487de8c0db3, type: 3}
+  _gameClear: {fileID: 8300000, guid: bc7ca1f926bc6b44ca4d7fca396a358d, type: 3}
+  _gameClearOutput: {fileID: 1132953344853699282, guid: 725848730aa206141bb5b6ccd436605f, type: 2}

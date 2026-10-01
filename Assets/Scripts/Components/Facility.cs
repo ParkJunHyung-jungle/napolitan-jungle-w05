@@ -1,4 +1,5 @@
 using System;
+
 using UnityEngine;
 
 /// <summary>
@@ -46,11 +47,7 @@ public abstract class Facility : MonoBehaviour
 
     public void SetLight(lightState state)
     {
-        LightController lightController = guideLight.GetComponent<LightController>();
-
-        if (lightController == null) return;
-
-        lightController.SetLightState(state);
+        Managers.Light.SetFacilityLight(facilityID, state);
     }
 
     /// <summary>장치가 바뀔 때마다 하위 클래스가 부른다.</summary>

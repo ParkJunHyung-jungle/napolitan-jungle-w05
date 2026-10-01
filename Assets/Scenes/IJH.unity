@@ -864,7 +864,6 @@ GameObject:
   - component: {fileID: 311484968}
   - component: {fileID: 311484967}
   - component: {fileID: 311484964}
-  - component: {fileID: 311484966}
   m_Layer: 0
   m_Name: Manager
   m_TagString: Untagged
@@ -898,7 +897,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::GameManager
   mainPanelDisplay: {fileID: 1753237723}
-  soundManager: {fileID: 311484966}
   startPanelView: {fileID: 351389401}
   endPanel: {fileID: 1484645847}
   gameOverPanel: {fileID: 2021778215}
@@ -906,45 +904,6 @@ MonoBehaviour:
   deltaProgress: 0.2
   maxProgressValue: 10
   maxDurability: 3
-  vignetteController: {fileID: 734925559}
---- !u!114 &311484966
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 311484963}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 36a8b25b919cfd7468ff66a7b4238b78, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::SoundManager
-  _audioMixer: {fileID: 24100000, guid: 725848730aa206141bb5b6ccd436605f, type: 2}
-  _buttonSource: {fileID: 0}
-  _sliderSource: {fileID: 0}
-  _sfxSoruce: {fileID: 1899969148}
-  _ambientSource: {fileID: 256996318}
-  _clockSource: {fileID: 1962420671}
-  _sirenSource: {fileID: 1890810854}
-  _countDownSource: {fileID: 0}
-  _warningSource: {fileID: 622180031}
-  _gameClearSource: {fileID: 2087006914}
-  _buttonClick: {fileID: 0}
-  _buttonHovering: {fileID: 0}
-  _slider: {fileID: 0}
-  _engineOff: {fileID: 8300000, guid: 0ec5af34269ed134b819421121dbcc0f, type: 3}
-  _takingDamage: {fileID: 8300000, guid: 10409f24d70b4274f909f85980e7a4e1, type: 3}
-  _fixCompleted: {fileID: 8300000, guid: d2895e13eaf57e244959370648964b55, type: 3}
-  _mediumFix: {fileID: 8300000, guid: 25ae331e8a1152a46b7fa8d3993b8f35, type: 3}
-  _ambient: {fileID: 8300000, guid: ddb8759b9310ff943a1075482e0da7da, type: 3}
-  _clock: {fileID: 8300000, guid: 28980863f1ad8884b84d49d70f80162c, type: 3}
-  _simpleSiren: {fileID: 8300000, guid: cef22b6ebd5aa494a928029d0317feca, type: 3}
-  _complaxSiren: {fileID: 8300000, guid: bd06d474851f0e74d894aa22505593ef, type: 3}
-  _countDown: {fileID: 0}
-  _halfHp: {fileID: 8300000, guid: b7450293dcea61f49843e22e18d5df60, type: 3}
-  _lowHp: {fileID: 8300000, guid: 79bb2f6df8151ad459558487de8c0db3, type: 3}
-  _gameOver: {fileID: 8300000, guid: ccced3ccc46bea14d97f0885e1fc3d69, type: 3}
-  _gameClear: {fileID: 8300000, guid: bc7ca1f926bc6b44ca4d7fca396a358d, type: 3}
 --- !u!114 &311484967
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1181,7 +1140,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &463308095
 Transform:
   m_ObjectHideFlags: 0
