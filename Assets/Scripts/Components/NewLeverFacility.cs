@@ -4,7 +4,7 @@ public class NewLeverFacility : MonoBehaviour, IInteractable
 {
     public void Interact()
     {
-        //
+
     }
     private bool _isDamaged;
     private DateManager _dateManager;
@@ -30,17 +30,21 @@ public class NewLeverFacility : MonoBehaviour, IInteractable
         if (totalTime >= eventTime)
         {
             //1시간 마다 실행 되는 것
-
-            eventTime = eventTime + 60;
-            limitTime = 0;
             limitTime = eventTime + 15;
+            eventTime = eventTime + 60;
+            _isDamaged = false;
+
         }
         if (totalTime >= limitTime)
         {
-            //데미지를 줌
+            _isDamaged = false;
 
-            limitTime = limitTime + 15;
+            if (!_isDamaged)
+            {
+                // 피해를 줌
+                _isDamaged = true;
 
+            }
         }
 
 
