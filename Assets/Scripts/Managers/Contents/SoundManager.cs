@@ -32,6 +32,7 @@ public class SoundManager
     private AudioSource _onThePhoneSource;
     private AudioSource _lightSwitchSource;
     private AudioSource _faxSource;
+    private AudioSource _inseinSource;
 
 
     /// <summary>
@@ -74,6 +75,7 @@ public class SoundManager
         _facilityDragSource = CreateSource("FacilityDrag", volume: 0.3f, pitch: 0.3f);
         _facilitySnapSource = CreateSource("FacilitySnap", pitch: 0.5f);
         _onThePhoneSource = CreateSource("OnThePhone");
+        _inseinSource = CreateSource("Insein", volume: 0.1f);
 
         //3D 사운드 소스 초기화
         _doorSource = Create3DSource(door);
@@ -88,7 +90,7 @@ public class SoundManager
             _buttonSource, _sliderSource, _sfxSoruce, _ambientSource, _clockSource,
             _sirenSource, _countDownSource, _warningSource, _gameClearSource,
             _facilityButtonSource, _facilityDragSource, _facilitySnapSource, _doorSource, _cryingSource, _lockedDoorSource,
-            _phoneSource, _onThePhoneSource, _lightSwitchSource, _faxSource
+            _phoneSource, _onThePhoneSource, _lightSwitchSource, _faxSource, _inseinSource
         };
         SceneManager.activeSceneChanged += OnSceneChanged;
     }
@@ -125,6 +127,8 @@ public class SoundManager
         _onThePhoneSource = null;
         _lightSwitchSource = null;
         _faxSource = null;
+        _inseinSource = null;
+
     }
 
     private void OnSceneChanged(Scene previousScene, Scene nextScene)
@@ -439,5 +443,9 @@ public class SoundManager
     public void FaxSound()
     {
         SoundPlay(_faxSource, _catalog.Fax);
+    }
+    public void InseinSound()
+    {
+        SoundPlay(_inseinSource, _catalog.Insein, true);
     }
 }
