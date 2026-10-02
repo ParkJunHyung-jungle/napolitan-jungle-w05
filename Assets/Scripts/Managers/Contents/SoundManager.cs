@@ -26,6 +26,8 @@ public class SoundManager
     private AudioSource _facilityDragSource;
     private AudioSource _facilitySnapSource;
     private AudioSource _doorSource;
+    private AudioSource _cryingSource;
+
 
     /// <summary>
     /// Loads the Resources catalog and creates twelve independent audio channels under
@@ -46,6 +48,7 @@ public class SoundManager
 
         //3D 사운드소스 위치 초기화
         GameObject door = GameObject.Find("Door");
+        GameObject crying = GameObject.Find("CryingSorce");
 
         //2D 사운드 소스 초기화
         _buttonSource = CreateSource("Button");
@@ -64,6 +67,7 @@ public class SoundManager
 
         //3D 사운드 소스 초기화
         _doorSource = Create3DSource(door);
+        _cryingSource = Create3DSource(crying);
 
         _sources = new[]
         {
@@ -132,9 +136,6 @@ public class SoundManager
     private AudioSource Create3DSource(GameObject target)
     {
         AudioSource source = target.GetComponent<AudioSource>();
-        source.spatialBlend = 1f;
-        source.rolloffMode = AudioRolloffMode.Linear;
-        source.dopplerLevel = 0f;
         return source;
 
 
@@ -322,7 +323,7 @@ public class SoundManager
     /// </summary>
     public void DoorOpenSound()
     {
-        _doorSource.PlayOneShot(_catalog.DoorOpen);
+        SoundPlay(_doorSource, _catalog.DoorOpen);
     }
 
     /// <summary>
@@ -331,7 +332,10 @@ public class SoundManager
     /// </summary>
     public void DoorCloseSound()
     {
-        _doorSource.PlayOneShot(_catalog.DoorClose);
+        SoundPlay(_doorSource, _catalog.DoorClose, false);
     }
-
+    public void CryingSound()
+    {
+        SoundPlay(_cryingSource, _catalog.Crying, true);
+    }
 }

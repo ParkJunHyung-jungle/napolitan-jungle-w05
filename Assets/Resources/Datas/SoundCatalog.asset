@@ -28,6 +28,7 @@ MonoBehaviour:
   _subAmbient: {fileID: 8300000, guid: ddb8759b9310ff943a1075482e0da7da, type: 3}
   _clock: {fileID: 8300000, guid: 28980863f1ad8884b84d49d70f80162c, type: 3}
   _countDown: {fileID: 8300000, guid: 7e648e9371d24ae4ea224a876fd64ef8, type: 3}
+  _crying: {fileID: 8300000, guid: 0f81aaa62b14dd649a14673c42c9afd4, type: 3}
   _simpleSiren: {fileID: 8300000, guid: cef22b6ebd5aa494a928029d0317feca, type: 3}
   _complaxSiren: {fileID: 8300000, guid: bd06d474851f0e74d894aa22505593ef, type: 3}
   _halfHp: {fileID: 8300000, guid: b7450293dcea61f49843e22e18d5df60, type: 3}

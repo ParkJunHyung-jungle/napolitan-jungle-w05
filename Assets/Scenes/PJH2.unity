@@ -353,16 +353,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 641e95f27238f49499c1d92e5e56ecaa, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::FaultScheduler
-  faultSchedules:
-  - FaultTiming: 0.2
-    FaultFacilityIDs: 00000000
-    FatalTime: 20
-  - FaultTiming: 0.2
-    FaultFacilityIDs: 01000000
-    FatalTime: 20
-  - FaultTiming: 0.2
-    FaultFacilityIDs: 02000000
-    FatalTime: 10
+  faultSchedules: []
 --- !u!114 &240280602
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2996,6 +2987,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1301719074}
   - component: {fileID: 1301719073}
+  - component: {fileID: 1301719075}
   m_Layer: 0
   m_Name: CryingSorce
   m_TagString: Untagged
@@ -3016,16 +3008,16 @@ AudioSource:
   m_audioClip: {fileID: 0}
   m_Resource: {fileID: 0}
   m_PlayOnAwake: 1
-  m_Volume: 1
-  m_Pitch: 1
+  m_Volume: 0.2
+  m_Pitch: 1.1
   Loop: 0
   Mute: 0
   Spatialize: 0
   SpatializePostEffects: 0
   Priority: 128
-  DopplerLevel: 1
+  DopplerLevel: 0
   MinDistance: 1
-  MaxDistance: 500
+  MaxDistance: 15
   Pan2D: 0
   rolloffMode: 0
   BypassEffects: 0
@@ -3035,23 +3027,50 @@ AudioSource:
     serializedVersion: 2
     m_Curve:
     - serializedVersion: 3
-      time: 0
-      value: 1
-      inSlope: 0
-      outSlope: 0
+      time: 0.014084883
+      value: 0.9942703
+      inSlope: -15.005997
+      outSlope: -15.005997
       tangentMode: 0
       weightedMode: 0
-      inWeight: 0.33333334
-      outWeight: 0.33333334
+      inWeight: 0
+      outWeight: 0
+    - serializedVersion: 3
+      time: 0.10801138
+      value: 0.43411255
+      inSlope: -3.7514992
+      outSlope: -3.7514992
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0
+      outWeight: 0
+    - serializedVersion: 3
+      time: 0.20240429
+      value: 0.25
+      inSlope: -0.9378748
+      outSlope: -0.9378748
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0
+      outWeight: 0
+    - serializedVersion: 3
+      time: 0.45542198
+      value: 0.067733765
+      inSlope: -0.2344687
+      outSlope: -0.2344687
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0
+      outWeight: 0
     - serializedVersion: 3
       time: 1
-      value: 0
-      inSlope: 0
-      outSlope: 0
+      value: 0.014312744
+      inSlope: -0.38059834
+      outSlope: -0.38059834
       tangentMode: 0
       weightedMode: 0
-      inWeight: 0.33333334
-      outWeight: 0.33333334
+      inWeight: 0.2701824
+      outWeight: 0
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 4
@@ -3060,7 +3079,7 @@ AudioSource:
     m_Curve:
     - serializedVersion: 3
       time: 0
-      value: 0
+      value: 1
       inSlope: 0
       outSlope: 0
       tangentMode: 0
@@ -3090,7 +3109,7 @@ AudioSource:
     m_Curve:
     - serializedVersion: 3
       time: 0
-      value: 1
+      value: 0.5
       inSlope: 0
       outSlope: 0
       tangentMode: 0
@@ -3115,6 +3134,29 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!164 &1301719075
+AudioReverbFilter:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1301719072}
+  m_Enabled: 1
+  m_DryLevel: 0
+  m_Room: -1000
+  m_RoomHF: 0
+  m_DecayTime: 2.91
+  m_DecayHFRatio: 1.3
+  m_ReflectionsLevel: -602
+  m_ReverbLevel: -302
+  m_ReverbDelay: 0.022
+  m_Diffusion: 100
+  m_Density: 100
+  m_HFReference: 5000
+  m_RoomLF: 0
+  m_LFReference: 250
+  m_ReflectionsDelay: 0
+  m_ReverbPreset: 9
 --- !u!1 &1358773198
 GameObject:
   m_ObjectHideFlags: 0
@@ -3576,7 +3618,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1d5251993e427b246b00fb4cc38a1348, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::EmergencyLightController
-  emergencyLight: {fileID: 1467772315}
 --- !u!108 &1467772315
 Light:
   m_ObjectHideFlags: 0
@@ -3791,6 +3832,7 @@ GameObject:
   - component: {fileID: 1595556100}
   - component: {fileID: 1595556099}
   - component: {fileID: 1595556098}
+  - component: {fileID: 1595556103}
   m_Layer: 0
   m_Name: Door
   m_TagString: Untagged
@@ -3810,7 +3852,7 @@ AudioSource:
   OutputAudioMixerGroup: {fileID: 0}
   m_audioClip: {fileID: 0}
   m_Resource: {fileID: 0}
-  m_PlayOnAwake: 1
+  m_PlayOnAwake: 0
   m_Volume: 1
   m_Pitch: 1
   Loop: 0
@@ -3820,9 +3862,9 @@ AudioSource:
   Priority: 128
   DopplerLevel: 1
   MinDistance: 1
-  MaxDistance: 500
+  MaxDistance: 10
   Pan2D: 0
-  rolloffMode: 0
+  rolloffMode: 1
   BypassEffects: 0
   BypassListenerEffects: 0
   BypassReverbZones: 0
@@ -3988,6 +4030,29 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!164 &1595556103
+AudioReverbFilter:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1595556097}
+  m_Enabled: 1
+  m_DryLevel: 0
+  m_Room: -1000
+  m_RoomHF: 0
+  m_DecayTime: 2.91
+  m_DecayHFRatio: 1.3
+  m_ReflectionsLevel: -602
+  m_ReverbLevel: -302
+  m_ReverbDelay: 0.022
+  m_Diffusion: 100
+  m_Density: 100
+  m_HFReference: 5000
+  m_RoomLF: 0
+  m_LFReference: 250
+  m_ReflectionsDelay: 0
+  m_ReverbPreset: 9
 --- !u!1 &1610184176
 GameObject:
   m_ObjectHideFlags: 0
