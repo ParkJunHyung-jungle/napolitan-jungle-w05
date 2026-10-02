@@ -145,6 +145,9 @@ public class SoundManager
                 break;
             case AudioSourceTypes.FOOTSTEP:
                 break;
+            case AudioSourceTypes.TELEPHONE:
+                _phoneSource = audioSource;
+                break;
             default:
                 break;
         }
