@@ -96,12 +96,11 @@ public class FirstPersonCamera : MonoBehaviour
         Vector2 delta = _lookInput * (sensitivity * _lookScale);
         _lookInput = Vector2.zero;
 
-        // 상하 : 카메라
         _pitch = Mathf.Clamp(_pitch - delta.y, minPitch, maxPitch);
-        transform.localRotation = Quaternion.Euler(_pitch, 0f, 0f);
 
-        // 좌우 : 몸
-        if (playerBody != null) playerBody.Rotate(Vector3.up, delta.x);
+        playerBody.Rotate(Vector3.up, delta.x);
+        transform.rotation = playerBody.rotation * Quaternion.Euler(_pitch, 0f, 0f);
+        transform.position = playerBody.position + new Vector3(0, 1.5f, 0);
     }
 
     // ---------- Public API ----------

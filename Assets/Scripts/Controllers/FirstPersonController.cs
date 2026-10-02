@@ -178,7 +178,7 @@ public class FirstPersonController : MonoBehaviour
     private void TryInteract()
     {
         //명령서 들고 있으면 떨어트리기
-        FaxInstructionController heldFax = GetComponentInChildren<FaxInstructionController>();
+        FaxInstructionController heldFax = firstPersonCamera.gameObject.GetComponentInChildren<FaxInstructionController>();
         if (heldFax != null)
         {
             heldFax.Drop();
