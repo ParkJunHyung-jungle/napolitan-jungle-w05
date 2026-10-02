@@ -37,11 +37,19 @@ public class LeverController : MonoBehaviour, IInteractable
         _isOn = !_isOn;
         ActiveLight();
 
+        if (_isOn == false)
+        {
+            Managers.Sound.LightOnSound();
+        }
+        else
+        {
+            Managers.Sound.LightOffSound();
+        }
         float angle = _isOn ? UP_ANGLE : DOWN_ANGLE;
 
         transform.localRotation = Quaternion.Euler(0f, 0f, -angle);
         StateChanged?.Invoke(_isOn);
-        // Managers.Sound.PlaySound(SoundType.Lever);
+
     }
 
     private void ActiveLight()
