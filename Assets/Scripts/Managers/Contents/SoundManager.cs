@@ -462,4 +462,8 @@ public class SoundManager
     {
         SoundPlay(_inseinSource, _catalog.Insein, true);
     }
+    public void StopInseinSound()
+    {
+        _inseinSource.Stop();
+    }
 }

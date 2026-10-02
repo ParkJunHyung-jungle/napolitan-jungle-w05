@@ -7,6 +7,7 @@ using UI;
 public class GameManager
 {
     private const float DEFAULT_MAX_MENTALITY = 100f;
+    private const float MENTALITY_INSEIN_THRESHOLD = 0.5f;
     private const float MENTALITY_STAGE_2_THRESHOLD = 0.75f;
     private const float MENTALITY_STAGE_3_THRESHOLD = 0.5f;
     private const float MENTALITY_STAGE_4_THRESHOLD = 0.25f;
@@ -95,6 +96,7 @@ public class GameManager
         if (_isDayEnd)
             return;
         _isDayEnd = true;
+        Managers.Sound.StopInseinSound();
         _dayEndCanvas.gameObject.SetActive(true);
         Managers.Input.SetInputMode(InputMode.UI);
     }
@@ -122,9 +124,19 @@ public class GameManager
         if (Mathf.Approximately(currentMentality, _currentMentality))
             return;
 
+        bool wasInseinRange = _currentMentality / _maxMentality <= MENTALITY_INSEIN_THRESHOLD;
         _currentMentality = currentMentality;
         ApplyMentalityDistortion();
         OnMentalityChanged?.Invoke(_currentMentality, _maxMentality);
+
+        bool isInseinRange = _currentMentality / _maxMentality <= MENTALITY_INSEIN_THRESHOLD;
+        if (wasInseinRange != isInseinRange)
+        {
+            if (isInseinRange)
+                Managers.Sound.InseinSound();
+            else
+                Managers.Sound.StopInseinSound();
+        }
 
         if (Mathf.Approximately(_currentMentality, 0f))
             ShowGameOver();
@@ -172,26 +184,11 @@ public class GameManager
             return;
 
         _isGameOver = true;
+        Managers.Sound.StopInseinSound();
         Time.timeScale = 0f;
         Managers.Sound.GameOverSound();
 
-        EndPanel[] panels = UnityEngine.Object.FindObjectsByType<EndPanel>(
-            FindObjectsInactive.Include,
-            FindObjectsSortMode.None);
-
-        foreach (EndPanel panel in panels)
-        {
-            if (panel.gameObject.name != "GameOverPanel")
-                continue;
-
-            panel.Initialize(() =>
-            {
-                Time.timeScale = 1f;
-                SceneManager.LoadScene(SceneManager.GetActiveScene().name);
-            });
-            panel.gameObject.SetActive(true);
-            break;
-        }
+        _gameOverCanvas.gameObject.SetActive(true);
     }
 
     /// <summary>
