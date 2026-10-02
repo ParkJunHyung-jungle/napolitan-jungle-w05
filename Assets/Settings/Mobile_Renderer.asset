@@ -76,4 +76,5 @@ MonoBehaviour:
   bindDepthStencilAttachment: 0
   m_Version: 1
   _distortionStartRatio: 0.75
+  _distortionInitialStrength: 0.5
   _redStartRatio: 0.25

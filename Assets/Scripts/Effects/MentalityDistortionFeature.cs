@@ -9,6 +9,7 @@ public class MentalityDistortionFeature : FullScreenPassRendererFeature
 
     [Header("Mentality Distortion")]
     [SerializeField, Range(0.01f, 1f)] private float _distortionStartRatio = 0.75f;
+    [SerializeField, Range(0f, 1f)] private float _distortionInitialStrength = 0.5f;
 
     [Header("Mentality Red Edge")]
     [SerializeField, Range(0.01f, 1f)] private float _redStartRatio = 0.25f;
@@ -28,7 +29,8 @@ public class MentalityDistortionFeature : FullScreenPassRendererFeature
         {
             GameManager game = Managers.Game;
             float mentalityRatio = game.CurrentMentality / game.MaxMentality;
-            strength = Mathf.Clamp01(1f - mentalityRatio / _distortionStartRatio);
+            if (mentalityRatio <= _distortionStartRatio)
+                strength = Mathf.Lerp(_distortionInitialStrength, 1f, 1f - mentalityRatio / _distortionStartRatio);
             if (mentalityRatio <= _redStartRatio)
                 redProgress = 1f - mentalityRatio / _redStartRatio;
         }

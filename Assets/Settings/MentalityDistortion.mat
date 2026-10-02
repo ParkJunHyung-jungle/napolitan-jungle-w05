@@ -25,7 +25,7 @@ Material:
     m_TexEnvs: []
     m_Ints: []
     m_Floats:
-    - _MaxOffset: 0.012
+    - _MaxOffset: 0.026
     - _RedInitial: 0.38
     - _RedMaximum: 0.52
     - _WaveFrequency: 14

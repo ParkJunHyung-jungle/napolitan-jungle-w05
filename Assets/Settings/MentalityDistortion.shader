@@ -3,7 +3,7 @@ Shader "Hidden/Effects/MentalityDistortion"
     Properties
     {
         _InnerRadius ("Undistorted Ellipse Radius (X/Y)", Vector) = (0.25, 0.30, 0, 0)
-        _MaxOffset ("Maximum UV Offset", Range(0, 0.05)) = 0.012
+        _MaxOffset ("Maximum UV Offset", Range(0, 0.05)) = 0.026
         _WaveFrequency ("Wave Frequency", Range(1, 40)) = 14
         _WaveSpeed ("Wave Speed", Range(0, 5)) = 1.2
         _RedInitial ("Red Edge Initial Strength", Range(0, 1)) = 0.38
