@@ -23,6 +23,8 @@ public class SceneContext : MonoBehaviour
     {
         Managers.Date.ElapsedTime += Time.deltaTime;
         SetDateUI();
+        Managers.Game.ChangeMentality(-5 * Time.deltaTime);
+        Debug.Log($"{Managers.Game.CurrentMentality}");
     }
 
     /// <summary>
