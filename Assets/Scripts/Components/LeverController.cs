@@ -28,5 +28,6 @@ public class LeverController : MonoBehaviour, IInteractable
         float angle = _isOn ? UP_ANGLE : DOWN_ANGLE;
         transform.localRotation = Quaternion.Euler(0f, 0f, -angle);
         StateChanged?.Invoke(_isOn);
+        // Managers.Sound.PlaySound(SoundType.Lever);
     }
 }
