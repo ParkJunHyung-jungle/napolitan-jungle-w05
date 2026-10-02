@@ -22,21 +22,54 @@ public class SoundCatalog : ScriptableObject
     [SerializeField] private AudioClip _fixCompleted;
     [SerializeField] private AudioClip _mediumFix;
     [SerializeField] private AudioClip _gameOver;
+    [SerializeField] private AudioClip _doorOpen;
+    [SerializeField] private AudioClip _doorClose;
+    [SerializeField] private AudioClip _doorLocked;
+    [SerializeField] private AudioClip[] _knock;
+    [SerializeField] private AudioClip _switchOn;
+    [SerializeField] private AudioClip _switchOff;
+    [SerializeField] private AudioClip _fax;
+
     public AudioClip EngineOff => _engineOff;
     public AudioClip TakingDamage => _takingDamage;
     public AudioClip FixCompleted => _fixCompleted;
     public AudioClip MediumFix => _mediumFix;
     public AudioClip GameOver => _gameOver;
+    public AudioClip DoorOpen => _doorOpen;
+    public AudioClip DoorClose => _doorClose;
+    public AudioClip DoorLocked => _doorLocked;
+    public AudioClip[] Knock => _knock;
+    public AudioClip SwitchOn => _switchOn;
+    public AudioClip SwitchOff => _switchOff;
+    public AudioClip Fax => _fax;
+
+    [Header("Phone Clips")]
+    [SerializeField] private AudioClip _phoneBell;
+    [SerializeField] private AudioClip _phonePickUp;
+    [SerializeField] private AudioClip _phoneOff;
+    [SerializeField] private AudioClip _phoneHangUp;
+    [SerializeField] private AudioClip[] _phoneManVoice;
+    [SerializeField] private AudioClip[] _phoneWomenVoice;
+
+    public AudioClip PhoneBell => _phoneBell;
+    public AudioClip PhonePickUp => _phonePickUp;
+    public AudioClip PhoneOff => _phoneOff;
+    public AudioClip PhoneHangUp => _phoneHangUp;
+    public AudioClip[] PhoneManVoice => _phoneManVoice;
+    public AudioClip[] PhoneWomenVoice => _phoneWomenVoice;
+
 
     [Header("Ambient And Timer Clips")]
     [SerializeField] private AudioClip _ambient;
     [SerializeField] private AudioClip _subAmbient;
     [SerializeField] private AudioClip _clock;
     [SerializeField] private AudioClip _countDown;
+    [SerializeField] public AudioClip _crying;
     public AudioClip Ambient => _ambient;
     public AudioClip SubAmbient => _subAmbient;
     public AudioClip Clock => _clock;
     public AudioClip CountDown => _countDown;
+    public AudioClip Crying => _crying;
 
     [Header("Siren And Warning Clips")]
     [SerializeField] private AudioClip _simpleSiren;

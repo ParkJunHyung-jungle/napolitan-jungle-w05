@@ -1,4 +1,5 @@
 using System;
+using System.Collections;
 
 using UnityEngine;
 
@@ -12,12 +13,15 @@ public class DoorController : MonoBehaviour, IInteractable
         AnimationCurve.EaseInOut(0f, 0f, 1f, 1f);
 
     [Header("Knock")]
-    [SerializeField] private AudioSource _knockSource;
-    [SerializeField] private AudioClip _knockClip;
+    [SerializeField, Min(0.01f)] private float _knockInterval = 1f;
 
     private bool _isOpen = false;
     private bool _isMoving = false;
     private bool _isKnocking;
+    private Coroutine _knockRoutine;
+
+    [Header("Lock")]
+    [SerializeField] private bool _isLocked = false;
 
     private float _elapsedTime;
 
@@ -34,13 +38,9 @@ public class DoorController : MonoBehaviour, IInteractable
     private void Awake()
     {
         _closedRotation = transform.localRotation;
-        _openRotation =
-            _closedRotation * Quaternion.Euler(0f, _openAngle, 0f);
-    }
-
-    private void OnDisable()
-    {
-        StopKnock();
+        _openRotation = _closedRotation * Quaternion.Euler(0f, -_openAngle, 0f);
+        // Manaers. += StartKnockEvent;
+        StartKnockEvent();
     }
 
     private void Update()
@@ -50,6 +50,7 @@ public class DoorController : MonoBehaviour, IInteractable
 
         _elapsedTime += Time.deltaTime;
 
+        // 문이 천천히 열리도록
         float t = Mathf.Clamp01(_elapsedTime / _duration);
         float curveValue = _moveCurve.Evaluate(t);
 
@@ -77,24 +78,6 @@ public class DoorController : MonoBehaviour, IInteractable
         }
     }
 
-    /// <summary>
-    /// 지정한 상태로 문을 연다/닫는다.
-    /// 이미 이동 중이면 무시한다.
-    /// </summary>
-    public bool TrySetState(bool open)
-    {
-        if (_isMoving)
-            return false;
-
-        if (_isOpen == open)
-            return false;
-
-        _isOpen = open;
-        _isMoving = true;
-        _elapsedTime = 0f;
-
-        return true;
-    }
 
     /// <summary>
     /// 문 상호작용을 받아 노크를 멈추고 현재 열림 상태의 반대로 전환을 시도한다.
@@ -102,7 +85,13 @@ public class DoorController : MonoBehaviour, IInteractable
     /// </summary>
     public void Interact()
     {
-        StopKnock();
+        if (_isLocked)
+        {
+            Managers.Sound.DoorLockedSound();
+            return;
+        }
+
+
         bool changed = TrySetState(!_isOpen);
 
         // 실제로 문 상태 변경에 성공했을 때만 이벤트 발행
@@ -113,31 +102,63 @@ public class DoorController : MonoBehaviour, IInteractable
     }
 
     /// <summary>
-    /// 외부 노크 이벤트를 받아 문을 두드리는 소리를 반복 재생한다.
-    /// 설정된 _knockSource와 _knockClip을 사용하며 _isKnocking 상태를 켠다.
+    /// 지정한 상태로 문을 연다/닫는다.
+    /// 이미 이동 중이면 무시한다.
+    /// </summary>
+    public bool TrySetState(bool open)
+    {
+        if (_isMoving)
+            return false;
+
+        StopKnock();
+
+        if (open)
+        {
+            Managers.Sound.DoorOpenSound();
+        }
+        else
+        {
+            Managers.Sound.DoorCloseSound();
+        }
+
+        _isOpen = open;
+        _isMoving = true;
+        _elapsedTime = 0f;
+
+        return true;
+    }
+
+
+    /// <summary>
+    /// 외부 노크 이벤트를 받아 일정 간격으로 노크 재생을 예약한다.
+    /// _knockInterval을 사용하며 _isKnocking 상태와 반복 코루틴을 시작한다.
     /// </summary>
     public void StartKnockEvent()
     {
-        if (_isKnocking || _knockSource == null || _knockClip == null)
+        if (_isKnocking)
             return;
 
         _isKnocking = true;
-        _knockSource.clip = _knockClip;
-        _knockSource.loop = true;
-        _knockSource.Play();
+        Managers.Sound.DoorKnockSound();
     }
 
     /// <summary>
-    /// 상호작용이나 비활성화를 받아 반복 노크 재생을 중지한다.
-    /// _knockSource의 재생을 멈추고 _isKnocking 상태를 해제한다.
+    /// _isKnocking 상태 동안 즉시 한 번, 이후 _knockInterval마다 노크를 예약한다.
+    /// 간격 대기를 반환하며 노크 재생 위치는 Manager 연결을 위해 주석으로 남긴다.
+    /// </summary>
+
+
+    /// <summary>
+    /// 상호작용이나 비활성화를 받아 반복 노크 예약을 중지한다.
+    /// _knockRoutine을 멈추고 _isKnocking 상태를 해제한다.
     /// </summary>
     private void StopKnock()
     {
         if (!_isKnocking)
             return;
 
+        Managers.Sound.DoorKnockSoundOff();
         _isKnocking = false;
-        if (_knockSource != null)
-            _knockSource.Stop();
     }
+
 }

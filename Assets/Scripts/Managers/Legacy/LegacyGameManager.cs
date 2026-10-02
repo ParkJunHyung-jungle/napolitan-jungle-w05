@@ -97,6 +97,7 @@ public class LegacyGameManager : MonoBehaviour
 
     void Update()
     {
+
         if (IsNormal)
         {
 

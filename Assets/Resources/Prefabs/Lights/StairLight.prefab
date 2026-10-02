@@ -12,6 +12,7 @@ GameObject:
   - component: {fileID: 3877183287816195314}
   - component: {fileID: 8421857058464626229}
   - component: {fileID: 8017609671825522306}
+  - component: {fileID: 3444878317233813550}
   m_Layer: 0
   m_Name: StairLight
   m_TagString: Untagged
@@ -143,3 +144,22 @@ MonoBehaviour:
   anisotropy: -0.356
   scattering: 16
   radius: 0.517
+--- !u!114 &3444878317233813550
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4844843309973124669}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 45a529012c88f634cb209835d1a0b44f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::LightController
+  _light: {fileID: 3877183287816195314}
+  _blinkCurve:
+    serializedVersion: 2
+    m_Curve: []
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
