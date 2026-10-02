@@ -2,7 +2,8 @@ using System.Collections;
 
 using UnityEngine;
 
-using UnityEngine.Rendering.PostProcessing;
+using UnityEngine.Rendering;
+using UnityEngine.Rendering.Universal;
 
 public class PostProcessingManager
 {
@@ -27,19 +28,21 @@ public class PostProcessingManager
     private Coroutine _distortionBaseCoroutine;
     private Coroutine _distortionPunchCoroutine;
 
-    public GameObject LoadVolume => Resources.Load<GameObject>("Prefabs/Volume");
+    public GameObject LoadVolume => Resources.Load<GameObject>("Prefabs/Global Volume");
 
     /// <summary>
-    /// 비네트 볼륨 프리팹을 생성하고 Vignette 설정을 저장한다.
-    /// 런타임 비네트 프로필을 사용하며 정신력 왜곡 볼륨은 카메라 자식으로 따로 생성한다.
+    /// 글로벌 볼륨 프리팹을 카메라 자식으로 생성하고 URP 효과 설정을 저장한다.
+    /// 런타임 프로필의 비네트와 렌즈 왜곡 강도 오버라이드를 활성화한다.
     /// </summary>
     public void Init()
     {
         GameObject volume = Object.Instantiate(LoadVolume);
         volume.transform.SetParent(Camera.main.transform, false);
-        PostProcessProfile profile = volume.GetComponent<PostProcessVolume>().profile;
-        profile.TryGetSettings(out _vignette);
-        profile.TryGetSettings(out _lensDistortion);
+        VolumeProfile profile = volume.GetComponent<Volume>().profile;
+        profile.TryGet(out _vignette);
+        profile.TryGet(out _lensDistortion);
+        _vignette.intensity.overrideState = true;
+        _lensDistortion.intensity.overrideState = true;
     }
 
     /// <summary>
@@ -146,13 +149,14 @@ public class PostProcessingManager
     }
 
     /// <summary>
-    /// 왜곡 기본값과 순간값을 더해 허용 범위로 제한한 뒤 프로필에 적용한다.
-    /// _lensDistortion 세기를 변경한다.
+    /// 왜곡 기본값과 순간값을 더해 기존 세기 범위로 제한하고 URP 범위로 변환한다.
+    /// _lensDistortion 강도를 -1~1 범위로 변경한다.
     /// </summary>
     private void ApplyDistortion()
     {
         _lensDistortion.intensity.value = Mathf.Clamp(
-            _distortionBase + _distortionPunch, -MAX_DISTORTION_INTENSITY, MAX_DISTORTION_INTENSITY);
+            _distortionBase + _distortionPunch, -MAX_DISTORTION_INTENSITY, MAX_DISTORTION_INTENSITY)
+            / MAX_DISTORTION_INTENSITY;
     }
 
     /// <summary>

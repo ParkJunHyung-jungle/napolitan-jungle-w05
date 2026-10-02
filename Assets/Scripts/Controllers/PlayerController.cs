@@ -1,6 +1,5 @@
 using System;
 using UnityEngine;
-using UnityEngine.InputSystem;
 
 public class PlayerController : MonoBehaviour
 {
@@ -40,12 +39,20 @@ public class PlayerController : MonoBehaviour
 
     }
 
-    public void OnMove(InputAction.CallbackContext context)
+    /// <summary>
+    /// InputManager에서 이동 입력을 읽어 저장한다.
+    /// 현재 플레이어 이동 벡터를 moveInput에 반영한다.
+    /// </summary>
+    private void UpdateMoveInput()
     {
-        moveInput = context.ReadValue<Vector2>();
+        moveInput = Managers.Input.MoveInput;
     }
 
-    public void OnInteract(InputAction.CallbackContext context)
+    /// <summary>
+    /// 조준 중인 선택 가능 오브젝트를 선택한다.
+    /// cursorItem과 selectedItem을 갱신하고 playerInteracted 이벤트를 발생시킨다.
+    /// </summary>
+    private void ProcessInteractInput()
     {
         // 하이라이트 된 오브젝트와 상호작용(현재 e키)해서 UI로 진입하면.. canMove가 false가 되면서 Move, ShootCursor를 멈춘다
         if (canMove == true)
@@ -74,11 +81,13 @@ public class PlayerController : MonoBehaviour
         }
     }
 
-    public void OnClick(InputAction.CallbackContext context)
+    /// <summary>
+    /// 포인터가 가리키는 Button 레이어의 상호작용 대상을 실행한다.
+    /// cursorItem에서 IInteractable을 찾아 Interact를 호출한다.
+    /// </summary>
+    private void ProcessClickInput()
     {
-        if (canMove || !context.performed) return;
-
-        Vector2 clickPosition = Mouse.current.position.ReadValue();
+        if (canMove) return;
 
         // cursorItem이 Button 레이어일 경우 ButtonManager를 가져온 뒤, 거기 있는 ClickButton을 실행시킨다.
         if (cursorItem.layer == LayerMask.NameToLayer("Button") && cursorItem.TryGetComponent<IInteractable>(out var interactable))
@@ -87,13 +96,21 @@ public class PlayerController : MonoBehaviour
         }
     }
 
-    public void OnPoint(InputAction.CallbackContext context)
+    /// <summary>
+    /// InputManager에서 포인터 위치를 읽어 mousePosition을 갱신한다.
+    /// 이동이 잠긴 상태에서 마우스 위치 기반 Raycast에 사용할 좌표를 저장한다.
+    /// </summary>
+    private void ProcessPointerInput()
     {
         if (canMove) return;
-        mousePosition = context.ReadValue<Vector2>();
+        mousePosition = Managers.Input.PointerPosition;
     }
 
-    public void OnEscape(InputAction.CallbackContext context)
+    /// <summary>
+    /// 선택된 오브젝트 보기 상태를 해제한다.
+    /// canMove를 복구하고 selectedItem을 비운 뒤 playerInteracted 이벤트를 발생시킨다.
+    /// </summary>
+    private void ProcessEscapeInput()
     {
         // UI에서 벗어나면 (현재 esc키 입력) canMove를 true로 바꾸고, Move와 ShootCursor가 다시 작동한다
         if (canMove == false)
@@ -113,6 +130,8 @@ public class PlayerController : MonoBehaviour
         // 별다른 조건 없으면 이동 & 상호작용 오브젝트 선택
         if (canMove)
         {
+            UpdateMoveInput();
+            if (Managers.Input.InteractPressed) ProcessInteractInput();
             Move();
             ShootCursorFromCamera();
         }
@@ -120,6 +139,9 @@ public class PlayerController : MonoBehaviour
         // 뷰 고정 상태일 때는 마우스에서 raycast 시키기
         else
         {
+            ProcessPointerInput();
+            if (Managers.Input.ClickPressed) ProcessClickInput();
+            if (Managers.Input.EscapePressed) ProcessEscapeInput();
             ShootCursorFromMouse();
         }
     }

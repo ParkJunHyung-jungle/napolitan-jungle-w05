@@ -19,14 +19,20 @@ public class InputManager
     [Header("Player Mode")]
     public Vector2 MoveInput => _inputMode == InputMode.Player ? PlayerMap.Move.ReadValue<Vector2>() : Vector2.zero;
     public Vector2 LookInput => _inputMode == InputMode.Player ? PlayerMap.Look.ReadValue<Vector2>() : Vector2.zero;
-    public bool InteractPressed => _inputMode == InputMode.Player && PlayerMap.Interact.WasPressedThisFrame();
-    public bool JumpPressed => _inputMode == InputMode.Player && PlayerMap.Jump.WasPressedThisFrame();
-    public bool JumpHeld => _inputMode == InputMode.Player && PlayerMap.Jump.IsPressed();
-    public bool SprintHeld => _inputMode == InputMode.Player && PlayerMap.Sprint.IsPressed();
-
-    [Header("UI Mode")]
-
-    public bool GamePadConnected { get; private set; }
+    public Vector2 PointerPosition => _inputMode == InputMode.Player
+        ? PlayerMap.Point.ReadValue<Vector2>()
+        : UIMap.Point.ReadValue<Vector2>();
+    public bool InteractPressed => _inputMode == InputMode.Player
+        && (PlayerMap.Interact.WasPressedThisFrame() || PlayerMap.Click.WasPressedThisFrame());
+    public bool InteractHeld => _inputMode == InputMode.Player
+        && (PlayerMap.Interact.IsPressed() || PlayerMap.Click.IsPressed());
+    public bool EscapePressed => _inputMode == InputMode.Player
+        ? PlayerMap.Escape.WasPressedThisFrame()
+        : UIMap.Cancel.WasPressedThisFrame();
+    public bool ClickPressed => _inputMode == InputMode.Player
+        ? PlayerMap.Click.WasPressedThisFrame()
+        : UIMap.Click.WasPressedThisFrame();
+    public bool ConfirmPressed => _inputMode == InputMode.UI && UIMap.Submit.WasPressedThisFrame();
 
     public void Init()
     {
@@ -35,9 +41,7 @@ public class InputManager
         PlayerMap = _inputActions.Player;
         UIMap = _inputActions.UI;
 
-        InputSystem.onActionChange += CheckDeviceType;
-
-        SetInputMode(InputMode.Player);
+        SetInputMode(InputMode.UI);
     }
 
     public void Clear()
@@ -55,6 +59,8 @@ public class InputManager
         PlayerMap.Disable();
         UIMap.Disable();
 
+        Debug.Log(mode.ToString());
+
         if (mode == InputMode.Player)
         {
             PlayerMap.Enable();
@@ -69,13 +75,5 @@ public class InputManager
             Cursor.visible = true;
             Time.timeScale = 0f;
         }
-    }
-
-    private void CheckDeviceType(object obj, InputActionChange change)
-    {
-        if (change != InputActionChange.ActionPerformed)
-            return;
-        InputAction action = obj as InputAction;
-        GamePadConnected = action?.activeControl?.device is Gamepad;
     }
 }

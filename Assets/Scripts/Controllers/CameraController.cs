@@ -1,6 +1,4 @@
-using System;
 using UnityEngine;
-using UnityEngine.InputSystem;
 
 public class CameraController : MonoBehaviour
 {
@@ -39,9 +37,24 @@ public class CameraController : MonoBehaviour
     }
 
     // New Input system의 Look을 가져온다
-    public void OnLook(InputAction.CallbackContext context)
+    void Update()
     {
-        if (!context.performed) return;
+        ProcessLookInput();
+
+        // 플레이어가 물체와 상호작용한 상태인지 playerInteracted 이벤트 구독해서 확인, bool 값 토글해서 카메라 및 플레이어 위치 고정/해제
+        if (isFixed) FixedItem();
+        else MouseRotate();
+    }
+
+    /// <summary>
+    /// InputManager에서 시점 입력을 읽어 카메라 회전량을 갱신한다.
+    /// 최초 입력은 무시하고 고정 시점이 아닐 때 mouseDelta를 설정한다.
+    /// </summary>
+    private void ProcessLookInput()
+    {
+        Vector2 lookInput = Managers.Input.LookInput;
+        if (lookInput == Vector2.zero) return;
+
         if (ignoreFirstLook)
         {
             ignoreFirstLook = false;
@@ -49,14 +62,7 @@ public class CameraController : MonoBehaviour
             return;
         }
 
-        if (!isFixed) mouseDelta = context.ReadValue<Vector2>() * cameraSpeed;
-    }
-
-    void Update()
-    {
-        // 플레이어가 물체와 상호작용한 상태인지 playerInteracted 이벤트 구독해서 확인, bool 값 토글해서 카메라 및 플레이어 위치 고정/해제
-        if (isFixed) FixedItem();
-        else MouseRotate();
+        if (!isFixed) mouseDelta = lookInput * cameraSpeed;
     }
 
     // 상호작용하는 물체가 없을 때 카메라를 회전시키는 함수
