@@ -43,6 +43,10 @@ public class LightController : MonoBehaviour
         StopCoroutine(_blinkCoroutine);
         _blinkCoroutine = null;
     }
+    public void SetIntensity(float intensity)
+    {
+        _light.intensity = intensity;
+    }
 
     private IEnumerator BlinkCoroutine()
     {
