@@ -29,6 +29,9 @@ MonoBehaviour:
   - {fileID: 8300000, guid: 57f48e22a5aafa2449021c5524d2f4aa, type: 3}
   - {fileID: 8300000, guid: 80f41cad856ca5048b59b4ce36125609, type: 3}
   - {fileID: 8300000, guid: 300695368ba352b4bb3c3d4ac7cfac4b, type: 3}
+  _switchOn: {fileID: 8300000, guid: f487b21fc4cb5b54b9f4cfa180dfc61f, type: 3}
+  _switchOff: {fileID: 8300000, guid: 4edaaba0483d73f46ac1e7f01998cd26, type: 3}
+  _fax: {fileID: 8300000, guid: a674d1cbb205adc438a36e078c78d94d, type: 3}
   _phoneBell: {fileID: 8300000, guid: 0b839ff315be79c488acae481e9c3ff8, type: 3}
   _phonePickUp: {fileID: 8300000, guid: 8b1be58ca8a5718479e5942c9be4ef99, type: 3}
   _phoneOff: {fileID: 8300000, guid: 7093ad19aea779d479b035300d21a29f, type: 3}

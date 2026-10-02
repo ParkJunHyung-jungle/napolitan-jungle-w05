@@ -26,6 +26,9 @@ public class SoundCatalog : ScriptableObject
     [SerializeField] private AudioClip _doorClose;
     [SerializeField] private AudioClip _doorLocked;
     [SerializeField] private AudioClip[] _knock;
+    [SerializeField] private AudioClip _switchOn;
+    [SerializeField] private AudioClip _switchOff;
+    [SerializeField] private AudioClip _fax;
 
     public AudioClip EngineOff => _engineOff;
     public AudioClip TakingDamage => _takingDamage;
@@ -36,6 +39,9 @@ public class SoundCatalog : ScriptableObject
     public AudioClip DoorClose => _doorClose;
     public AudioClip DoorLocked => _doorLocked;
     public AudioClip[] Knock => _knock;
+    public AudioClip SwitchOn => _switchOn;
+    public AudioClip SwitchOff => _switchOff;
+    public AudioClip Fax => _fax;
 
     [Header("Phone Clips")]
     [SerializeField] private AudioClip _phoneBell;

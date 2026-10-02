@@ -30,6 +30,8 @@ public class SoundManager
     private AudioSource _cryingSource;
     private AudioSource _phoneSource;
     private AudioSource _onThePhoneSource;
+    private AudioSource _lightSwitchSource;
+    private AudioSource _faxSource;
 
 
     /// <summary>
@@ -54,6 +56,8 @@ public class SoundManager
         GameObject lockedDoor = GameObject.Find("LockedDoor");
         GameObject crying = GameObject.Find("CryingSorce");
         GameObject phone = GameObject.Find("Phone");
+        GameObject lightSwitch = GameObject.Find("LightSwitch");
+        GameObject fax = GameObject.Find("Fax");
 
         //2D 사운드 소스 초기화
         _buttonSource = CreateSource("Button");
@@ -76,13 +80,15 @@ public class SoundManager
         _cryingSource = Create3DSource(crying);
         _lockedDoorSource = Create3DSource(lockedDoor);
         _phoneSource = Create3DSource(phone);
+        _lightSwitchSource = Create3DSource(lightSwitch);
+        _faxSource = Create3DSource(fax);
 
         _sources = new[]
         {
             _buttonSource, _sliderSource, _sfxSoruce, _ambientSource, _clockSource,
             _sirenSource, _countDownSource, _warningSource, _gameClearSource,
             _facilityButtonSource, _facilityDragSource, _facilitySnapSource, _doorSource, _cryingSource, _lockedDoorSource,
-            _phoneSource, _onThePhoneSource
+            _phoneSource, _onThePhoneSource, _lightSwitchSource, _faxSource
         };
         SceneManager.activeSceneChanged += OnSceneChanged;
     }
@@ -117,6 +123,8 @@ public class SoundManager
         _lockedDoorSource = null;
         _phoneSource = null;
         _onThePhoneSource = null;
+        _lightSwitchSource = null;
+        _faxSource = null;
     }
 
     private void OnSceneChanged(Scene previousScene, Scene nextScene)
@@ -408,5 +416,16 @@ public class SoundManager
         SoundPlay(_cryingSource, _catalog.Crying, true);
     }
 
-
+    public void LightOnSound()
+    {
+        SoundPlay(_lightSwitchSource, _catalog.SwitchOn);
+    }
+    public void LightOffSound()
+    {
+        SoundPlay(_lightSwitchSource, _catalog.SwitchOff);
+    }
+    public void FaxSound()
+    {
+        SoundPlay(_faxSource, _catalog.Fax);
+    }
 }

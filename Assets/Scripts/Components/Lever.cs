@@ -97,6 +97,5 @@ public class Lever : MonoBehaviour, IInteractable
     {
         if (pullSource != null && pullSource.clip != null)
             pullSource.PlayOneShot(pullSource.clip);
-        Managers.Sound.DoorLockedSound();
     }
 }
