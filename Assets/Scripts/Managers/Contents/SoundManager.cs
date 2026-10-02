@@ -69,7 +69,7 @@ public class SoundManager
         _facilityButtonSource = CreateSource("FacilityButton");
         _facilityDragSource = CreateSource("FacilityDrag", volume: 0.3f, pitch: 0.3f);
         _facilitySnapSource = CreateSource("FacilitySnap", pitch: 0.5f);
-        _onThePhoneSource = CreateSource("Slider");
+        _onThePhoneSource = CreateSource("OnThePhone");
 
         //3D 사운드 소스 초기화
         _doorSource = Create3DSource(door);
