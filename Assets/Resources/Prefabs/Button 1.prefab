@@ -67,7 +67,7 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 10303, guid: 0000000000000000f000000000000000, type: 0}
+  - {fileID: 2100000, guid: 31321ba15b8f8eb4c954353edc038b1d, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -413,7 +413,6 @@ MonoBehaviour:
   redColor: {fileID: 2100000, guid: e3407cd535ce6514db404193ca675acf, type: 2}
   grayColor: {fileID: 2100000, guid: 45888bb309ff47f48853d419d22dcb2f, type: 2}
   animationDuration: 0.3
-  clickSource: {fileID: 9068694429742212664}
 --- !u!95 &6108694569046474641
 Animator:
   serializedVersion: 7

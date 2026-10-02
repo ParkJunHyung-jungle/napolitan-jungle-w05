@@ -34,7 +34,8 @@ public abstract class Facility : MonoBehaviour
         if (isFault) return;
         GenerateGoal();
         isFault = true;
-        SetLight(lightState.red);
+        //SetLight(lightState.red);
+        Debug.Log($"[Facility] {name} (ID {facilityID}) 고장 발생", this);
     }
 
     /// <summary>강제로 정상으로 돌리고 장치를 초기화한다. 재시작용.</summary>
@@ -42,12 +43,12 @@ public abstract class Facility : MonoBehaviour
     {
         isFault = false;
         ResetDevices();
-        SetLight(lightState.green);
+        //SetLight(lightState.green);
     }
 
-    public void SetLight(lightState state)
+    public void SetLight()
     {
-        Managers.Light.SetFacilityLight(facilityID, state);
+        //Managers.Light.SetFacilityLight(facilityID, state);
     }
 
     /// <summary>장치가 바뀔 때마다 하위 클래스가 부른다.</summary>
@@ -62,7 +63,7 @@ public abstract class Facility : MonoBehaviour
         // 수리 완료 : 알림을 받는 쪽이 정리된 상태를 보도록 초기화를 먼저 한다
         isFault = false;
         ResetDevices();
-        SetLight(lightState.green);
+        //SetLight(lightState.green);
         OnFacilityInteracted?.Invoke(false, facilityID);
     }
 

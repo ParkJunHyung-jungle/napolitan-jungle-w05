@@ -1,85 +1,59 @@
-using UnityEngine;
+using System.Collections;
 
-public enum lightState
-{
-    green,
-    red,
-    blink
-}
+using UnityEngine;
 
 public class LightController : MonoBehaviour
 {
-    [Header("Runtime Binding")]
-    private int _facilityID;
-    private bool _isBound;
+    private const float BLINK_ON_THRESHOLD = 0f;
 
-    [Header("State")]
-    public lightState _lightState;
-    public float blinkInterval = 1f;
+    [Header("Light")]
+    [SerializeField] private Light _light;
 
-    [Header("Hardware")]
-    public Renderer _renderer;
-    public Light _light;
+    [Header("Blink")]
+    [SerializeField] private AnimationCurve _blinkCurve;
+    private Coroutine _blinkCoroutine;
 
-    [Header("Colors")]
-    public Color red = new Color(239f / 255f, 62f / 255f, 62f / 255f);
-    public Color green = new Color(52f / 255f, 191f / 255f, 25f / 255f);
-    public Color gray = new Color(194f / 255f, 194f / 255f, 194f / 255f);
-
-    void OnEnable()
+    public void SetColor(Color color)
     {
-        _renderer = GetComponent<Renderer>();
-        _light = GetComponent<Light>();
+        _light.color = color;
+    }
 
-        if (_isBound)
+    public void TurnOn()
+    {
+        StopBlink();
+        _light.enabled = true;
+    }
+
+    public void TurnOff()
+    {
+        StopBlink();
+        _light.enabled = false;
+    }
+
+    public void Blink()
+    {
+        StopBlink();
+        _blinkCoroutine = StartCoroutine(BlinkCoroutine());
+    }
+
+    private void StopBlink()
+    {
+        if (_blinkCoroutine == null) return;
+
+        StopCoroutine(_blinkCoroutine);
+        _blinkCoroutine = null;
+    }
+
+    private IEnumerator BlinkCoroutine()
+    {
+        float duration = _blinkCurve.keys[_blinkCurve.length - 1].time;
+        float elapsed = 0f;
+
+        while (true)
         {
-            RegisterLight();
+            elapsed = Mathf.Repeat(elapsed + Time.deltaTime, duration);
+            _light.enabled = _blinkCurve.Evaluate(elapsed) >= BLINK_ON_THRESHOLD;
+            yield return null;
         }
-    }
-
-    void OnDisable()
-    {
-        if (_isBound) Managers.Light.UnregisterFacilityLight(_facilityID, this);
-    }
-
-    /// <summary>
-    /// FacilityManager가 전달한 facilityID를 이 씬 조명 어댑터에 연결한다.
-    /// 활성 상태이면 기존 등록을 교체하고 Managers.Light에 현재 하드웨어를 등록한다.
-    /// </summary>
-    public void BindFacility(int facilityID)
-    {
-        if (_isBound)
-        {
-            Managers.Light.UnregisterFacilityLight(_facilityID, this);
-        }
-
-        _facilityID = facilityID;
-        _isBound = true;
-
-        if (isActiveAndEnabled)
-        {
-            RegisterLight();
-        }
-    }
-
-    /// <summary>
-    /// 기존 호출용 lightState를 저장하고 연결된 시설 ID의 전역 조명 API로 전달한다.
-    /// 바인딩 전 호출이면 상태만 보관해 다음 등록 시 적용한다.
-    /// </summary>
-    public void SetLightState(lightState state)
-    {
-        _lightState = state;
-        if (!_isBound) return;
-
-        Managers.Light.SetFacilityLight(_facilityID, state);
-    }
-
-    /// <summary>
-    /// 현재 시설 ID와 직렬화된 렌더러, Light, 색상 및 간격을 전역 manager에 등록한다.
-    /// 시설 ID의 현재 하드웨어와 상태를 전역 매니저에 등록한다.
-    /// </summary>
-    private void RegisterLight()
-    {
-        Managers.Light.RegisterFacilityLight(_facilityID, this);
     }
 }

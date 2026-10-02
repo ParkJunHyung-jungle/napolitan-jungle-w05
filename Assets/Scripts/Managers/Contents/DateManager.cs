@@ -73,7 +73,7 @@ public class DateManager
             int hour = totalMinutes / 60;
             int minute = totalMinutes % 60;
 
-            return $"{hour:00}:{minute:00}";
+            return $"{hour:00}:{minute:00} AM";
         }
     }
 

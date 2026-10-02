@@ -90,11 +90,6 @@ public class LegacyGameManager : MonoBehaviour
         {
             SceneManager.LoadScene(SceneManager.GetActiveScene().name);
         });
-        gameOverPanel.Initialize(() =>
-        {
-            SceneManager.LoadScene(SceneManager.GetActiveScene().name);
-        });
-
         endPanel.gameObject.SetActive(false);
         gameOverPanel.gameObject.SetActive(false);
 
@@ -184,7 +179,7 @@ public class LegacyGameManager : MonoBehaviour
         Managers.Sound.StopClockSound();
         Managers.Sound.StopSirenSound();
         Managers.Sound.SubAmbientSoundOff();
-        Managers.Light.TriggerTimerFailure();
+        //Managers.Light.TriggerTimerFailure();
         Debug.Log("시스템 유지 실패");
         _durability--;
         Managers.Sound.TakingDamageSound();
