@@ -90,11 +90,6 @@ public class LegacyGameManager : MonoBehaviour
         {
             SceneManager.LoadScene(SceneManager.GetActiveScene().name);
         });
-        gameOverPanel.Initialize(() =>
-        {
-            SceneManager.LoadScene(SceneManager.GetActiveScene().name);
-        });
-
         endPanel.gameObject.SetActive(false);
         gameOverPanel.gameObject.SetActive(false);
 

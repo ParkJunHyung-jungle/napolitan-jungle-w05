@@ -27,18 +27,17 @@ public class PostProcessingManager
     private Coroutine _distortionBaseCoroutine;
     private Coroutine _distortionPunchCoroutine;
 
-    public GameObject LoadPostProcessVolume => Resources.Load<GameObject>("Prefabs/UIs/Volume");
+    public GameObject LoadVolume => Resources.Load<GameObject>("Prefabs/Volume");
 
     /// <summary>
-    /// 포스트 프로세싱 볼륨 프리팹을 생성해 Managers 하위에 둔다.
-    /// 볼륨 프로필에서 Vignette와 LensDistortion 설정을 가져와 저장한다.
+    /// 비네트 볼륨 프리팹을 생성하고 Vignette 설정을 저장한다.
+    /// 런타임 비네트 프로필을 사용하며 정신력 왜곡 볼륨은 카메라 자식으로 따로 생성한다.
     /// </summary>
     public void Init()
     {
-        GameObject volumeObject = Object.Instantiate(LoadPostProcessVolume);
-        volumeObject.transform.SetParent(Managers.Instance.transform, true);
-
-        PostProcessProfile profile = volumeObject.GetComponent<PostProcessVolume>().profile;
+        GameObject volume = Object.Instantiate(LoadVolume);
+        volume.transform.SetParent(Camera.main.transform, false);
+        PostProcessProfile profile = volume.GetComponent<PostProcessVolume>().profile;
         profile.TryGetSettings(out _vignette);
         profile.TryGetSettings(out _lensDistortion);
     }
