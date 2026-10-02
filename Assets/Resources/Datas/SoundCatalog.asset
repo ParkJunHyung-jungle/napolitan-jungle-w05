@@ -22,10 +22,33 @@ MonoBehaviour:
   _fixCompleted: {fileID: 8300000, guid: d2895e13eaf57e244959370648964b55, type: 3}
   _mediumFix: {fileID: 8300000, guid: 25ae331e8a1152a46b7fa8d3993b8f35, type: 3}
   _gameOver: {fileID: 8300000, guid: ccced3ccc46bea14d97f0885e1fc3d69, type: 3}
+  _doorOpen: {fileID: 8300000, guid: 48335bdde40e36d40a4cc28a8b7f6207, type: 3}
+  _doorClose: {fileID: 8300000, guid: 15e23e93fec3471489f6694d9d00f2d7, type: 3}
+  _doorLocked: {fileID: 8300000, guid: 6876b2639ac4f384bab4e20e36dc5473, type: 3}
+  _knock:
+  - {fileID: 8300000, guid: 57f48e22a5aafa2449021c5524d2f4aa, type: 3}
+  - {fileID: 8300000, guid: 80f41cad856ca5048b59b4ce36125609, type: 3}
+  - {fileID: 8300000, guid: 300695368ba352b4bb3c3d4ac7cfac4b, type: 3}
+  _switchOn: {fileID: 8300000, guid: f487b21fc4cb5b54b9f4cfa180dfc61f, type: 3}
+  _switchOff: {fileID: 8300000, guid: 4edaaba0483d73f46ac1e7f01998cd26, type: 3}
+  _fax: {fileID: 8300000, guid: a674d1cbb205adc438a36e078c78d94d, type: 3}
+  _phoneBell: {fileID: 8300000, guid: 0b839ff315be79c488acae481e9c3ff8, type: 3}
+  _phonePickUp: {fileID: 8300000, guid: 8b1be58ca8a5718479e5942c9be4ef99, type: 3}
+  _phoneOff: {fileID: 8300000, guid: 7093ad19aea779d479b035300d21a29f, type: 3}
+  _phoneHangUp: {fileID: 8300000, guid: 2835af2634767ad4f9c464ce6341fe86, type: 3}
+  _phoneManVoice:
+  - {fileID: 8300000, guid: f4fbb7721c843fd419765ffc8e761a95, type: 3}
+  - {fileID: 8300000, guid: 9f68892301c363f43bc87adb696bdbfd, type: 3}
+  - {fileID: 8300000, guid: cb0c6383fc841ad40a255ba4bc8ee0b4, type: 3}
+  _phoneWomenVoice:
+  - {fileID: 8300000, guid: c7a5f6174754dee48b2b88ae28765e5e, type: 3}
+  - {fileID: 8300000, guid: 35178d63c0bd6214c8370d74e2d29379, type: 3}
+  - {fileID: 8300000, guid: 46573f868232be541aa02bac568d12d1, type: 3}
   _ambient: {fileID: 8300000, guid: adc6bd2aee7f03b418491f7c777bf5bd, type: 3}
   _subAmbient: {fileID: 8300000, guid: ddb8759b9310ff943a1075482e0da7da, type: 3}
   _clock: {fileID: 8300000, guid: 28980863f1ad8884b84d49d70f80162c, type: 3}
   _countDown: {fileID: 8300000, guid: 7e648e9371d24ae4ea224a876fd64ef8, type: 3}
+  _crying: {fileID: 8300000, guid: 0f81aaa62b14dd649a14673c42c9afd4, type: 3}
   _simpleSiren: {fileID: 8300000, guid: cef22b6ebd5aa494a928029d0317feca, type: 3}
   _complaxSiren: {fileID: 8300000, guid: bd06d474851f0e74d894aa22505593ef, type: 3}
   _halfHp: {fileID: 8300000, guid: b7450293dcea61f49843e22e18d5df60, type: 3}
