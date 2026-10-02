@@ -54,8 +54,8 @@ public class SoundManager
         //3D 사운드소스 위치 초기화
         GameObject door = GameObject.Find("Door");
         GameObject lockedDoor = GameObject.Find("LockedDoor");
-        GameObject crying = GameObject.Find("CryingSorce");
-        GameObject phone = GameObject.Find("Phone");
+        GameObject crying = GameObject.Find("CryingSource");
+        GameObject phone = GameObject.Find("Telephone");
         GameObject lightSwitch = GameObject.Find("LightSwitch");
         GameObject fax = GameObject.Find("Fax");
 
@@ -345,7 +345,19 @@ public class SoundManager
     public void DoorOpenSound()
     {
         SoundPlay(_doorSource, _catalog.DoorOpen);
+
     }
+
+    /// <summary>
+    /// 잠긴 문 채널에서 반복 재생 중인 노크 소리를 중지한다.
+    /// _lockedDoorSource의 재생 상태만 변경하고 문 열림/닫힘 효과음은 유지한다.
+    /// </summary>
+    public void DoorKnockSoundOff()
+    {
+        _doorSource.Stop();
+    }
+
+
 
     /// <summary>
     /// 문 닫힘 소리를 한번 재생한다.
@@ -359,7 +371,7 @@ public class SoundManager
     /// </summary>
     public void DoorLockedSound()
     {
-        SoundPlay(_doorSource, _catalog.DoorLocked, false);
+        SoundPlay(_lockedDoorSource, _catalog.DoorLocked, false);
     }
     /// <summary>
     /// 문 노크 소리를 루프로 재생한다.
@@ -369,7 +381,7 @@ public class SoundManager
     {
         AudioClip[] clips = _catalog.Knock;
         int index = UnityEngine.Random.Range(0, clips.Length);
-        SoundPlay(_lockedDoorSource, clips[index], true);
+        SoundPlay(_doorSource, clips[index], true);
     }
     /// 전화기 벨소리를 루프로 재생한다.
     /// </summary>
@@ -403,7 +415,7 @@ public class SoundManager
 
     }
 
-    public void PhoneOff()
+    public void PhoneOffSound()
     {
         SoundPlay(_onThePhoneSource, _catalog.PhoneOff);
 

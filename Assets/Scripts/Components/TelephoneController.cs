@@ -3,10 +3,6 @@ using UnityEngine;
 
 public class TelephoneController : MonoBehaviour, IInteractable
 {
-    [Header("Telephone")]
-    [SerializeField] private AudioSource _audioSource;
-    [SerializeField] private AudioClip _ringingClip;
-
     private bool _isCalling;
 
     public bool IsCalling => _isCalling;
@@ -23,13 +19,7 @@ public class TelephoneController : MonoBehaviour, IInteractable
 
         _isCalling = true;
 
-        if (_audioSource != null && _ringingClip != null)
-        {
-            _audioSource.clip = _ringingClip;
-            _audioSource.loop = true;
-            _audioSource.Play();
-        }
-
+        Managers.Sound.PhoneRinging();
         OnCallStateChanged?.Invoke();
     }
 
@@ -43,11 +33,7 @@ public class TelephoneController : MonoBehaviour, IInteractable
 
         _isCalling = false;
 
-        if (_audioSource != null)
-        {
-            _audioSource.Stop();
-        }
-
+        Managers.Sound.PhoneHangUp();
         OnCallStateChanged?.Invoke();
     }
 
@@ -56,11 +42,13 @@ public class TelephoneController : MonoBehaviour, IInteractable
     /// </summary>
     public void Interact()
     {
+        // 전화기를 누르면 전화가 걸리고, 걸려있으면 끊는다.
         if (_isCalling)
             HangUp();
         else
             ReceiveCall();
 
-        //HangUp(); 위에는 디버깅 용으로 만들더 둔 상태. 이후 이 코드만 냅두고 지우기
+        // 아래가 해당 함수의 의도. 위에는 디버깅용
+        //HangUp();
     }
 }

@@ -38,9 +38,9 @@ public class DoorController : MonoBehaviour, IInteractable
     private void Awake()
     {
         _closedRotation = transform.localRotation;
-        _openRotation =
-            _closedRotation * Quaternion.Euler(0f, -_openAngle, 0f);
+        _openRotation = _closedRotation * Quaternion.Euler(0f, -_openAngle, 0f);
         // Manaers. += StartKnockEvent;
+        StartKnockEvent();
     }
 
     private void Update()
@@ -87,7 +87,7 @@ public class DoorController : MonoBehaviour, IInteractable
     {
         if (_isLocked)
         {
-            // Managers.Sound.PlaySound(SoundType.DoorLocked);
+            Managers.Sound.DoorLockedSound();
             return;
         }
 
@@ -110,16 +110,16 @@ public class DoorController : MonoBehaviour, IInteractable
         if (_isMoving)
             return false;
 
-        if (open == false)
+        StopKnock();
+
+        if (open)
         {
-            //Managers.Sound.PlaySound(SoundType.DoorOpen);
+            Managers.Sound.DoorOpenSound();
         }
         else
         {
-            //Managers.Sound.PlaySound(SoundType.DoorClose); 
+            Managers.Sound.DoorCloseSound();
         }
-
-        StopKnock();
 
         _isOpen = open;
         _isMoving = true;
@@ -139,21 +139,14 @@ public class DoorController : MonoBehaviour, IInteractable
             return;
 
         _isKnocking = true;
-        _knockRoutine = StartCoroutine(KnockRoutine());
+        Managers.Sound.DoorKnockSound();
     }
 
     /// <summary>
     /// _isKnocking 상태 동안 즉시 한 번, 이후 _knockInterval마다 노크를 예약한다.
     /// 간격 대기를 반환하며 노크 재생 위치는 Manager 연결을 위해 주석으로 남긴다.
     /// </summary>
-    private IEnumerator KnockRoutine()
-    {
-        while (_isKnocking)
-        {
-            //Manager: 노크 소리 1회 재생.
-            yield return new WaitForSeconds(_knockInterval);
-        }
-    }
+
 
     /// <summary>
     /// 상호작용이나 비활성화를 받아 반복 노크 예약을 중지한다.
@@ -161,12 +154,11 @@ public class DoorController : MonoBehaviour, IInteractable
     /// </summary>
     private void StopKnock()
     {
-        _isKnocking = false;
-        if (_knockRoutine == null)
+        if (!_isKnocking)
             return;
 
-        StopCoroutine(_knockRoutine);
-        _knockRoutine = null;
+        Managers.Sound.DoorKnockSoundOff();
+        _isKnocking = false;
     }
 
 }
