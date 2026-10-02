@@ -6,7 +6,7 @@ public class LightSwitchController : MonoBehaviour, IInteractable
 {
     [SerializeField] private GameObject _redLight;
     [SerializeField] private GameObject _greenLight;
-
+    [SerializeField] private Transform _leverPivot;
     private const float UP_ANGLE = 30f;
     private const float DOWN_ANGLE = -30f;
 
@@ -20,7 +20,7 @@ public class LightSwitchController : MonoBehaviour, IInteractable
         _isOn = true;
         ActiveLight();
         // 레버가 왼쪽을 향하므로 Z축 회전 부호를 뒤집어 위쪽으로 세운다.
-        transform.localRotation = Quaternion.Euler(0f, 0f, -UP_ANGLE);
+        _leverPivot.localRotation = Quaternion.Euler(0f, 0f, -UP_ANGLE);
 
         Managers.Sound.RegisterAudioSource(AudioSourceTypes.LIGHTSWITCH, gameObject.GetComponent<AudioSource>());
     }
@@ -44,7 +44,7 @@ public class LightSwitchController : MonoBehaviour, IInteractable
         }
         float angle = _isOn ? UP_ANGLE : DOWN_ANGLE;
 
-        transform.localRotation = Quaternion.Euler(0f, 0f, -angle);
+        _leverPivot.localRotation = Quaternion.Euler(0f, 0f, -angle);
         StateChanged?.Invoke(_isOn);
 
     }
