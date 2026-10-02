@@ -62,11 +62,11 @@ public class TelephoneController : MonoBehaviour, IInteractable
     public void Interact()
     {
         // 디버깅용 상호작용으로 전화 걸기
-        //if (_callState == CallState.Idle)
-        //{
-        //    ReceiveCall();
-        //    return;
-        //}
+        if (_callState == CallState.Idle)
+        {
+            ReceiveCall();
+            return;
+        }
 
         if (_callState == CallState.Ringing)
         {
