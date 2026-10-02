@@ -15,9 +15,11 @@ public class LightManager
 
     [Header("Lights")]
     private LightController _roomLight;
+    private LightController _stairLight;
 
     public Material LoadNightSky => Resources.Load<Material>("Materials/Night_Sky");
     public GameObject LoadRoomLight => Resources.Load<GameObject>("Prefabs/Lights/RoomLight");
+    public GameObject LoadStairLight => Resources.Load<GameObject>("Prefabs/Lights/StairLight");
 
     public void Init()
     {
@@ -25,6 +27,8 @@ public class LightManager
         ApplyEnvironment();
 
         _roomLight = InstantiateRoomLight(LoadRoomLight).GetComponent<LightController>();
+        _stairLight = InstantiateRoomLight(LoadStairLight).GetComponent<LightController>();
+
         RoomLightTintDefault();
         RoomLightOn();
     }
