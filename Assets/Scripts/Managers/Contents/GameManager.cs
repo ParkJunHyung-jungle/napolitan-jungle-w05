@@ -30,6 +30,14 @@ public class GameManager
     private float _currentMentality;
     public float CurrentMentality => _currentMentality;
 
+    private Canvas _startCanvas;
+    private Canvas _dayEndCanvas;
+    private Canvas _gameOverCanvas;
+
+    public GameObject StartCanvasPrefab => Resources.Load<GameObject>("Prefabs/UIs/StartCanvas");
+    public GameObject DayEndCanvasPrefab => Resources.Load<GameObject>("Prefabs/UIs/DayEndCanvas");
+    public GameObject GameOverCanvasPrefab => Resources.Load<GameObject>("Prefabs/UIs/GameOverCanvas");
+
     /// <summary>
     /// 게임 정보와 날짜 이벤트를 초기화하고 정신력을 최대치로 설정한다.
     /// 정신력 최대값과 현재값을 관리하며 게임 안내 이벤트를 등록한다.
@@ -39,8 +47,22 @@ public class GameManager
         _currentMentality = _maxMentality;
         GameInfo = Resources.Load<GameInfo>("Datas/GameInfo");
         Managers.Date.OnMinuteChange += PrintFaxInstruction;
-        Managers.Date.OnDayEnd += ShowEndCanvas;
+        Managers.Date.OnDayEnd += ShowDayEndCanvas;
         PrintFaxInstruction(0);
+
+        _startCanvas = UnityEngine.Object.Instantiate(StartCanvasPrefab).GetComponent<Canvas>();
+        _startCanvas.transform.SetParent(Managers.Instance.transform);
+        _startCanvas.gameObject.GetComponent<GameStateUI>().Button.onClick.AddListener(OnStartButtonClick);
+
+        _dayEndCanvas = UnityEngine.Object.Instantiate(DayEndCanvasPrefab).GetComponent<Canvas>();
+        _dayEndCanvas.transform.SetParent(Managers.Instance.transform);
+        _dayEndCanvas.gameObject.SetActive(false);
+        _dayEndCanvas.gameObject.GetComponent<GameStateUI>().Button.onClick.AddListener(OnDayEndButtonClick);
+
+        _gameOverCanvas = UnityEngine.Object.Instantiate(GameOverCanvasPrefab).GetComponent<Canvas>();
+        _gameOverCanvas.transform.SetParent(Managers.Instance.transform);
+        _gameOverCanvas.gameObject.SetActive(false);
+        _gameOverCanvas.gameObject.GetComponent<GameStateUI>().Button.onClick.AddListener(OnGameOverButtonClick);
     }
 
     /// <summary>
@@ -69,12 +91,23 @@ public class GameManager
     /// 하루 종료 캔버스를 한 번만 생성한다.
     /// _isDayEnd를 갱신하고 EndCanvas 리소스를 화면에 추가한다.
     /// </summary>
-    public void ShowEndCanvas()
+    public void ShowDayEndCanvas()
     {
         if (_isDayEnd)
             return;
         _isDayEnd = true;
-        UnityEngine.Object.Instantiate(Resources.Load<GameObject>("Prefabs/UIs/EndCanvas"));
+        _dayEndCanvas.gameObject.SetActive(true);
+        Managers.Input.SetInputMode(InputMode.UI);
+    }
+
+    /// <summary>
+    /// 하루 종료 캔버스를 한 번만 생성한다.
+    /// _isDayEnd를 갱신하고 EndCanvas 리소스를 화면에 추가한다.
+    /// </summary>
+    public void ShowGameOverCanvas()
+    {
+        _gameOverCanvas.gameObject.SetActive(true);
+        Managers.Input.SetInputMode(InputMode.UI);
     }
 
     /// <summary>
@@ -169,5 +202,37 @@ public class GameManager
     public void MarkLeverPulledAtTwo()
     {
         _isLeverPulledAtTwo = true;
+    }
+
+    /// <summary>
+    /// 시작 버튼 입력을 받아 시작 화면을 닫고 플레이어 입력 모드로 전환한다.
+    /// _startCanvas의 활성 상태와 입력 모드를 변경한다.
+    /// </summary>
+    private void OnStartButtonClick()
+    {
+        _startCanvas.gameObject.SetActive(false);
+        Managers.Input.SetInputMode(InputMode.Player);
+    }
+
+    /// <summary>
+    /// 하루 종료 버튼 입력을 받아 하루 종료 화면을 닫고 플레이어 입력 모드로 전환한다.
+    /// _dayEndCanvas의 활성 상태와 입력 모드를 변경한다.
+    /// </summary>
+    private void OnDayEndButtonClick()
+    {
+        _dayEndCanvas.gameObject.SetActive(false);
+        Managers.Input.SetInputMode(InputMode.Player);
+    }
+
+    /// <summary>
+    /// 게임오버 버튼 입력을 받아 게임오버 화면을 닫고 현재 씬을 다시 연다.
+    /// _gameOverCanvas를 비활성화하고 시간과 매니저 상태를 정리한다.
+    /// </summary>
+    private void OnGameOverButtonClick()
+    {
+        _gameOverCanvas.gameObject.SetActive(false);
+        Time.timeScale = 1f;
+        Managers.Clear();
+        SceneManager.LoadScene(SceneManager.GetActiveScene().name);
     }
 }
