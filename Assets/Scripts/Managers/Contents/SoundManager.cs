@@ -26,6 +26,7 @@ public class SoundManager
     private AudioSource _facilityDragSource;
     private AudioSource _facilitySnapSource;
     private AudioSource _doorSource;
+    private AudioSource _lockedDoorSource;
     private AudioSource _cryingSource;
 
 
@@ -48,6 +49,7 @@ public class SoundManager
 
         //3D 사운드소스 위치 초기화
         GameObject door = GameObject.Find("Door");
+        GameObject lockedDoor = GameObject.Find("LockedDoor");
         GameObject crying = GameObject.Find("CryingSorce");
 
         //2D 사운드 소스 초기화
@@ -68,12 +70,13 @@ public class SoundManager
         //3D 사운드 소스 초기화
         _doorSource = Create3DSource(door);
         _cryingSource = Create3DSource(crying);
+        _lockedDoorSource = Create3DSource(lockedDoor);
 
         _sources = new[]
         {
             _buttonSource, _sliderSource, _sfxSoruce, _ambientSource, _clockSource,
             _sirenSource, _countDownSource, _warningSource, _gameClearSource,
-            _facilityButtonSource, _facilityDragSource, _facilitySnapSource, _doorSource
+            _facilityButtonSource, _facilityDragSource, _facilitySnapSource, _doorSource, _cryingSource, _lockedDoorSource
         };
         SceneManager.activeSceneChanged += OnSceneChanged;
     }
@@ -104,6 +107,8 @@ public class SoundManager
         _sirenSource = _countDownSource = _warningSource = _gameClearSource = null;
         _facilityButtonSource = _facilityDragSource = _facilitySnapSource = null;
         _doorSource = null;
+        _cryingSource = null;
+        _lockedDoorSource = null;
     }
 
     private void OnSceneChanged(Scene previousScene, Scene nextScene)
@@ -334,8 +339,22 @@ public class SoundManager
     {
         SoundPlay(_doorSource, _catalog.DoorClose, false);
     }
+    /// 문 잠김 소리를 한번 재생한다
+    /// doorSource에 다른 재생과 겹칠 수 있다.
+    /// </summary>
+    public void DoorLockedSound()
+    {
+        SoundPlay(_doorSource, _catalog.DoorLocked, false);
+    }
+    public void DoorKnockSound()
+    {
+        AudioClip[] clips = _catalog.Knock;
+        int index = UnityEngine.Random.Range(0, clips.Length);
+        SoundPlay(_lockedDoorSource, clips[index], true);
+    }
     public void CryingSound()
     {
         SoundPlay(_cryingSource, _catalog.Crying, true);
     }
+
 }

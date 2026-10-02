@@ -24,6 +24,8 @@ public class SoundCatalog : ScriptableObject
     [SerializeField] private AudioClip _gameOver;
     [SerializeField] private AudioClip _doorOpen;
     [SerializeField] private AudioClip _doorClose;
+    [SerializeField] private AudioClip _doorLocked;
+    [SerializeField] private AudioClip[] _knock;
 
     public AudioClip EngineOff => _engineOff;
     public AudioClip TakingDamage => _takingDamage;
@@ -32,6 +34,9 @@ public class SoundCatalog : ScriptableObject
     public AudioClip GameOver => _gameOver;
     public AudioClip DoorOpen => _doorOpen;
     public AudioClip DoorClose => _doorClose;
+    public AudioClip DoorLocked => _doorLocked;
+    public AudioClip[] Knock => _knock;
+
 
 
     [Header("Ambient And Timer Clips")]

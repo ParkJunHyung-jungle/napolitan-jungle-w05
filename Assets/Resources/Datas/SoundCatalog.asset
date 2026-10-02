@@ -24,6 +24,11 @@ MonoBehaviour:
   _gameOver: {fileID: 8300000, guid: ccced3ccc46bea14d97f0885e1fc3d69, type: 3}
   _doorOpen: {fileID: 8300000, guid: 48335bdde40e36d40a4cc28a8b7f6207, type: 3}
   _doorClose: {fileID: 8300000, guid: 15e23e93fec3471489f6694d9d00f2d7, type: 3}
+  _doorLocked: {fileID: 8300000, guid: 6876b2639ac4f384bab4e20e36dc5473, type: 3}
+  _knock:
+  - {fileID: 8300000, guid: 57f48e22a5aafa2449021c5524d2f4aa, type: 3}
+  - {fileID: 8300000, guid: 80f41cad856ca5048b59b4ce36125609, type: 3}
+  - {fileID: 8300000, guid: 300695368ba352b4bb3c3d4ac7cfac4b, type: 3}
   _ambient: {fileID: 8300000, guid: adc6bd2aee7f03b418491f7c777bf5bd, type: 3}
   _subAmbient: {fileID: 8300000, guid: ddb8759b9310ff943a1075482e0da7da, type: 3}
   _clock: {fileID: 8300000, guid: 28980863f1ad8884b84d49d70f80162c, type: 3}
