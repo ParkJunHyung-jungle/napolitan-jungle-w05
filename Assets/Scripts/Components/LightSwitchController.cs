@@ -2,7 +2,7 @@ using System;
 
 using UnityEngine;
 
-public class LeverController : MonoBehaviour, IInteractable
+public class LightSwitchController : MonoBehaviour, IInteractable
 {
     [SerializeField] private GameObject _redLight;
     [SerializeField] private GameObject _greenLight;
@@ -17,15 +17,12 @@ public class LeverController : MonoBehaviour, IInteractable
 
     void Awake()
     {
-        Init();
-    }
-
-    void Init()
-    {
         _isOn = true;
         ActiveLight();
         // 레버가 왼쪽을 향하므로 Z축 회전 부호를 뒤집어 위쪽으로 세운다.
         transform.localRotation = Quaternion.Euler(0f, 0f, -UP_ANGLE);
+
+        Managers.Sound.RegisterAudioSource(AudioSourceTypes.LIGHTSWITCH, gameObject.GetComponent<AudioSource>());
     }
 
     /// <summary>

@@ -27,6 +27,7 @@ public class FaxManager
     {
         GameObject faxMessage = Object.Instantiate(_faxMessagePrefab, _fax.position, _fax.rotation);
 
+        Managers.Sound.FaxSound();
         FaxInstructionController fax = faxMessage.GetComponent<FaxInstructionController>();
         fax.SetMessage(Managers.Game.GameInfo.GetInstruction(currentMinute));
     }
@@ -34,7 +35,9 @@ public class FaxManager
     private void InstantiateFax()
     {
         GameObject fax = Object.Instantiate(LoadFax);
-        fax.transform.SetParent(Managers.Instance.transform, true);
+        Managers.Sound.RegisterAudioSource(AudioSourceTypes.FAX, fax.GetComponent<AudioSource>());
+        _fax = fax.transform;
+        _fax.SetParent(Managers.Instance.transform, true);
         _fax = fax.transform;
     }
 }

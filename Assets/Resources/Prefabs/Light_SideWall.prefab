@@ -14,6 +14,7 @@ GameObject:
   - component: {fileID: 75893041293926206}
   - component: {fileID: 88395618768091350}
   - component: {fileID: 4573800827166275109}
+  - component: {fileID: 3607302215777629642}
   m_Layer: 0
   m_Name: Light_SideWall
   m_TagString: Untagged
@@ -191,9 +192,39 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 45a529012c88f634cb209835d1a0b44f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::LightController
-  blinkInterval: 1
-  _renderer: {fileID: 6286518903620220782}
   _light: {fileID: 88395618768091350}
-  red: {r: 0.9372549, g: 0.24313726, b: 0.24313726, a: 1}
-  green: {r: 0.20392157, g: 0.7490196, b: 0.09803922, a: 1}
-  gray: {r: 0.7607843, g: 0.7607843, b: 0.7607843, a: 1}
+  _blinkCurve:
+    serializedVersion: 2
+    m_Curve: []
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
+--- !u!114 &3607302215777629642
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 292952842821682864}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 474bcb49853aa07438625e644c072ee6, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Unity.RenderPipelines.Universal.Runtime::UnityEngine.Rendering.Universal.UniversalAdditionalLightData
+  m_UsePipelineSettings: 1
+  m_AdditionalLightsShadowResolutionTier: 2
+  m_CustomShadowLayers: 0
+  m_LightCookieSize: {x: 1, y: 1}
+  m_LightCookieOffset: {x: 0, y: 0}
+  m_SoftShadowQuality: 0
+  m_RenderingLayersMask:
+    serializedVersion: 0
+    m_Bits: 1
+  m_ShadowRenderingLayersMask:
+    serializedVersion: 0
+    m_Bits: 1
+  m_Version: 4
+  m_LightLayerMask: 1
+  m_ShadowLayerMask: 1
+  m_RenderingLayers: 1
+  m_ShadowRenderingLayers: 1
