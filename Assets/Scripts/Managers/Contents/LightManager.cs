@@ -22,9 +22,6 @@ public class LightManager
     private Light _emergencyLight;
     private Coroutine _emergencyLightCoroutine;
 
-    public GameObject LoadLightFront => Resources.Load<GameObject>("Prefabs/Lights/Light_Front");
-    public GameObject LoadLightSideWall => Resources.Load<GameObject>("Prefabs/Lights/Light_SideWall");
-    public GameObject LoadLightEmergency => Resources.Load<GameObject>("Prefabs/Lights/Light_Emergency");
 
     /// <summary>
     /// 조명 프리팹을 로드해 생성하고 역할별 필드에 저장한다.
@@ -32,11 +29,11 @@ public class LightManager
     /// </summary>
     public void Init()
     {
-        _frontLight = InstantiateLight(LoadLightFront);
-        _sideWallLight = InstantiateLight(LoadLightSideWall);
+        //_frontLight = InstantiateLight(LoadLightFront);
+        //_sideWallLight = InstantiateLight(LoadLightSideWall);
 
-        _emergencyLight = InstantiateUnderManagers(LoadLightEmergency).GetComponent<Light>();
-        _emergencyLight.intensity = 0f;
+        //_emergencyLight = InstantiateUnderManagers(LoadLightEmergency).GetComponent<Light>();
+        //_emergencyLight.intensity = 0f;
     }
 
     /// <summary>
@@ -47,7 +44,7 @@ public class LightManager
     {
         SetAllColor(GREEN);
         TurnOnAll();
-        StopEmergencyLightPulse();
+        //StopEmergencyLightPulse();
     }
 
     /// <summary>
