@@ -17,8 +17,6 @@ public class SceneContext : MonoBehaviour
         Managers.Game.ResetMentality();
 
         Managers.Sound.AmbientSound();
-
-        Managers.Input.SetInputMode(InputMode.UI);
     }
 
     void Update()

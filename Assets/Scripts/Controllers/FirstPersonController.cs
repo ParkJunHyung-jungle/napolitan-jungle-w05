@@ -1,12 +1,10 @@
 using UnityEngine;
-using UnityEngine.InputSystem;
-
 /// <summary>
 /// 1인칭 플레이어. Player 루트에 붙인다.
 /// WASD 이동(중력 포함, 점프 없음)과 좌클릭 상호작용을 담당한다.
 /// 좌클릭하면 조준선(카메라 정면)으로 Raycast해서 맞은 IInteractable을 바로 조작한다.
 /// 맞은 대상이 IDraggable이면 누르고 있는 동안 잡아서 마우스 이동량을 넘기고, 그동안 이동을 멈추고 시점 감도를 낮춘다.
-/// 회전과 커서는 FirstPersonCamera가 한다.
+/// 시점 회전은 FirstPersonCamera가 한다.
 /// </summary>
 [DisallowMultipleComponent]
 [RequireComponent(typeof(CharacterController))]
@@ -39,7 +37,6 @@ public class FirstPersonController : MonoBehaviour
     [Tooltip("드래그 중 시점 감도 배율. 0이면 시점이 완전히 멈춘다. 가장 무거운 슬라이더(weight 0.3)를 끌 때 손잡이가 멈춰 보이지 않도록 낮게 둔다")]
     [SerializeField, Range(0f, 1f)] private float dragLookScale = 0.1f;
 
-    private Vector2 _moveInput;
     private float _verticalVelocity;
     private int _lockCount;
 
@@ -80,52 +77,11 @@ public class FirstPersonController : MonoBehaviour
         if (!hasFocus) StopDrag();
     }
 
-    // ---------- Input (PlayerInput Unity Events) ----------
-
-    public void OnMove(InputAction.CallbackContext context)
-    {
-        // canceled 때는 zero가 들어와 멈춘다
-        _moveInput = context.ReadValue<Vector2>();
-    }
-
-    public void OnLook(InputAction.CallbackContext context)
-    {
-        // 시점 회전은 FirstPersonCamera가 받는다. 여기서는 드래그 중인 이동량만 모은다.
-        // 한 프레임에 여러 번 올 수 있어 대입하지 않고 누적한다.
-        if (!context.performed || !IsDragging) return;
-        _dragDelta += context.ReadValue<Vector2>();
-    }
-
-    public void OnInteract(InputAction.CallbackContext context)
-    {
-        // 뗌 : 드래그 중에는 스스로 잠금을 걸어 두므로 잠금 검사보다 먼저 처리한다
-        if (context.canceled)
-        {
-            StopDrag();
-            return;
-        }
-
-        if (!context.performed) return;
-
-        // 입력이 잠겨 있으면(시작 패널, 매뉴얼 확대 등 UI를 쓰는 중) 커서도 다시 잠그지 않는다
-        if (IsInputLocked) return;
-
-        // 커서가 풀린 상태의 클릭은 커서 재잠금만 하고 상호작용하지 않는다
-        if (!firstPersonCamera.IsCursorLocked)
-        {
-            firstPersonCamera.SetCursorLocked(true);
-            return;
-        }
-
-        if (IsDragging) return;
-
-        TryInteract();
-    }
-
     // ---------- Movement ----------
 
     private void Update()
     {
+        UpdateInput();
         UpdateDrag();
         Move();
     }
@@ -152,7 +108,7 @@ public class FirstPersonController : MonoBehaviour
     {
         // WASD 컴포지트는 이미 정규화되어 있다. 게임패드 스틱 대비로 길이만 1로 제한한다
         // 드래그 중에는 손잡이와의 거리·각도가 바뀌지 않도록 걷지 않는다 (시점은 낮은 감도로 돈다)
-        Vector2 input = IsInputLocked || IsDragging ? Vector2.zero : Vector2.ClampMagnitude(_moveInput, 1f);
+        Vector2 input = IsInputLocked || IsDragging ? Vector2.zero : Vector2.ClampMagnitude(Managers.Input.MoveInput, 1f);
         Vector3 direction = transform.forward * input.y + transform.right * input.x;
 
         if (characterController.isGrounded && _verticalVelocity < 0f)
@@ -164,13 +120,41 @@ public class FirstPersonController : MonoBehaviour
         characterController.Move(velocity * Time.deltaTime);
     }
 
+    /// <summary>
+    /// 중앙 입력 매니저에서 이동, 시점, 상호작용 상태를 읽는다.
+    /// 현재 프레임 입력을 사용해 드래그 이동량을 누적하고 상호작용 시작·해제를 처리한다.
+    /// </summary>
+    private void UpdateInput()
+    {
+        if (IsDragging)
+        {
+            if (!Managers.Input.InteractHeld)
+                StopDrag();
+            else
+                _dragDelta += Managers.Input.LookInput;
+        }
+
+        if (IsDragging && Managers.Input.EscapePressed)
+        {
+            StopDrag();
+            return;
+        }
+
+        if (!Managers.Input.InteractPressed) return;
+
+        if (IsInputLocked) return;
+
+        if (!IsDragging)
+            TryInteract();
+    }
+
     // ---------- Interaction ----------
     // 아웃라인과 클릭이 함께 사용하는 거리 검사
     private bool TryGetTarget(out RaycastHit hit)
     {
         hit = default;
 
-        if (!firstPersonCamera.IsCursorLocked || IsInputLocked || IsDragging)
+        if (!Managers.Input.PlayerMap.enabled || IsInputLocked || IsDragging)
             return false;
 
         return Physics.Raycast(firstPersonCamera.GetAimRay(), out hit, interactDistance, interactLayerMask, QueryTriggerInteraction.Ignore);
@@ -239,9 +223,8 @@ public class FirstPersonController : MonoBehaviour
             return;
         }
 
-        // 드래그 중 Esc로 커서가 풀렸으면 놓는다 (Escape 입력은 FirstPersonCamera가 받는다)
         // 장치가 스스로 드래그를 끝냈으면(수리 후 초기화 등) 이쪽도 정리한다
-        if (!firstPersonCamera.IsCursorLocked || !_dragTarget.IsDragging)
+        if (!_dragTarget.IsDragging)
         {
             StopDrag();
             return;
