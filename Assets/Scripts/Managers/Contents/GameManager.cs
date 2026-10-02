@@ -37,7 +37,6 @@ public class GameManager
     public void Init()
     {
         _currentMentality = _maxMentality;
-        ApplyMentalityDistortion();
         GameInfo = Resources.Load<GameInfo>("Datas/GameInfo");
         Managers.Date.OnMinuteChange += PrintFaxInstruction;
         Managers.Date.OnDayEnd += ShowEndCanvas;

@@ -35,6 +35,7 @@ public abstract class Facility : MonoBehaviour
         GenerateGoal();
         isFault = true;
         //SetLight(lightState.red);
+        Debug.Log($"[Facility] {name} (ID {facilityID}) 고장 발생", this);
     }
 
     /// <summary>강제로 정상으로 돌리고 장치를 초기화한다. 재시작용.</summary>
