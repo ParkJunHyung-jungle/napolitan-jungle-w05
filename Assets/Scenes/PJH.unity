@@ -3448,7 +3448,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1d5251993e427b246b00fb4cc38a1348, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::EmergencyLightController
-  emergencyLight: {fileID: 1467772315}
 --- !u!108 &1467772315
 Light:
   m_ObjectHideFlags: 0

@@ -1,15 +1,26 @@
 using System;
 using UnityEngine;
+using UnityEngine.SceneManagement;
+
+using UI;
 
 public class GameManager
 {
     private const float DEFAULT_MAX_MENTALITY = 100f;
+    private const float MENTALITY_STAGE_2_THRESHOLD = 0.75f;
+    private const float MENTALITY_STAGE_3_THRESHOLD = 0.5f;
+    private const float MENTALITY_STAGE_4_THRESHOLD = 0.25f;
+    private const float STAGE_1_DISTORTION_INTENSITY = 10f;
+    private const float STAGE_2_DISTORTION_INTENSITY = 25f;
+    private const float STAGE_3_DISTORTION_INTENSITY = 40f;
+    private const float STAGE_4_DISTORTION_INTENSITY = 60f;
 
     public GameInfo GameInfo { get; private set; }
 
     public event Action<float, float> OnMentalityChanged;
 
     private bool _isDayEnd = false;
+    private bool _isGameOver;
 
     private bool _isLeverPulledAtTwo = false;
     public bool IsLeverPulledAtTwo => _isLeverPulledAtTwo;
@@ -26,6 +37,7 @@ public class GameManager
     public void Init()
     {
         _currentMentality = _maxMentality;
+        ApplyMentalityDistortion();
         GameInfo = Resources.Load<GameInfo>("Datas/GameInfo");
         Managers.Date.OnMinuteChange += PrintFaxInstruction;
         Managers.Date.OnDayEnd += ShowEndCanvas;
@@ -72,12 +84,19 @@ public class GameManager
     /// </summary>
     public void ChangeMentality(float amount)
     {
+        if (_isGameOver)
+            return;
+
         float currentMentality = Mathf.Clamp(_currentMentality + amount, 0f, _maxMentality);
         if (Mathf.Approximately(currentMentality, _currentMentality))
             return;
 
         _currentMentality = currentMentality;
+        ApplyMentalityDistortion();
         OnMentalityChanged?.Invoke(_currentMentality, _maxMentality);
+
+        if (Mathf.Approximately(_currentMentality, 0f))
+            ShowGameOver();
     }
 
     /// <summary>
@@ -86,7 +105,62 @@ public class GameManager
     /// </summary>
     public void ResetMentality()
     {
+        _isGameOver = false;
         ChangeMentality(_maxMentality - _currentMentality);
+        ApplyMentalityDistortion();
+    }
+
+    /// <summary>
+    /// 현재 정신력 비율에 맞는 네 단계 왜곡 강도를 설정한다.
+    /// _currentMentality와 _maxMentality를 사용하며 PostProcessingManager의 렌즈 왜곡을 갱신한다.
+    /// </summary>
+    private void ApplyMentalityDistortion()
+    {
+        float mentalityRatio = _currentMentality / _maxMentality;
+        float intensity;
+
+        if (mentalityRatio > MENTALITY_STAGE_2_THRESHOLD)
+            intensity = STAGE_1_DISTORTION_INTENSITY;
+        else if (mentalityRatio > MENTALITY_STAGE_3_THRESHOLD)
+            intensity = STAGE_2_DISTORTION_INTENSITY;
+        else if (mentalityRatio > MENTALITY_STAGE_4_THRESHOLD)
+            intensity = STAGE_3_DISTORTION_INTENSITY;
+        else
+            intensity = STAGE_4_DISTORTION_INTENSITY;
+
+        Managers.PostProcessing.SetDistortion(intensity);
+    }
+
+    /// <summary>
+    /// 게임오버 화면과 사운드를 실행하고 재시작 버튼에 현재 씬 재로드를 연결한다.
+    /// _isGameOver를 설정해 중복 실행을 막고 Time.timeScale을 정지 상태로 변경한다.
+    /// </summary>
+    private void ShowGameOver()
+    {
+        if (_isGameOver)
+            return;
+
+        _isGameOver = true;
+        Time.timeScale = 0f;
+        Managers.Sound.GameOverSound();
+
+        EndPanel[] panels = UnityEngine.Object.FindObjectsByType<EndPanel>(
+            FindObjectsInactive.Include,
+            FindObjectsSortMode.None);
+
+        foreach (EndPanel panel in panels)
+        {
+            if (panel.gameObject.name != "GameOverPanel")
+                continue;
+
+            panel.Initialize(() =>
+            {
+                Time.timeScale = 1f;
+                SceneManager.LoadScene(SceneManager.GetActiveScene().name);
+            });
+            panel.gameObject.SetActive(true);
+            break;
+        }
     }
 
     /// <summary>
