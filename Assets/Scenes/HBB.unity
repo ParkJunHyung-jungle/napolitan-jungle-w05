@@ -2942,8 +2942,8 @@ MonoBehaviour:
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 4
-  _knockSource: {fileID: 0}
-  _knockClip: {fileID: 0}
+  _knockInterval: 1
+  _isLocked: 0
 --- !u!4 &506416271
 Transform:
   m_ObjectHideFlags: 0
@@ -6748,6 +6748,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1ec35be7eb8495549be9d8e57d53183e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::LeverController
+  _redLight: {fileID: 0}
+  _greenLight: {fileID: 0}
 --- !u!65 &1120644994
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -7756,6 +7758,35 @@ GameObject:
   m_CorrespondingSourceObject: {fileID: 292952842821682864, guid: 6414728dbd9a6c844b53f47b2bad6657, type: 3}
   m_PrefabInstance: {fileID: 5199046238117773478}
   m_PrefabAsset: {fileID: 0}
+--- !u!114 &1186001959
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1186001952}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 474bcb49853aa07438625e644c072ee6, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Unity.RenderPipelines.Universal.Runtime::UnityEngine.Rendering.Universal.UniversalAdditionalLightData
+  m_UsePipelineSettings: 1
+  m_AdditionalLightsShadowResolutionTier: 2
+  m_CustomShadowLayers: 0
+  m_LightCookieSize: {x: 1, y: 1}
+  m_LightCookieOffset: {x: 0, y: 0}
+  m_SoftShadowQuality: 0
+  m_RenderingLayersMask:
+    serializedVersion: 0
+    m_Bits: 1
+  m_ShadowRenderingLayersMask:
+    serializedVersion: 0
+    m_Bits: 1
+  m_Version: 4
+  m_LightLayerMask: 1
+  m_ShadowLayerMask: 1
+  m_RenderingLayers: 1
+  m_ShadowRenderingLayers: 1
 --- !u!1 &1195935385
 GameObject:
   m_ObjectHideFlags: 0
@@ -14210,7 +14241,10 @@ PrefabInstance:
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
-    m_AddedComponents: []
+    m_AddedComponents:
+    - targetCorrespondingSourceObject: {fileID: 292952842821682864, guid: 6414728dbd9a6c844b53f47b2bad6657, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 1186001959}
   m_SourcePrefab: {fileID: 100100000, guid: 6414728dbd9a6c844b53f47b2bad6657, type: 3}
 --- !u!1660057539 &9223372036854775807
 SceneRoots:
