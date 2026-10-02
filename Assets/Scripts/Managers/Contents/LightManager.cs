@@ -16,8 +16,10 @@ public class LightManager
     [Header("Lights")]
     private LightController _roomLight;
     private LightController _stairLight;
+    private LightController _ambientLight;
 
     public Material LoadNightSky => Resources.Load<Material>("Materials/Night_Sky");
+    public GameObject LoadAmbientLight => Resources.Load<GameObject>("Prefabs/Lights/AmbientLight");
     public GameObject LoadRoomLight => Resources.Load<GameObject>("Prefabs/Lights/RoomLight");
     public GameObject LoadStairLight => Resources.Load<GameObject>("Prefabs/Lights/StairLight");
 
@@ -26,8 +28,9 @@ public class LightManager
         _nightSky = LoadNightSky;
         ApplyEnvironment();
 
-        _roomLight = InstantiateRoomLight(LoadRoomLight).GetComponent<LightController>();
-        _stairLight = InstantiateRoomLight(LoadStairLight).GetComponent<LightController>();
+        _ambientLight = InstantiateLight(LoadAmbientLight).GetComponent<LightController>();
+        _roomLight = InstantiateLight(LoadRoomLight).GetComponent<LightController>();
+        _stairLight = InstantiateLight(LoadStairLight).GetComponent<LightController>();
 
         RoomLightTintDefault();
         RoomLightOn();
@@ -70,7 +73,7 @@ public class LightManager
         DynamicGI.UpdateEnvironment();
     }
 
-    private GameObject InstantiateRoomLight(GameObject prefab)
+    private GameObject InstantiateLight(GameObject prefab)
     {
         GameObject instance = Object.Instantiate(prefab);
         instance.transform.SetParent(Managers.Instance.transform, true);

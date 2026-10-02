@@ -14,7 +14,7 @@ GameObject:
   - component: {fileID: 8424090702965022994}
   - component: {fileID: -223412899528196301}
   m_Layer: 0
-  m_Name: RoomLight
+  m_Name: AmbientLight
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -46,7 +46,7 @@ Light:
   serializedVersion: 12
   m_Type: 2
   m_Color: {r: 0.8207547, g: 0.8207547, b: 0.8207547, a: 1}
-  m_Intensity: 20
+  m_Intensity: 10
   m_Range: 25
   m_SpotAngle: 30
   m_InnerSpotAngle: 21.80208
