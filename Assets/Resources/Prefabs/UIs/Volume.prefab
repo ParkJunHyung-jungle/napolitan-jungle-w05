@@ -10,9 +10,8 @@ GameObject:
   m_Component:
   - component: {fileID: 4858799865930409288}
   - component: {fileID: 2286549700746856507}
-  - component: {fileID: 4498778004455668066}
   m_Layer: 15
-  m_Name: Vignette
+  m_Name: Volume
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -50,21 +49,3 @@ MonoBehaviour:
   blendDistance: 0
   weight: 1
   priority: 20
---- !u!114 &4498778004455668066
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 3931726130408721369}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 89d5fd8994f44fa4b98a4a4cc835f246, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::VignetteController
-  volume: {fileID: 2286549700746856507}
-  _gameManager: {fileID: 0}
-  _systemTimer: {fileID: 0}
-  distortionStrength: 30
-  distortDuration: 0.6
-  distortionWaveCount: 2

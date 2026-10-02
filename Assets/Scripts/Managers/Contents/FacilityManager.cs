@@ -53,7 +53,7 @@ public class FacilityManager : MonoBehaviour
             LightController lightController = facility.guideLight.GetComponent<LightController>();
             if (lightController == null) continue;
 
-            lightController.BindFacility(facility.FacilityID);
+            //lightController.BindFacility(facility.FacilityID);
         }
 
 
