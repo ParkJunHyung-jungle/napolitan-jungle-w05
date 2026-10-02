@@ -41,13 +41,12 @@ public class GameManager
 
     /// <summary>
     /// 게임 정보와 날짜 이벤트를 초기화하고 정신력을 최대치로 설정한다.
-    /// 정신력 최대값과 현재값을 관리하며 게임 안내 이벤트를 등록한다.
+    /// 정신력 최대값과 현재값을 관리하며 하루 종료 이벤트를 등록한다.
     /// </summary>
     public void Init()
     {
         _currentMentality = _maxMentality;
         GameInfo = Resources.Load<GameInfo>("Datas/GameInfo");
-        Managers.Date.OnMinuteChange += PrintFaxInstruction;
         Managers.Date.OnDayEnd += ShowDayEndCanvas;
 
         _startCanvas = UnityEngine.Object.Instantiate(StartCanvasPrefab).GetComponent<Canvas>();
@@ -72,19 +71,6 @@ public class GameManager
     public void Clear()
     {
 
-    }
-
-    /// <summary>
-    /// currentMinute에 맞는 팩스 안내를 요청한다.
-    /// GameInfo의 안내 문구를 조회하고 해당 시간이 유효하면 팩스 메시지를 생성한다.
-    /// </summary>
-    public void PrintFaxInstruction(int currentMinute)
-    {
-        string instruction = GameInfo.GetInstruction(currentMinute);
-        if (string.IsNullOrEmpty(instruction))
-            return;
-
-        Managers.Fax.InstantiateFaxMessage(currentMinute);
     }
 
     /// <summary>
@@ -202,13 +188,13 @@ public class GameManager
 
     /// <summary>
     /// 시작 버튼 입력을 받아 시작 화면을 닫고 플레이어 입력 모드로 전환한다.
-    /// _startCanvas의 활성 상태와 입력 모드를 변경한다.
+    /// _startCanvas의 활성 상태와 입력 모드를 변경하고 00:00 타임라인 이벤트를 실행한다.
     /// </summary>
     private void OnStartButtonClick()
     {
         _startCanvas.gameObject.SetActive(false);
         Managers.Input.SetInputMode(InputMode.Player);
-        PrintFaxInstruction(0);
+        Managers.Timeline.TriggerEvents(0);
     }
 
     /// <summary>

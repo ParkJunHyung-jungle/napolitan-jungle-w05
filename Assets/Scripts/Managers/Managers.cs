@@ -23,6 +23,8 @@ public class Managers : MonoBehaviour
     public static LightManager Light => Instance._lightManager;
     private readonly PostProcessingManager _postProcessingManager = new();
     public static PostProcessingManager PostProcessing => Instance._postProcessingManager;
+    private readonly TimelineManager _timelineManager = new();
+    public static TimelineManager Timeline => Instance._timelineManager;
     #endregion
 
     void Start()
@@ -51,6 +53,7 @@ public class Managers : MonoBehaviour
             _instance._soundManager.Init();
             _instance._lightManager.Init();
             _instance._postProcessingManager.Init();
+            _instance._timelineManager.Init();
 
             GameObject eventSystem = Instantiate(Resources.Load<GameObject>("Prefabs/UIs/EventSystem"));
 
@@ -67,5 +70,6 @@ public class Managers : MonoBehaviour
         Sound.Clear();
         Light.Clear();
         PostProcessing.Clear();
+        Timeline.Clear();
     }
 }
