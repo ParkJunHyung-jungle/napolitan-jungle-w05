@@ -25,6 +25,7 @@ public class SoundManager
     private AudioSource _facilityButtonSource;
     private AudioSource _facilityDragSource;
     private AudioSource _facilitySnapSource;
+    private AudioSource _doorSource;
 
     /// <summary>
     /// Loads the Resources catalog and creates twelve independent audio channels under
@@ -43,6 +44,10 @@ public class SoundManager
         _sourceRoot = new GameObject("Sound");
         _sourceRoot.transform.SetParent(managerRoot, false);
 
+        //3D 사운드소스 위치 초기화
+        GameObject door = GameObject.Find("Door");
+
+        //2D 사운드 소스 초기화
         _buttonSource = CreateSource("Button");
         _sliderSource = CreateSource("Slider");
         _sfxSoruce = CreateSource("Sfx", pitch: 0.5f);
@@ -56,11 +61,15 @@ public class SoundManager
         _facilityButtonSource = CreateSource("FacilityButton");
         _facilityDragSource = CreateSource("FacilityDrag", volume: 0.3f, pitch: 0.3f);
         _facilitySnapSource = CreateSource("FacilitySnap", pitch: 0.5f);
+
+        //3D 사운드 소스 초기화
+        _doorSource = Create3DSource(door);
+
         _sources = new[]
         {
             _buttonSource, _sliderSource, _sfxSoruce, _ambientSource, _clockSource,
             _sirenSource, _countDownSource, _warningSource, _gameClearSource,
-            _facilityButtonSource, _facilityDragSource, _facilitySnapSource
+            _facilityButtonSource, _facilityDragSource, _facilitySnapSource, _doorSource
         };
         SceneManager.activeSceneChanged += OnSceneChanged;
     }
@@ -90,6 +99,7 @@ public class SoundManager
         _buttonSource = _sliderSource = _sfxSoruce = _ambientSource = _clockSource = null;
         _sirenSource = _countDownSource = _warningSource = _gameClearSource = null;
         _facilityButtonSource = _facilityDragSource = _facilitySnapSource = null;
+        _doorSource = null;
     }
 
     private void OnSceneChanged(Scene previousScene, Scene nextScene)
@@ -114,6 +124,20 @@ public class SoundManager
         source.pitch = pitch;
         source.outputAudioMixerGroup = outputGroup;
         return source;
+    }
+    /// <summary>
+    /// 3D 오디오 소스를 추가하고 초기 설정을 적용
+    /// 자동 재생을 해제한 새 소스를 반환
+    /// </summary>
+    private AudioSource Create3DSource(GameObject target)
+    {
+        AudioSource source = target.GetComponent<AudioSource>();
+        source.spatialBlend = 1f;
+        source.rolloffMode = AudioRolloffMode.Linear;
+        source.dopplerLevel = 0f;
+        return source;
+
+
     }
 
     /// <summary>
@@ -291,4 +315,23 @@ public class SoundManager
     {
         _facilitySnapSource.PlayOneShot(_catalog.FacilitySliderSnap);
     }
+
+    /// <summary>
+    /// 문 열림 소리를 한번 재생한다
+    /// doorSource에 다른 재생과 겹칠 수 있다.
+    /// </summary>
+    public void DoorOpenSound()
+    {
+        _doorSource.PlayOneShot(_catalog.DoorOpen);
+    }
+
+    /// <summary>
+    /// 문 닫힘 소리를 한번 재생한다
+    /// doorSource에 다른 재생과 겹칠 수 있다.
+    /// </summary>
+    public void DoorCloseSound()
+    {
+        _doorSource.PlayOneShot(_catalog.DoorClose);
+    }
+
 }

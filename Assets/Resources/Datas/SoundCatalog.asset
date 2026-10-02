@@ -22,6 +22,8 @@ MonoBehaviour:
   _fixCompleted: {fileID: 8300000, guid: d2895e13eaf57e244959370648964b55, type: 3}
   _mediumFix: {fileID: 8300000, guid: 25ae331e8a1152a46b7fa8d3993b8f35, type: 3}
   _gameOver: {fileID: 8300000, guid: ccced3ccc46bea14d97f0885e1fc3d69, type: 3}
+  _doorOpen: {fileID: 8300000, guid: 48335bdde40e36d40a4cc28a8b7f6207, type: 3}
+  _doorClose: {fileID: 8300000, guid: 15e23e93fec3471489f6694d9d00f2d7, type: 3}
   _ambient: {fileID: 8300000, guid: adc6bd2aee7f03b418491f7c777bf5bd, type: 3}
   _subAmbient: {fileID: 8300000, guid: ddb8759b9310ff943a1075482e0da7da, type: 3}
   _clock: {fileID: 8300000, guid: 28980863f1ad8884b84d49d70f80162c, type: 3}
