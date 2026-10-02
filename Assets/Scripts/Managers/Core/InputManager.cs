@@ -60,12 +60,14 @@ public class InputManager
             PlayerMap.Enable();
             Cursor.lockState = CursorLockMode.Locked;
             Cursor.visible = false;
+            Time.timeScale = 1f;
         }
         else
         {
             UIMap.Enable();
             Cursor.lockState = CursorLockMode.None;
             Cursor.visible = true;
+            Time.timeScale = 0f;
         }
     }
 
