@@ -32,6 +32,7 @@ public class SoundManager
     private AudioSource _onThePhoneSource;
     private AudioSource _lightSwitchSource;
     private AudioSource _faxSource;
+    private AudioSource _inseinSource;
 
 
     /// <summary>
@@ -51,14 +52,6 @@ public class SoundManager
         _sourceRoot = new GameObject("Sound");
         _sourceRoot.transform.SetParent(managerRoot, false);
 
-        //3D 사운드소스 위치 초기화
-        GameObject door = GameObject.Find("Door");
-        GameObject lockedDoor = GameObject.Find("LockedDoor");
-        GameObject crying = GameObject.Find("CryingSource");
-        GameObject phone = GameObject.Find("Telephone");
-        GameObject lightSwitch = GameObject.Find("LightSwitch");
-        GameObject fax = GameObject.Find("Fax");
-
         //2D 사운드 소스 초기화
         _buttonSource = CreateSource("Button");
         _sliderSource = CreateSource("Slider");
@@ -74,21 +67,14 @@ public class SoundManager
         _facilityDragSource = CreateSource("FacilityDrag", volume: 0.3f, pitch: 0.3f);
         _facilitySnapSource = CreateSource("FacilitySnap", pitch: 0.5f);
         _onThePhoneSource = CreateSource("OnThePhone");
-
-        //3D 사운드 소스 초기화
-        _doorSource = Create3DSource(door);
-        _cryingSource = Create3DSource(crying);
-        _lockedDoorSource = Create3DSource(lockedDoor);
-        _phoneSource = Create3DSource(phone);
-        _lightSwitchSource = Create3DSource(lightSwitch);
-        _faxSource = Create3DSource(fax);
+        _inseinSource = CreateSource("Insein", volume: 0.1f);
 
         _sources = new[]
         {
             _buttonSource, _sliderSource, _sfxSoruce, _ambientSource, _clockSource,
             _sirenSource, _countDownSource, _warningSource, _gameClearSource,
             _facilityButtonSource, _facilityDragSource, _facilitySnapSource, _doorSource, _cryingSource, _lockedDoorSource,
-            _phoneSource, _onThePhoneSource, _lightSwitchSource, _faxSource
+            _phoneSource, _onThePhoneSource, _lightSwitchSource, _faxSource, _inseinSource
         };
         SceneManager.activeSceneChanged += OnSceneChanged;
     }
@@ -125,12 +111,43 @@ public class SoundManager
         _onThePhoneSource = null;
         _lightSwitchSource = null;
         _faxSource = null;
+        _inseinSource = null;
+
     }
 
     private void OnSceneChanged(Scene previousScene, Scene nextScene)
     {
         foreach (AudioSource source in _sources)
-            source.Stop();
+        {
+            if (source != null)
+                source.Stop();
+        }
+    }
+
+    public void RegisterAudioSource(AudioSourceTypes audioSourceTypes, AudioSource audioSource)
+    {
+        switch (audioSourceTypes)
+        {
+            case AudioSourceTypes.DOOR:
+                _doorSource = audioSource;
+                break;
+            case AudioSourceTypes.LOCKEDDOOR:
+                _lockedDoorSource = audioSource;
+                break;
+            case AudioSourceTypes.LIGHTSWITCH:
+                _lightSwitchSource = audioSource;
+                break;
+            case AudioSourceTypes.FAX:
+                _faxSource = audioSource;
+                break;
+            case AudioSourceTypes.CRYING:
+                _cryingSource = audioSource;
+                break;
+            case AudioSourceTypes.FOOTSTEP:
+                break;
+            default:
+                break;
+        }
     }
 
     /// <summary>
@@ -383,6 +400,7 @@ public class SoundManager
         int index = UnityEngine.Random.Range(0, clips.Length);
         SoundPlay(_doorSource, clips[index], true);
     }
+
     /// 전화기 벨소리를 루프로 재생한다.
     /// </summary>
     public void PhoneRinging()
@@ -439,5 +457,9 @@ public class SoundManager
     public void FaxSound()
     {
         SoundPlay(_faxSource, _catalog.Fax);
+    }
+    public void InseinSound()
+    {
+        SoundPlay(_inseinSource, _catalog.Insein, true);
     }
 }

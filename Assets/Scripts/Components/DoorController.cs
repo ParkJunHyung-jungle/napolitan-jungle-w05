@@ -39,8 +39,11 @@ public class DoorController : MonoBehaviour, IInteractable
     {
         _closedRotation = transform.localRotation;
         _openRotation = _closedRotation * Quaternion.Euler(0f, -_openAngle, 0f);
-        // Manaers. += StartKnockEvent;
-        StartKnockEvent();
+    }
+
+    private void Start()
+    {
+        Invoke("StartKnockEvent", 5f);
     }
 
     private void Update()

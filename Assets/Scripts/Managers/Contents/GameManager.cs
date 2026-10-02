@@ -48,7 +48,6 @@ public class GameManager
         GameInfo = Resources.Load<GameInfo>("Datas/GameInfo");
         Managers.Date.OnMinuteChange += PrintFaxInstruction;
         Managers.Date.OnDayEnd += ShowDayEndCanvas;
-        PrintFaxInstruction(0);
 
         _startCanvas = UnityEngine.Object.Instantiate(StartCanvasPrefab).GetComponent<Canvas>();
         _startCanvas.transform.SetParent(Managers.Instance.transform);
@@ -212,6 +211,7 @@ public class GameManager
     {
         _startCanvas.gameObject.SetActive(false);
         Managers.Input.SetInputMode(InputMode.Player);
+        PrintFaxInstruction(0);
     }
 
     /// <summary>

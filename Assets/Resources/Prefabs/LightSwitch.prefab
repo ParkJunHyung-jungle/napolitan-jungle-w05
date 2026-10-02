@@ -123,6 +123,7 @@ GameObject:
   m_Component:
   - component: {fileID: 5662954722332648828}
   - component: {fileID: 6390894164513109967}
+  - component: {fileID: 650665513775957765}
   m_Layer: 0
   m_Name: LightSwitch
   m_TagString: Untagged
@@ -247,6 +248,20 @@ AudioSource:
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 4
+--- !u!114 &650665513775957765
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1212389461917461059}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1ec35be7eb8495549be9d8e57d53183e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::LightSwitchController
+  _redLight: {fileID: 6936068597710080761}
+  _greenLight: {fileID: 981839539610860899}
 --- !u!1 &1561560203165419304
 GameObject:
   m_ObjectHideFlags: 0
@@ -256,7 +271,6 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 6621066680831229338}
-  - component: {fileID: 3624027830837745146}
   - component: {fileID: 3787863244202289384}
   m_Layer: 6
   m_Name: LeverPivot
@@ -281,20 +295,6 @@ Transform:
   - {fileID: 2570350298438988687}
   m_Father: {fileID: 5662954722332648828}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &3624027830837745146
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1561560203165419304}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 1ec35be7eb8495549be9d8e57d53183e, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::LeverController
-  _redLight: {fileID: 6936068597710080761}
-  _greenLight: {fileID: 981839539610860899}
 --- !u!65 &3787863244202289384
 BoxCollider:
   m_ObjectHideFlags: 0
