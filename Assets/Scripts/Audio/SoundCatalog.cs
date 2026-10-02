@@ -37,6 +37,20 @@ public class SoundCatalog : ScriptableObject
     public AudioClip DoorLocked => _doorLocked;
     public AudioClip[] Knock => _knock;
 
+    [Header("Phone Clips")]
+    [SerializeField] private AudioClip _phoneBell;
+    [SerializeField] private AudioClip _phonePickUp;
+    [SerializeField] private AudioClip _phoneOff;
+    [SerializeField] private AudioClip _phoneHangUp;
+    [SerializeField] private AudioClip[] _phoneManVoice;
+    [SerializeField] private AudioClip[] _phoneWomenVoice;
+
+    public AudioClip PhoneBell => _phoneBell;
+    public AudioClip PhonePickUp => _phonePickUp;
+    public AudioClip PhoneOff => _phoneOff;
+    public AudioClip PhoneHangUp => _phoneHangUp;
+    public AudioClip[] PhoneManVoice => _phoneManVoice;
+    public AudioClip[] PhoneWomenVoice => _phoneWomenVoice;
 
 
     [Header("Ambient And Timer Clips")]

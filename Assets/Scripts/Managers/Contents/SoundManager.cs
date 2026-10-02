@@ -28,6 +28,8 @@ public class SoundManager
     private AudioSource _doorSource;
     private AudioSource _lockedDoorSource;
     private AudioSource _cryingSource;
+    private AudioSource _phoneSource;
+    private AudioSource _onThePhoneSource;
 
 
     /// <summary>
@@ -51,6 +53,7 @@ public class SoundManager
         GameObject door = GameObject.Find("Door");
         GameObject lockedDoor = GameObject.Find("LockedDoor");
         GameObject crying = GameObject.Find("CryingSorce");
+        GameObject phone = GameObject.Find("Phone");
 
         //2D 사운드 소스 초기화
         _buttonSource = CreateSource("Button");
@@ -66,17 +69,20 @@ public class SoundManager
         _facilityButtonSource = CreateSource("FacilityButton");
         _facilityDragSource = CreateSource("FacilityDrag", volume: 0.3f, pitch: 0.3f);
         _facilitySnapSource = CreateSource("FacilitySnap", pitch: 0.5f);
+        _onThePhoneSource = CreateSource("Slider");
 
         //3D 사운드 소스 초기화
         _doorSource = Create3DSource(door);
         _cryingSource = Create3DSource(crying);
         _lockedDoorSource = Create3DSource(lockedDoor);
+        _phoneSource = Create3DSource(phone);
 
         _sources = new[]
         {
             _buttonSource, _sliderSource, _sfxSoruce, _ambientSource, _clockSource,
             _sirenSource, _countDownSource, _warningSource, _gameClearSource,
-            _facilityButtonSource, _facilityDragSource, _facilitySnapSource, _doorSource, _cryingSource, _lockedDoorSource
+            _facilityButtonSource, _facilityDragSource, _facilitySnapSource, _doorSource, _cryingSource, _lockedDoorSource,
+            _phoneSource, _onThePhoneSource
         };
         SceneManager.activeSceneChanged += OnSceneChanged;
     }
@@ -109,6 +115,8 @@ public class SoundManager
         _doorSource = null;
         _cryingSource = null;
         _lockedDoorSource = null;
+        _phoneSource = null;
+        _onThePhoneSource = null;
     }
 
     private void OnSceneChanged(Scene previousScene, Scene nextScene)
@@ -332,29 +340,73 @@ public class SoundManager
     }
 
     /// <summary>
-    /// 문 닫힘 소리를 한번 재생한다
+    /// 문 닫힘 소리를 한번 재생한다.
     /// doorSource에 다른 재생과 겹칠 수 있다.
     /// </summary>
     public void DoorCloseSound()
     {
         SoundPlay(_doorSource, _catalog.DoorClose, false);
     }
-    /// 문 잠김 소리를 한번 재생한다
-    /// doorSource에 다른 재생과 겹칠 수 있다.
+    /// 문 잠김 소리를 한번 재생한다.
     /// </summary>
     public void DoorLockedSound()
     {
         SoundPlay(_doorSource, _catalog.DoorLocked, false);
     }
+    /// <summary>
+    /// 문 노크 소리를 루프로 재생한다.
+    /// doorSource에 다른 재생과 겹칠 수 있다.
+    /// </summary>
     public void DoorKnockSound()
     {
         AudioClip[] clips = _catalog.Knock;
         int index = UnityEngine.Random.Range(0, clips.Length);
         SoundPlay(_lockedDoorSource, clips[index], true);
     }
+    /// 전화기 벨소리를 루프로 재생한다.
+    /// </summary>
+    public void PhoneRinging()
+    {
+        SoundPlay(_phoneSource, _catalog.PhoneBell, true);
+
+    }
+    public void PhonePickUp()
+    {
+        SoundPlay(_phoneSource, _catalog.PhonePickUp);
+
+    }
+    public void PhoneHangUp()
+    {
+        SoundPlay(_phoneSource, _catalog.PhoneHangUp);
+
+    }
+    public void TalkingManVoice()
+    {
+        AudioClip[] clips = _catalog.PhoneManVoice;
+        int index = UnityEngine.Random.Range(0, clips.Length);
+        SoundPlay(_lockedDoorSource, clips[index], true);
+
+    }
+    public void TalkingWomenVoice()
+    {
+        AudioClip[] clips = _catalog.PhoneWomenVoice;
+        int index = UnityEngine.Random.Range(0, clips.Length);
+        SoundPlay(_lockedDoorSource, clips[index], true);
+
+    }
+
+    public void PhoneOff()
+    {
+        SoundPlay(_onThePhoneSource, _catalog.PhoneOff);
+
+    }
+
+    /// 우는 소리를 루프로 재생한다.
+    /// </summary>
     public void CryingSound()
     {
         SoundPlay(_cryingSource, _catalog.Crying, true);
     }
+
 
 }
