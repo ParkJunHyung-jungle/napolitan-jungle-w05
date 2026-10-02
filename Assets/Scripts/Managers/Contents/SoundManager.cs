@@ -384,14 +384,14 @@ public class SoundManager
     {
         AudioClip[] clips = _catalog.PhoneManVoice;
         int index = UnityEngine.Random.Range(0, clips.Length);
-        SoundPlay(_lockedDoorSource, clips[index], true);
+        SoundPlay(_onThePhoneSource, clips[index], false);
 
     }
     public void TalkingWomenVoice()
     {
         AudioClip[] clips = _catalog.PhoneWomenVoice;
         int index = UnityEngine.Random.Range(0, clips.Length);
-        SoundPlay(_lockedDoorSource, clips[index], true);
+        SoundPlay(_onThePhoneSource, clips[index], false);
 
     }
 
