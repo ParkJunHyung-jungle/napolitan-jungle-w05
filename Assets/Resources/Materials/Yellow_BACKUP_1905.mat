@@ -21,6 +21,29 @@ Material:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_Name: Yellow
+<<<<<<< HEAD
+  m_Shader: {fileID: -6465566751694194690, guid: f7fc5c931bebe5743bf157b6710a7bb7, type: 3}
+  m_Parent: {fileID: 2100000, guid: a6d194230dfae8d4f8a91c75e5899571, type: 2}
+  m_ModifiedSerializedProperties: 2
+  m_ValidKeywords: []
+  m_InvalidKeywords:
+  - _ALPHAPREMULTIPLY_ON
+  - _EMISSION
+  m_LightmapFlags: 1
+  m_EnableInstancingVariants: 0
+  m_DoubleSidedGI: 0
+  m_CustomRenderQueue: -1
+  stringTagMap: {}
+  disabledShaderPasses: []
+  m_LockedProperties: 
+  m_SavedProperties:
+    serializedVersion: 3
+    m_TexEnvs: []
+    m_Ints: []
+    m_Floats:
+    - _Outline_Thickness: 0.02
+    m_Colors: []
+=======
   m_Shader: {fileID: 4800000, guid: 933532a4fcc9baf4fa0491de14d08ed7, type: 3}
   m_Parent: {fileID: 0}
   m_ModifiedSerializedProperties: 0
@@ -139,6 +162,7 @@ Material:
     - _Color: {r: 1, g: 0.84455025, b: 0, a: 0.49019608}
     - _EmissionColor: {r: 0.57254905, g: 0.4499877, b: 0.13333331, a: 1}
     - _SpecColor: {r: 0.2, g: 0.2, b: 0.2, a: 1}
+>>>>>>> master
   m_BuildTextureStacks: []
   m_AllowLocking: 1
 --- !u!114 &3303511142621030003
