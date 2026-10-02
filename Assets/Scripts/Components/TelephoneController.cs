@@ -1,54 +1,88 @@
 using System;
+
 using UnityEngine;
 
 public class TelephoneController : MonoBehaviour, IInteractable
 {
-    private bool _isCalling;
+    private enum CallState
+    {
+        Idle,
+        Ringing,
+        InCall
+    }
 
-    public bool IsCalling => _isCalling;
+    private CallState _callState;
+
+    public bool IsCalling => _callState != CallState.Idle;
+    public bool IsInCall => _callState == CallState.InCall;
 
     public event Action OnCallStateChanged;
 
+
+    private void Awake()
+    {
+        Managers.Sound.RegisterAudioSource(AudioSourceTypes.TELEPHONE, gameObject.GetComponent<AudioSource>());
+    }
+
     /// <summary>
-    /// 전화가 걸려온 상태로 변경한다.
+    /// 외부 수신 요청을 받아 대기 중인 전화를 벨이 울리는 상태로 변경한다.
+    /// 대기 상태에서만 벨소리를 시작하고 OnCallStateChanged를 호출한다.
     /// </summary>
     public void ReceiveCall()
     {
-        if (_isCalling)
+        if (_callState != CallState.Idle)
             return;
 
-        _isCalling = true;
+        _callState = CallState.Ringing;
 
         Managers.Sound.PhoneRinging();
         OnCallStateChanged?.Invoke();
     }
 
     /// <summary>
-    /// 전화를 끊는다.
+    /// 벨이 울리거나 통화 중인 전화를 종료한다.
+    /// 대기 상태로 변경하고 끊는 소리와 OnCallStateChanged를 호출한다.
     /// </summary>
     public void HangUp()
     {
-        if (!_isCalling)
+        if (_callState == CallState.Idle)
             return;
 
-        _isCalling = false;
+        _callState = CallState.Idle;
 
+        Managers.Sound.PhoneOffSound();
         Managers.Sound.PhoneHangUp();
         OnCallStateChanged?.Invoke();
     }
 
     /// <summary>
-    /// 외부 상호작용으로 전화를 끊는다.
+    /// 플레이어 상호작용으로 울리는 전화를 받거나 통화 중인 전화를 끊는다.
+    /// 현재 통화 상태에 따라 상태를 변경하며 대기 중에는 아무 동작도 하지 않는다.
     /// </summary>
     public void Interact()
     {
-        // 전화기를 누르면 전화가 걸리고, 걸려있으면 끊는다.
-        if (_isCalling)
-            HangUp();
-        else
-            ReceiveCall();
+        // 디버깅용 상호작용으로 전화 걸기
+        //if (_callState == CallState.Idle)
+        //{
+        //    ReceiveCall();
+        //    return;
+        //}
 
-        // 아래가 해당 함수의 의도. 위에는 디버깅용
-        //HangUp();
+        if (_callState == CallState.Ringing)
+        {
+            _callState = CallState.InCall;
+            Managers.Sound.PhonePickUp();
+
+
+            int i = UnityEngine.Random.Range(0, 1);
+            if (i == 0)
+                Managers.Sound.TalkingManVoice();
+            else
+                Managers.Sound.TalkingWomenVoice();
+
+            OnCallStateChanged?.Invoke();
+        }
+        else if (_callState == CallState.InCall)
+            HangUp();
     }
 }
