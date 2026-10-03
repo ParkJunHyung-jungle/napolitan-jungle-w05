@@ -47,7 +47,6 @@ public class FirstPersonController : MonoBehaviour
     public bool IsDragging => _dragTarget != null;
     public FirstPersonCamera FirstPersonCamera => firstPersonCamera;
 
-    private ButtonOutline currentOutline;
     // 컴포넌트를 처음 붙일 때 기본 레이어 마스크를 Button, Slider로 채운다
     private void Reset()
     {
@@ -64,11 +63,6 @@ public class FirstPersonController : MonoBehaviour
     private void OnDisable()
     {
         StopDrag();
-
-        if (currentOutline != null)
-            currentOutline.SetHighlighted(false);
-
-        currentOutline = null;
     }
 
     // 창 밖에서 버튼을 떼면 canceled가 오지 않을 수 있으므로 포커스를 잃으면 놓는다
@@ -84,24 +78,6 @@ public class FirstPersonController : MonoBehaviour
         UpdateInput();
         UpdateDrag();
         Move();
-    }
-    private void LateUpdate()
-    {
-        ButtonOutline next = null;
-
-        if (TryGetTarget(out RaycastHit hit))
-            next = hit.collider.GetComponentInParent<ButtonOutline>();
-
-        if (currentOutline == next) return;
-
-        // 이전 버튼은 끄고, 새 버튼은 켜기
-        if (currentOutline != null)
-            currentOutline.SetHighlighted(false);
-
-        currentOutline = next;
-
-        if (currentOutline != null)
-            currentOutline.SetHighlighted(true);
     }
 
     private void Move()

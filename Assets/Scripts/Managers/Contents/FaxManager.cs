@@ -5,9 +5,10 @@ public class FaxManager
 {
     [Header("Fax")]
     private Transform _fax;
+    private List<GameObject> _instructions = new();
+
     [Header("Prefab")]
     private GameObject _faxMessagePrefab;
-
     public GameObject LoadFax => Resources.Load<GameObject>("Prefabs/Fax");
     public GameObject LoadFaxInstruction => Resources.Load<GameObject>("Prefabs/FaxInstruction");
 
@@ -34,6 +35,7 @@ public class FaxManager
         Managers.Sound.FaxSound();
         FaxInstructionController fax = faxMessage.GetComponent<FaxInstructionController>();
         fax.SetMessage(message, isReal);
+        _instructions.Add(faxMessage);
     }
 
     private void InstantiateFax()
