@@ -450,7 +450,7 @@ public class SoundManager
 
     public void PhoneOffSound()
     {
-        SoundPlay(_onThePhoneSource, _catalog.PhoneOff);
+        SoundPlay(_onThePhoneSource, _catalog.PhoneOff, true);
 
     }
 
