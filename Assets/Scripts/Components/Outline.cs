@@ -5,25 +5,11 @@ public class Outline : MonoBehaviour
     [SerializeField]
     private uint OutlineMask = 1u << 1;
     [SerializeField]
-    private float OUTLINE_DISTANCE = 4f;
-    [SerializeField]
     private Renderer[] renderers;
-
-    private bool _isOutlineEnabled;
 
     private void Awake()
     {
         SetOutline(false);
-    }
-
-    private void Update()
-    {
-        bool shouldEnable = Vector3.Distance(transform.position, Managers.Game.Player.transform.position) <= OUTLINE_DISTANCE;
-        if (_isOutlineEnabled == shouldEnable)
-            return;
-
-        _isOutlineEnabled = shouldEnable;
-        SetOutline(_isOutlineEnabled);
     }
 
     /// <summary>

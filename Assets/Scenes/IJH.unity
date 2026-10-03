@@ -6303,7 +6303,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::Outline
   OutlineMask: 2
-  OUTLINE_DISTANCE: 4
   renderers:
   - {fileID: 1323627472}
   - {fileID: 1758316911}
