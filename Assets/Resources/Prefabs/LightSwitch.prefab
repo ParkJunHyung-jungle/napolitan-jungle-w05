@@ -28,7 +28,7 @@ Transform:
   m_GameObject: {fileID: 981839539610860899}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: -0.045000076, y: 0.0150001, z: 0}
+  m_LocalPosition: {x: -0.035099983, y: 0.0150001, z: 0}
   m_LocalScale: {x: 0.01, y: 0.03, z: 0.044999998}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -262,6 +262,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::LightSwitchController
   _redLight: {fileID: 6936068597710080761}
   _greenLight: {fileID: 981839539610860899}
+  _leverPivot: {fileID: 0}
 --- !u!1 &1561560203165419304
 GameObject:
   m_ObjectHideFlags: 0
@@ -288,7 +289,7 @@ Transform:
   m_GameObject: {fileID: 1561560203165419304}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0.25881907, w: 0.9659259}
-  m_LocalPosition: {x: -0.01999998, y: 0, z: 0}
+  m_LocalPosition: {x: -0.010099888, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -344,7 +345,7 @@ Transform:
   m_GameObject: {fileID: 1770226671697067191}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: -0.02, y: 0, z: 0}
+  m_LocalPosition: {x: -0.0101, y: 0, z: 0}
   m_LocalScale: {x: 0.05, y: 0.2, z: 0.15}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -568,7 +569,7 @@ Transform:
   m_GameObject: {fileID: 6936068597710080761}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: -0.045000076, y: -0.0150001, z: 0}
+  m_LocalPosition: {x: -0.035099983, y: -0.0150001, z: 0}
   m_LocalScale: {x: 0.01, y: 0.03, z: 0.044999998}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -679,7 +680,7 @@ Transform:
   m_GameObject: {fileID: 7871969345661048945}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalPosition: {x: -1.9, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -696,8 +697,8 @@ Light:
   serializedVersion: 12
   m_Type: 2
   m_Color: {r: 0.1254902, g: 1, b: 0, a: 1}
-  m_Intensity: 1
-  m_Range: 10
+  m_Intensity: 0.01
+  m_Range: 0.1
   m_SpotAngle: 30
   m_InnerSpotAngle: 21.80208
   m_CookieSize2D: {x: 0.5, y: 0.5}

@@ -23,9 +23,14 @@ public class FaxManager
     }
 
     //리치 텍스트에서 폰트 사용 시 TMP Settings에 지정된 경로(기본 Resources/Fonts & Materials)에 폰트 에셋이 있어야 함
+    /// <summary>
+    /// currentMinute의 팩스 안내를 IJH 씬의 FaxInstructionSpawner 위치에 생성한다.
+    /// 생성된 팩스의 문구를 설정하고 팩스 소리를 재생한다.
+    /// </summary>
     public void InstantiateFaxMessage(int currentMinute)
     {
-        GameObject faxMessage = Object.Instantiate(_faxMessagePrefab, _fax.position, _fax.rotation);
+        Transform spawner = GameObject.Find("FaxInstructionSpawner").transform;
+        GameObject faxMessage = Object.Instantiate(_faxMessagePrefab, spawner.position, spawner.rotation);
 
         Managers.Sound.FaxSound();
         FaxInstructionController fax = faxMessage.GetComponent<FaxInstructionController>();
