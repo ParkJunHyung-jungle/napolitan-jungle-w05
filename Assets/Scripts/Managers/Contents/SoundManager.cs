@@ -33,6 +33,7 @@ public class SoundManager
     private AudioSource _lightSwitchSource;
     private AudioSource _faxSource;
     private AudioSource _inseinSource;
+    private AudioSource _paperSource;
 
 
     /// <summary>
@@ -67,7 +68,8 @@ public class SoundManager
         _facilityDragSource = CreateSource("FacilityDrag", volume: 0.3f, pitch: 0.3f);
         _facilitySnapSource = CreateSource("FacilitySnap", pitch: 0.5f);
         _onThePhoneSource = CreateSource("OnThePhone", volume: 0.7f);
-        _inseinSource = CreateSource("Insein", volume: 0.1f);
+        _inseinSource = CreateSource("Insein", volume: 0.2f);
+        _paperSource = CreateSource("HandlingPaper", volume: 0.5f);
 
         AudioHighPassFilter highPass = _onThePhoneSource.gameObject.AddComponent<AudioHighPassFilter>();
         highPass.cutoffFrequency = 400f;
@@ -83,7 +85,7 @@ public class SoundManager
             _buttonSource, _sliderSource, _sfxSoruce, _ambientSource, _clockSource,
             _sirenSource, _countDownSource, _warningSource, _gameClearSource,
             _facilityButtonSource, _facilityDragSource, _facilitySnapSource, _doorSource, _cryingSource, _lockedDoorSource,
-            _phoneSource, _onThePhoneSource, _lightSwitchSource, _faxSource, _inseinSource
+            _phoneSource, _onThePhoneSource, _lightSwitchSource, _faxSource, _inseinSource, _paperSource
         };
         SceneManager.activeSceneChanged += OnSceneChanged;
     }
@@ -121,6 +123,7 @@ public class SoundManager
         _lightSwitchSource = null;
         _faxSource = null;
         _inseinSource = null;
+        _paperSource = null;
 
     }
 
@@ -477,5 +480,9 @@ public class SoundManager
     public void StopInseinSound()
     {
         _inseinSource.Stop();
+    }
+    public void PaperSound()
+    {
+        _paperSource.PlayOneShot(_catalog.HandlingPaper);
     }
 }
