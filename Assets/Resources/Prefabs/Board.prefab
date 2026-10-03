@@ -13,7 +13,8 @@ GameObject:
   - component: {fileID: 6748561208772870527}
   - component: {fileID: 6099532982153781741}
   - component: {fileID: 6479792116509151842}
-  m_Layer: 7
+  - component: {fileID: 991001000000000002}
+  m_Layer: 6
   m_Name: InstructionSlot
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -126,9 +127,21 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::ButtonOutline
   OutlineMask: 2
-  OUTLINE_DISTANCE: 4
   renderers:
   - {fileID: 6748561208772870527}
+--- !u!114 &991001000000000002
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 397122014188658155}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1eb76da780b34f0bb73c635363ed2c86, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::BoardSlotController
+  _slotIndex: 5
 --- !u!1 &842993027689245748
 GameObject:
   m_ObjectHideFlags: 0
@@ -142,7 +155,8 @@ GameObject:
   - component: {fileID: 8338945003741840502}
   - component: {fileID: 8290221781516190029}
   - component: {fileID: 5795469767078225347}
-  m_Layer: 7
+  - component: {fileID: 991001000000000003}
+  m_Layer: 6
   m_Name: InstructionSlot
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -255,9 +269,21 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::ButtonOutline
   OutlineMask: 2
-  OUTLINE_DISTANCE: 4
   renderers:
   - {fileID: 8338945003741840502}
+--- !u!114 &991001000000000003
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 842993027689245748}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1eb76da780b34f0bb73c635363ed2c86, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::BoardSlotController
+  _slotIndex: 2
 --- !u!1 &1090985801896601110
 GameObject:
   m_ObjectHideFlags: 0
@@ -561,6 +587,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1941259900760178505}
+  - component: {fileID: 991001000000000001}
   m_Layer: 0
   m_Name: Board
   m_TagString: Untagged
@@ -591,6 +618,24 @@ Transform:
   - {fileID: 3083189443366481644}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &991001000000000001
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3398034906635136683}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 32b81ded6c8749a6a50368263027da51, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::BoardController
+  _slot1: {fileID: 4189716918501281792}
+  _slot2: {fileID: 5029094482716648154}
+  _slot3: {fileID: 5006403432702659199}
+  _slot4: {fileID: 3844215188350944909}
+  _slot5: {fileID: 3954856963391417855}
+  _slot6: {fileID: 3083189443366481644}
 --- !u!1 &3488437225390208133
 GameObject:
   m_ObjectHideFlags: 0
@@ -604,7 +649,8 @@ GameObject:
   - component: {fileID: 2852456713282103701}
   - component: {fileID: 396320508617731254}
   - component: {fileID: 1545683066535889589}
-  m_Layer: 7
+  - component: {fileID: 991001000000000004}
+  m_Layer: 6
   m_Name: InstructionSlot
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -717,9 +763,21 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::ButtonOutline
   OutlineMask: 2
-  OUTLINE_DISTANCE: 4
   renderers:
   - {fileID: 2852456713282103701}
+--- !u!114 &991001000000000004
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3488437225390208133}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1eb76da780b34f0bb73c635363ed2c86, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::BoardSlotController
+  _slotIndex: 3
 --- !u!1 &4696096003804815328
 GameObject:
   m_ObjectHideFlags: 0
@@ -733,7 +791,8 @@ GameObject:
   - component: {fileID: 881706595736642583}
   - component: {fileID: 2845980349242309020}
   - component: {fileID: 7285817110285818983}
-  m_Layer: 7
+  - component: {fileID: 991001000000000005}
+  m_Layer: 6
   m_Name: InstructionSlot
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -846,9 +905,21 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::ButtonOutline
   OutlineMask: 2
-  OUTLINE_DISTANCE: 4
   renderers:
   - {fileID: 881706595736642583}
+--- !u!114 &991001000000000005
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4696096003804815328}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1eb76da780b34f0bb73c635363ed2c86, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::BoardSlotController
+  _slotIndex: 4
 --- !u!1 &5860942787183601157
 GameObject:
   m_ObjectHideFlags: 0
@@ -862,7 +933,8 @@ GameObject:
   - component: {fileID: 3195628462736618820}
   - component: {fileID: 9024480083474731753}
   - component: {fileID: 2277733522493867312}
-  m_Layer: 7
+  - component: {fileID: 991001000000000006}
+  m_Layer: 6
   m_Name: InstructionSlot
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -975,9 +1047,21 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::ButtonOutline
   OutlineMask: 2
-  OUTLINE_DISTANCE: 4
   renderers:
   - {fileID: 3195628462736618820}
+--- !u!114 &991001000000000006
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5860942787183601157}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1eb76da780b34f0bb73c635363ed2c86, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::BoardSlotController
+  _slotIndex: 1
 --- !u!1 &6896746098783498082
 GameObject:
   m_ObjectHideFlags: 0
@@ -1103,7 +1187,8 @@ GameObject:
   - component: {fileID: 5362709740603478981}
   - component: {fileID: 783001325765849620}
   - component: {fileID: 236729239524806890}
-  m_Layer: 7
+  - component: {fileID: 991001000000000007}
+  m_Layer: 6
   m_Name: InstructionSlot
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -1155,7 +1240,7 @@ MeshRenderer:
   m_SmallMeshCulling: 1
   m_ForceMeshLod: -1
   m_MeshLodSelectionBias: 0
-  m_RenderingLayerMask: 4294967295
+  m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
   - {fileID: 2100000, guid: 4f36b37c828115c49954e5fedb707340, type: 2}
@@ -1216,6 +1301,18 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::ButtonOutline
   OutlineMask: 2
-  OUTLINE_DISTANCE: 4
   renderers:
   - {fileID: 5362709740603478981}
+--- !u!114 &991001000000000007
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 9149770347567773960}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1eb76da780b34f0bb73c635363ed2c86, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::BoardSlotController
+  _slotIndex: 0

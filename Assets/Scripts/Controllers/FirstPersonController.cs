@@ -108,18 +108,16 @@ public class FirstPersonController : MonoBehaviour
     /// </summary>
     private void TryInteract()
     {
-        //명령서 들고 있으면 떨어트리기
         FaxInstructionController heldFax = firstPersonCamera.gameObject.GetComponentInChildren<FaxInstructionController>();
-        if (heldFax != null)
+        bool hasTarget = TryGetTarget(out RaycastHit hit);
+        IInteractable interactable = hasTarget ? hit.collider.GetComponentInParent<IInteractable>() : null;
+
+        if (heldFax != null && !(interactable is BoardSlotController))
         {
             heldFax.Drop();
             return;
         }
 
-        if (!TryGetTarget(out RaycastHit hit))
-            return;
-
-        IInteractable interactable = hit.collider.GetComponentInParent<IInteractable>();
         if (interactable != null) interactable.Interact();
     }
 }
