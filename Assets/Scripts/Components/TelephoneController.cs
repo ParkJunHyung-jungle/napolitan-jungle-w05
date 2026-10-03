@@ -1,4 +1,5 @@
 using System;
+using System.Collections;
 
 using UnityEngine;
 
@@ -11,7 +12,9 @@ public class TelephoneController : MonoBehaviour, IInteractable
         InCall
     }
 
+    [Header("통화 상태")]
     private CallState _callState;
+    private Coroutine _waitAndPlayCoroutine;
 
     public bool IsCalling => _callState != CallState.Idle;
     public bool IsInCall => _callState == CallState.InCall;
@@ -43,7 +46,7 @@ public class TelephoneController : MonoBehaviour, IInteractable
 
     /// <summary>
     /// 벨이 울리거나 통화 중인 전화를 종료한다.
-    /// 대기 상태로 변경하고 끊는 소리와 OnCallStateChanged를 호출한다.
+    /// 벨소리와 통화 종료음을 멈추고 대기 상태로 변경한 뒤 끊는 소리와 OnCallStateChanged를 호출한다.
     /// </summary>
     public void HangUp()
     {
@@ -51,8 +54,14 @@ public class TelephoneController : MonoBehaviour, IInteractable
             return;
 
         _callState = CallState.Idle;
-
-        Managers.Sound.PhoneOffSound();
+        if (_waitAndPlayCoroutine != null)
+        {
+            StopCoroutine(_waitAndPlayCoroutine);
+            _waitAndPlayCoroutine = null;
+        }
+        Managers.Sound.StopPhoneRinging();
+        Managers.Sound.StopCallEndSound();
+        //Managers.Sound.CallEndSound();
         Managers.Sound.PhoneHangUp();
         OnCallStateChanged?.Invoke();
     }
@@ -68,14 +77,13 @@ public class TelephoneController : MonoBehaviour, IInteractable
 
         _callState = CallState.Idle;
 
-        // SoundManager에 벨 정지 기능이 없어 전화기에 등록된 오디오 소스를 직접 멈춘다.
-        GetComponent<AudioSource>().Stop();
+        Managers.Sound.StopPhoneRinging();
         OnCallStateChanged?.Invoke();
     }
 
     /// <summary>
     /// 플레이어 상호작용으로 울리는 전화를 받거나 통화 중인 전화를 끊는다.
-    /// 현재 통화 상태에 따라 상태를 변경하며 대기 중에는 아무 동작도 하지 않는다.
+    /// 수신 중 벨소리를 멈추고 전화 수신을 보고하며 통화 중이면 전화를 끊는다.
     /// </summary>
     public void Interact()
     {
@@ -90,18 +98,34 @@ public class TelephoneController : MonoBehaviour, IInteractable
         {
             _callState = CallState.InCall;
             Managers.Timeline.Report(DeviceAction.PhoneAnswered);
+            Managers.Sound.StopPhoneRinging();
             Managers.Sound.PhonePickUp();
 
 
-            int i = UnityEngine.Random.Range(0, 1);
+            int i = UnityEngine.Random.Range(0, 2);
             if (i == 0)
                 Managers.Sound.TalkingManVoice();
             else
                 Managers.Sound.TalkingWomenVoice();
-
+            _waitAndPlayCoroutine = StartCoroutine(WaitAndPlay());
             OnCallStateChanged?.Invoke();
         }
         else if (_callState == CallState.InCall)
             HangUp();
+    }
+    /// <summary>
+    /// 전화 음성 소스의 재생이 끝날 때까지 기다린 후 통화 종료음을 재생한다.
+    /// OnThePhoneSource의 재생 상태를 사용하며 완료 시 대기 코루틴 참조를 해제한다.
+    /// </summary>
+    private IEnumerator WaitAndPlay()
+    {
+        // 현재 클립의 재생이 끝날 때까지 대기
+        yield return new WaitUntil(() => !Managers.Sound.OnThePhoneSource.isPlaying);
+
+        // 같은 AudioSource에 다음 클립을 넣고 재생
+        if (_callState == CallState.InCall)
+            Managers.Sound.CallEndSound();
+
+        _waitAndPlayCoroutine = null;
     }
 }
