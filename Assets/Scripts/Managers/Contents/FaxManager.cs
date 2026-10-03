@@ -30,7 +30,8 @@ public class FaxManager
     /// </summary>
     public void InstantiateFaxMessage(string message, bool isReal)
     {
-        GameObject faxMessage = Object.Instantiate(_faxMessagePrefab, _fax.position, _fax.rotation);
+        Transform spawner = GameObject.Find("FaxInstructionSpawner").transform;
+        GameObject faxMessage = Object.Instantiate(_faxMessagePrefab, spawner.position, spawner.rotation);
 
         Managers.Sound.FaxSound();
         FaxInstructionController fax = faxMessage.GetComponent<FaxInstructionController>();
