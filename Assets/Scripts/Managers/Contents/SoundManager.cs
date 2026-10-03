@@ -7,6 +7,7 @@ using UnityEngine.SceneManagement;
 public class SoundManager
 {
     private const string CATALOG_PATH = "Datas/SoundCatalog";
+    private const float PHONE_BELL_REPEAT_SECONDS = 3f;
 
     [Header("Runtime Audio")]
     private SoundCatalog _catalog;
@@ -29,6 +30,7 @@ public class SoundManager
     private AudioSource _lockedDoorSource;
     private AudioSource _cryingSource;
     private AudioSource _phoneSource;
+    private Coroutine _phoneRingingRoutine;
     private AudioSource _onThePhoneSource;
     private AudioSource _lightSwitchSource;
     private AudioSource _faxSource;
@@ -100,6 +102,8 @@ public class SoundManager
         if (_sourceRoot != null)
         {
             SceneManager.activeSceneChanged -= OnSceneChanged;
+            if (_phoneRingingRoutine != null)
+                StopPhoneRinging();
             foreach (AudioSource source in _sources)
             {
                 source.Stop();
@@ -130,6 +134,8 @@ public class SoundManager
 
     private void OnSceneChanged(Scene previousScene, Scene nextScene)
     {
+        if (_phoneRingingRoutine != null)
+            StopPhoneRinging();
         foreach (AudioSource source in _sources)
         {
             if (source != null)
@@ -417,12 +423,42 @@ public class SoundManager
         SoundPlay(_doorSource, clips[index], true);
     }
 
-    /// 전화기 벨소리를 루프로 재생한다.
+    /// <summary>
+    /// PhoneBell을 전화기 소스에서 반복 재생하고 짧은 울림 구간을 다시 시작한다.
+    /// 카탈로그의 벨소리를 사용하며 반복 코루틴을 저장한다.
     /// </summary>
     public void PhoneRinging()
     {
         SoundPlay(_phoneSource, _catalog.PhoneBell, true);
+        _phoneRingingRoutine = Managers.Instance.StartCoroutine(RepeatPhoneBell());
+    }
 
+    /// <summary>
+    /// 현재 전화기 소스의 벨소리 반복과 재생을 중지한다.
+    /// 저장된 코루틴과 전화기 소스의 상태를 정리한다.
+    /// </summary>
+    public void StopPhoneRinging()
+    {
+        if (_phoneRingingRoutine != null)
+        {
+            Managers.Instance.StopCoroutine(_phoneRingingRoutine);
+            _phoneRingingRoutine = null;
+        }
+
+        _phoneSource.Stop();
+    }
+
+    /// <summary>
+    /// 전화기 벨소리의 첫 울림이 끝난 뒤 재생 위치를 처음으로 되돌린다.
+    /// PHONE_BELL_REPEAT_SECONDS 간격으로 전화기 소스의 재생 위치를 갱신한다.
+    /// </summary>
+    private IEnumerator RepeatPhoneBell()
+    {
+        while (true)
+        {
+            yield return new WaitForSeconds(PHONE_BELL_REPEAT_SECONDS);
+            _phoneSource.time = 0f;
+        }
     }
     public void PhonePickUp()
     {

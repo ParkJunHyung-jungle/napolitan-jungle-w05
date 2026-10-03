@@ -46,7 +46,7 @@ public class TelephoneController : MonoBehaviour, IInteractable
 
     /// <summary>
     /// 벨이 울리거나 통화 중인 전화를 종료한다.
-    /// 대기 상태로 변경하고 끊는 소리와 OnCallStateChanged를 호출한다.
+    /// 벨소리와 통화 종료음을 멈추고 대기 상태로 변경한 뒤 끊는 소리와 OnCallStateChanged를 호출한다.
     /// </summary>
     public void HangUp()
     {
@@ -59,6 +59,7 @@ public class TelephoneController : MonoBehaviour, IInteractable
             StopCoroutine(_waitAndPlayCoroutine);
             _waitAndPlayCoroutine = null;
         }
+        Managers.Sound.StopPhoneRinging();
         Managers.Sound.StopCallEndSound();
         //Managers.Sound.CallEndSound();
         Managers.Sound.PhoneHangUp();
@@ -76,14 +77,13 @@ public class TelephoneController : MonoBehaviour, IInteractable
 
         _callState = CallState.Idle;
 
-        // SoundManager에 벨 정지 기능이 없어 전화기에 등록된 오디오 소스를 직접 멈춘다.
-        GetComponent<AudioSource>().Stop();
+        Managers.Sound.StopPhoneRinging();
         OnCallStateChanged?.Invoke();
     }
 
     /// <summary>
     /// 플레이어 상호작용으로 울리는 전화를 받거나 통화 중인 전화를 끊는다.
-    /// 현재 통화 상태에 따라 상태를 변경하며 대기 중에는 아무 동작도 하지 않는다.
+    /// 수신 중 벨소리를 멈추고 전화 수신을 보고하며 통화 중이면 전화를 끊는다.
     /// </summary>
     public void Interact()
     {
@@ -98,6 +98,7 @@ public class TelephoneController : MonoBehaviour, IInteractable
         {
             _callState = CallState.InCall;
             Managers.Timeline.Report(DeviceAction.PhoneAnswered);
+            Managers.Sound.StopPhoneRinging();
             Managers.Sound.PhonePickUp();
 
 
