@@ -66,8 +66,17 @@ public class SoundManager
         _facilityButtonSource = CreateSource("FacilityButton");
         _facilityDragSource = CreateSource("FacilityDrag", volume: 0.3f, pitch: 0.3f);
         _facilitySnapSource = CreateSource("FacilitySnap", pitch: 0.5f);
-        _onThePhoneSource = CreateSource("OnThePhone");
+        _onThePhoneSource = CreateSource("OnThePhone", volume: 0.7f);
         _inseinSource = CreateSource("Insein", volume: 0.1f);
+
+        AudioHighPassFilter highPass = _onThePhoneSource.gameObject.AddComponent<AudioHighPassFilter>();
+        highPass.cutoffFrequency = 400f;
+
+        AudioDistortionFilter distortion = _onThePhoneSource.gameObject.AddComponent<AudioDistortionFilter>();
+        distortion.distortionLevel = 0.15f;
+
+        AudioLowPassFilter lowPass = _onThePhoneSource.gameObject.AddComponent<AudioLowPassFilter>();
+        lowPass.cutoffFrequency = 3000f;
 
         _sources = new[]
         {

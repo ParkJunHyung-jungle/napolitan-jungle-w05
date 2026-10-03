@@ -14,7 +14,9 @@ public class FaxInstructionController : MonoBehaviour, IInteractable
     private TMP_Text _text;
     private Rigidbody _rb;
     private Quaternion _holdRotation;
+    private bool _isReal;
     public bool IsHeld => _playerCam != null && transform.parent == _playerCam;
+    public bool IsReal => _isReal;
 
     void Awake()
     {
@@ -25,9 +27,14 @@ public class FaxInstructionController : MonoBehaviour, IInteractable
         _holdRotation = Quaternion.Euler(_holdRotationOffset);
     }
 
-    public void SetMessage(string message)
+    /// <summary>
+    /// 출력물에 표시할 문구와 진짜 명령서 여부를 설정한다.
+    /// message를 _text에 표시하고 isReal을 _isReal에 저장한다. false이면 가짜 명령서이다.
+    /// </summary>
+    public void SetMessage(string message, bool isReal)
     {
         _text.text = message;
+        _isReal = isReal;
     }
 
     public void Interact()
