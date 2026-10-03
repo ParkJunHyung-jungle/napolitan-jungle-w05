@@ -29,7 +29,7 @@ Transform:
   m_GameObject: {fileID: 397122014188658155}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: -0.7071068, z: 0, w: 0.7071068}
-  m_LocalPosition: {x: 0.5, y: 0, z: 3.75}
+  m_LocalPosition: {x: 0.51, y: 0, z: 3.75}
   m_LocalScale: {x: 1, y: 1.5, z: 0.01}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -125,6 +125,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d666d965c34fe034f9261c370c7716bc, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::ButtonOutline
+  OutlineMask: 2
+  OUTLINE_DISTANCE: 2
   renderers: []
 --- !u!1 &842993027689245748
 GameObject:
@@ -155,7 +157,7 @@ Transform:
   m_GameObject: {fileID: 842993027689245748}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: -0.7071068, z: 0, w: 0.7071068}
-  m_LocalPosition: {x: 0.5, y: 0, z: -0.75}
+  m_LocalPosition: {x: 0.51, y: 0, z: -0.75}
   m_LocalScale: {x: 1, y: 1.5, z: 0.01}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -251,6 +253,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d666d965c34fe034f9261c370c7716bc, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::ButtonOutline
+  OutlineMask: 2
+  OUTLINE_DISTANCE: 2
   renderers: []
 --- !u!1 &1090985801896601110
 GameObject:
@@ -614,7 +618,7 @@ Transform:
   m_GameObject: {fileID: 3488437225390208133}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: -0.7071068, z: 0, w: 0.7071068}
-  m_LocalPosition: {x: 0.5, y: 0, z: 0.75}
+  m_LocalPosition: {x: 0.51, y: 0, z: 0.75}
   m_LocalScale: {x: 1, y: 1.5, z: 0.01}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -710,6 +714,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d666d965c34fe034f9261c370c7716bc, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::ButtonOutline
+  OutlineMask: 2
+  OUTLINE_DISTANCE: 2
   renderers: []
 --- !u!1 &4696096003804815328
 GameObject:
@@ -740,7 +746,7 @@ Transform:
   m_GameObject: {fileID: 4696096003804815328}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: -0.7071068, z: 0, w: 0.7071068}
-  m_LocalPosition: {x: 0.5, y: 0, z: 2.25}
+  m_LocalPosition: {x: 0.51, y: 0, z: 2.25}
   m_LocalScale: {x: 1, y: 1.5, z: 0.01}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -836,6 +842,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d666d965c34fe034f9261c370c7716bc, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::ButtonOutline
+  OutlineMask: 2
+  OUTLINE_DISTANCE: 2
   renderers: []
 --- !u!1 &5860942787183601157
 GameObject:
@@ -866,7 +874,7 @@ Transform:
   m_GameObject: {fileID: 5860942787183601157}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: -0.7071068, z: 0, w: 0.7071068}
-  m_LocalPosition: {x: 0.5, y: 0, z: -2.25}
+  m_LocalPosition: {x: 0.51, y: 0, z: -2.25}
   m_LocalScale: {x: 1, y: 1.5, z: 0.01}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -962,7 +970,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d666d965c34fe034f9261c370c7716bc, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::ButtonOutline
-  renderers: []
+  OutlineMask: 2
+  OUTLINE_DISTANCE: 2
+  renderers:
+  - {fileID: 3195628462736618820}
 --- !u!1 &6896746098783498082
 GameObject:
   m_ObjectHideFlags: 0
@@ -1104,7 +1115,7 @@ Transform:
   m_GameObject: {fileID: 9149770347567773960}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: -0.7071068, z: 0, w: 0.7071068}
-  m_LocalPosition: {x: 0.5, y: 0, z: -3.75}
+  m_LocalPosition: {x: 0.51, y: 0, z: -3.75}
   m_LocalScale: {x: 1, y: 1.5, z: 0.01}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -1200,4 +1211,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d666d965c34fe034f9261c370c7716bc, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::ButtonOutline
+  OutlineMask: 2
+  OUTLINE_DISTANCE: 4
   renderers: []

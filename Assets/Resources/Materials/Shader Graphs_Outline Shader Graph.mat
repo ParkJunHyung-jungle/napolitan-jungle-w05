@@ -40,7 +40,7 @@ Material:
     m_Floats:
     - _BUILTIN_QueueControl: 0
     - _BUILTIN_QueueOffset: 0
-    - _Outline_Thickness: 0.0031
+    - _Outline_Thickness: 5
     - _QueueControl: 0
     - _QueueOffset: 0
     m_Colors: []

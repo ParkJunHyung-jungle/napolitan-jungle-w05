@@ -57,6 +57,7 @@ public class FirstPersonController : MonoBehaviour
     {
         if (characterController == null) characterController = GetComponent<CharacterController>();
         if (firstPersonCamera == null) firstPersonCamera = GetComponentInChildren<FirstPersonCamera>();
+        Managers.Game.Player = this;
     }
 
     // 잠금 카운트가 남지 않도록 비활성화될 때 잡고 있던 것을 놓는다

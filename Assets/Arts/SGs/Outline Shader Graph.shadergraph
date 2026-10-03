@@ -620,7 +620,7 @@
     "m_LiteralFloatMode": false,
     "m_RangeValues": {
         "x": 2.0,
-        "y": 2.0
+        "y": 50.0
     },
     "m_SliderType": 0,
     "m_SliderPower": 3.0,
