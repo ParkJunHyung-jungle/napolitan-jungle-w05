@@ -139,6 +139,6 @@ MonoBehaviour:
     serializedVersion: 2
     m_Bits: 4294967295
   renderingLayerMask: 2
-  outlineMaterial: {fileID: 2100000, guid: a6d194230dfae8d4f8a91c75e5899571, type: 2}
+  outlineMaterial: {fileID: 2100000, guid: 42614b2d131f7d141a3d38577646dfad, type: 2}
   renderPassEvent: 300
   depthCompareFunction: 4
