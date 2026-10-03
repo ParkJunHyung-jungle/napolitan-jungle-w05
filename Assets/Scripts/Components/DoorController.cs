@@ -40,12 +40,9 @@ public class DoorController : MonoBehaviour, IInteractable
         _closedRotation = transform.localRotation;
         _openRotation = _closedRotation * Quaternion.Euler(0f, -_openAngle, 0f);
 
-        // 잠긴 문은 열 수 없으므로 타임라인의 노크와 문 열림은 잠기지 않은 문만 받는다.
+        // 잠긴 문은 열 수 없으므로 타임라인의 노크는 잠기지 않은 문만 받는다.
         if (!_isLocked)
-        {
-            Managers.Timeline.OnKnock += StartKnockEvent;
-            Managers.Timeline.OnDoorOpen += OpenByTimeline;
-        }
+            Managers.Timeline.OnDoorKnock += StartKnockEvent;
     }
 
     private void Update()
@@ -134,15 +131,6 @@ public class DoorController : MonoBehaviour, IInteractable
             Managers.Timeline.Report(open ? DeviceAction.DoorOpened : DeviceAction.DoorClosed);
 
         return true;
-    }
-
-    /// <summary>
-    /// 타임라인의 문 열림 이벤트를 받아 문을 연다.
-    /// TrySetState를 사용해 _isOpen을 true로 변경한다.
-    /// </summary>
-    private void OpenByTimeline()
-    {
-        TrySetState(true);
     }
 
 

@@ -8,6 +8,7 @@
   "RULE_5": "5. <b>저희는 인쇄 불량 있는 명령서를 발급하지 않습니다.</b>",
   "RULE_6": "6. 문 밖에서 신원 미상의 울음소리가 들려올 때는 전화를 수신하지 마십시오.",
   "RULE_7": "7. 04시 30분부터 불을 키고 문을 닫아주세요.",
-  "LETTER_THANKS": "<align=\"center\"><font=\"EastSeaDokdo-Regular SDF\"><size=350%><color=#8B0000>고마워</color></size></font></align>",
-  "LETTER_WHY": "<align=\"center\"><font=\"EastSeaDokdo-Regular SDF\"><size=350%><color=#8B0000>왜 안열어줬어?</color></size></font></align>"
+  "ERR_THANKS": "<align=\"center\"><font=\"EastSeaDokdo-Regular SDF\"><size=350%><color=#8B0000>고마워</color></size></font></align>",
+  "ERR_WHY": "<align=\"center\"><font=\"EastSeaDokdo-Regular SDF\"><size=350%><color=#8B0000>왜 안열어줬어?</color></size></font></align>",
+  "ERR_WHERE": "<align=\"center\"><font=\"EastSeaDokdo-Regular SDF\"><size=350%><color=#8B0000>어디에 있어?</color></size></font></align>"
 }
