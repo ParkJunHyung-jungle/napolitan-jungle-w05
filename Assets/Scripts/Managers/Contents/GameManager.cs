@@ -39,6 +39,9 @@ public class GameManager
     public GameObject DayEndCanvasPrefab => Resources.Load<GameObject>("Prefabs/UIs/DayEndCanvas");
     public GameObject GameOverCanvasPrefab => Resources.Load<GameObject>("Prefabs/UIs/GameOverCanvas");
 
+    private FirstPersonController _player;
+    public FirstPersonController Player { get; set; }
+
     /// <summary>
     /// 게임 정보와 날짜 이벤트를 초기화하고 정신력을 최대치로 설정한다.
     /// 정신력 최대값과 현재값을 관리하며 하루 종료 이벤트를 등록한다.
