@@ -1,5 +1,5 @@
 using System;
-
+using System.Collections;
 using UnityEngine;
 using UnityEngine.Audio;
 using UnityEngine.SceneManagement;
@@ -35,6 +35,7 @@ public class SoundManager
     private AudioSource _inseinSource;
     private AudioSource _paperSource;
 
+    public AudioSource OnThePhoneSource => _onThePhoneSource;
 
     /// <summary>
     /// Loads the Resources catalog and creates twelve independent audio channels under
@@ -445,13 +446,18 @@ public class SoundManager
         AudioClip[] clips = _catalog.PhoneWomenVoice;
         int index = UnityEngine.Random.Range(0, clips.Length);
         SoundPlay(_onThePhoneSource, clips[index], false);
-
     }
 
-    public void PhoneOffSound()
+
+    public void CallEndSound()
     {
         SoundPlay(_onThePhoneSource, _catalog.PhoneOff, true);
 
+    }
+
+    public void StopCallEndSound()
+    {
+        _onThePhoneSource.Stop();
     }
 
     /// 우는 소리를 루프로 재생한다.

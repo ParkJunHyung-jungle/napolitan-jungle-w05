@@ -1,4 +1,5 @@
 using System;
+using System.Collections;
 
 using UnityEngine;
 
@@ -11,7 +12,9 @@ public class TelephoneController : MonoBehaviour, IInteractable
         InCall
     }
 
+    [Header("통화 상태")]
     private CallState _callState;
+    private Coroutine _waitAndPlayCoroutine;
 
     public bool IsCalling => _callState != CallState.Idle;
     public bool IsInCall => _callState == CallState.InCall;
@@ -51,8 +54,13 @@ public class TelephoneController : MonoBehaviour, IInteractable
             return;
 
         _callState = CallState.Idle;
-
-        Managers.Sound.PhoneOffSound();
+        if (_waitAndPlayCoroutine != null)
+        {
+            StopCoroutine(_waitAndPlayCoroutine);
+            _waitAndPlayCoroutine = null;
+        }
+        Managers.Sound.StopCallEndSound();
+        //Managers.Sound.CallEndSound();
         Managers.Sound.PhoneHangUp();
         OnCallStateChanged?.Invoke();
     }
@@ -93,15 +101,30 @@ public class TelephoneController : MonoBehaviour, IInteractable
             Managers.Sound.PhonePickUp();
 
 
-            int i = UnityEngine.Random.Range(0, 1);
+            int i = UnityEngine.Random.Range(0, 2);
             if (i == 0)
                 Managers.Sound.TalkingManVoice();
             else
                 Managers.Sound.TalkingWomenVoice();
-
+            _waitAndPlayCoroutine = StartCoroutine(WaitAndPlay());
             OnCallStateChanged?.Invoke();
         }
         else if (_callState == CallState.InCall)
             HangUp();
+    }
+    /// <summary>
+    /// 전화 음성 소스의 재생이 끝날 때까지 기다린 후 통화 종료음을 재생한다.
+    /// OnThePhoneSource의 재생 상태를 사용하며 완료 시 대기 코루틴 참조를 해제한다.
+    /// </summary>
+    private IEnumerator WaitAndPlay()
+    {
+        // 현재 클립의 재생이 끝날 때까지 대기
+        yield return new WaitUntil(() => !Managers.Sound.OnThePhoneSource.isPlaying);
+
+        // 같은 AudioSource에 다음 클립을 넣고 재생
+        if (_callState == CallState.InCall)
+            Managers.Sound.CallEndSound();
+
+        _waitAndPlayCoroutine = null;
     }
 }
