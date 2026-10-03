@@ -15,7 +15,7 @@ public class DoorsController : MonoBehaviour
         Managers.Sound.RegisterAudioSource(AudioSourceTypes.DOOR, _door);
         Managers.Sound.RegisterAudioSource(AudioSourceTypes.LOCKEDDOOR, _lockedDoor);
         Managers.Sound.RegisterAudioSource(AudioSourceTypes.CRYING, _crying);
-        Managers.Timeline.OnCryingStop += StopCrying;
+        Managers.Timeline.OnPhoneCryingStop += StopCrying;
     }
 
     /// <summary>

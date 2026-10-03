@@ -23,7 +23,7 @@ public class TelephoneController : MonoBehaviour, IInteractable
     {
         Managers.Sound.RegisterAudioSource(AudioSourceTypes.TELEPHONE, gameObject.GetComponent<AudioSource>());
         Managers.Timeline.OnPhoneRing += ReceiveCall;
-        Managers.Timeline.OnPhoneStop += StopRinging;
+        Managers.Timeline.OnPhoneRingStop += StopRinging;
     }
 
     /// <summary>
