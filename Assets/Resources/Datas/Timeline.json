@@ -31,7 +31,7 @@
     { "time": "03:30", "type": "LightBlink", "check": { "id": "LIGHT_BLINK", "minutes": 10, "require": ["LightOff", "LightOn"], "fail": { "penalty": true } } },
     { "time": "03:30", "type": "PhoneRing", "check": { "id": "PHONE_RING", "minutes": 5, "require": ["PhoneAnswered"], "fail": { "penalty": true } } },
     { "time": "03:35", "type": "PhoneRingStop" },
-    { "time": "03:42", "type": "PhoneCrying" },
+    { "time": "03:35", "type": "PhoneCrying" },
     { "time": "03:45", "type": "PhoneRing", "check": { "id": "PHONE_CRYING", "minutes": 10, "forbid": ["PhoneAnswered"], "fail": { "penalty": true } } },
     { "time": "03:45", "type": "DoorKnock", "check": { "id": "DOOR_KNOCK", "minutes": 5, "require": ["DoorOpened"], "fail": { "penalty": true } } },
     { "time": "03:55", "type": "PhoneCryingStop" },
@@ -42,7 +42,7 @@
     { "time": "04:30", "type": "CompositeCheck", "check": { "id": "MORNING", "minutes": 30, "keep": ["LightOff", "DoorOpened"], "whileHeld": { "every": 2, "errorFax": "ERR_WHERE" } } },
     { "time": "04:35", "type": "PhoneRing", "check": { "id": "PHONE_RING", "minutes": 5, "require": ["PhoneAnswered"], "fail": { "penalty": true } } },
     { "time": "04:40", "type": "PhoneRingStop" },
-    { "time": "04:42", "type": "PhoneCrying" },
+    { "time": "04:35", "type": "PhoneCrying" },
     { "time": "04:45", "type": "PhoneRing", "check": { "id": "PHONE_CRYING", "minutes": 10, "forbid": ["PhoneAnswered"], "fail": { "penalty": true } } },
     { "time": "04:55", "type": "PhoneCryingStop" },
     { "time": "04:55", "type": "PhoneRingStop" }
