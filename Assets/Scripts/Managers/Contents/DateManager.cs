@@ -2,27 +2,6 @@ using System;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
-public enum ResearchType
-{
-    SelfGenerate,
-    SelfGenerate2,
-    BatteryMax,
-    TowerEfficiency,
-    WheelPower,
-    WheelPower2,
-    TowerWire,
-    MoveFast,
-
-}
-
-public class ResourcesData
-{
-    public float CurrentEnergy;
-    public float MaxEnergy;
-    public float Scale;
-    public float Mass;
-}
-
 public class DateManager
 {
     private float _elapsedTime;
@@ -38,13 +17,17 @@ public class DateManager
             int pastMinute = CurrentMinute;
             int pastDay = CurrentDay;
             _elapsedTime = value;
-            if (pastMinute != CurrentMinute)
-            {
-                OnMinuteChange?.Invoke(CurrentMinute);
-            }
+
+            // 날짜가 바뀌면 분이 0으로 돌아가므로 분 변경 대신 하루 종료만 알린다.
             if (pastDay != CurrentDay)
             {
                 OnDayEnd?.Invoke();
+                return;
+            }
+
+            if (pastMinute != CurrentMinute)
+            {
+                OnMinuteChange?.Invoke(CurrentMinute);
             }
         }
     }

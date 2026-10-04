@@ -26,8 +26,13 @@ public class TimelineManager
 
     public event Action OnPhoneRing;
     public event Action OnPhoneRingStop;
+    public event Action OnPhoneHangUp;
     public event Action OnPhoneCryingStop;
     public event Action OnDoorKnock;
+    public event Action OnDoorKnockStop;
+
+    [Header("Day")]
+    private bool _isDayEnded;
 
     [Header("Device State")]
     private bool _isLightOn = true;
@@ -68,22 +73,23 @@ public class TimelineManager
 
     /// <summary>
     /// 씬 오브젝트가 구독한 이벤트를 모두 해제하고 예약된 에러 팩스 출력을 멈춘다.
-    /// 판정 구간, 플래그, 기록, 장치 상태를 처음 상태로 되돌려 다음 판에 이전 판의 결과가 남지 않게 한다.
+    /// 판정 구간, 플래그, 기록, 하루 종료 여부, 장치 상태를 처음 상태로 되돌려 다음 판에 이전 판의 결과가 남지 않게 한다.
     /// </summary>
     public void Clear()
     {
         OnPhoneRing = null;
         OnPhoneRingStop = null;
+        OnPhoneHangUp = null;
         OnPhoneCryingStop = null;
         OnDoorKnock = null;
+        OnDoorKnockStop = null;
 
-        foreach (Coroutine coroutine in _delayedErrorFaxCoroutines)
-            Managers.Instance.StopCoroutine(coroutine);
-        _delayedErrorFaxCoroutines.Clear();
+        StopDelayedErrorFaxes();
 
         _checks.Clear();
         _flags.Clear();
         _checkRecords.Clear();
+        _isDayEnded = false;
         _isLightOn = true;
         _isLightBlinking = false;
         _isDoorOpen = false;
@@ -94,10 +100,14 @@ public class TimelineManager
 
     /// <summary>
     /// minute에 끝나는 판정 구간을 마무리하고 반복 구간을 확인한 뒤, minute에 등록된 이벤트를 Timeline.json에 적힌 순서대로 실행한다.
-    /// If, IfNot 조건을 만족하지 않는 이벤트는 건너뛰고, Check가 있는 이벤트는 판정 구간을 시작한다.
+    /// If, IfNot 조건을 만족하지 않는 이벤트는 건너뛰고, Check가 있는 이벤트는 판정 구간을 시작하며, 하루가 끝난 뒤에는 아무것도 하지 않는다.
     /// </summary>
     public void TriggerEvents(int minute)
     {
+        // 하루가 끝난 뒤에는 미니게임을 방해하지 않도록 타임라인을 진행하지 않는다.
+        if (_isDayEnded)
+            return;
+
         ExpireChecks(minute);
         RepeatChecks(minute);
 
@@ -266,12 +276,46 @@ public class TimelineManager
     }
 
     /// <summary>
-    /// 하루가 끝났을 때 남은 판정 구간을 모두 마무리한다.
-    /// DateManager는 하루가 끝나면 분을 0으로 되돌리므로 05:00에 끝나는 구간은 여기서 처리된다.
+    /// 하루가 끝났을 때 남은 판정 구간을 결산하고 미니게임을 위해 타임라인을 정리한다.
+    /// 결과를 기록한 뒤 모든 구간과 예약된 에러 팩스를 제거해 이후 이벤트를 막고, 문과 조명 상태는 유지한 채 연출을 멈추고 전화를 끊는다.
     /// </summary>
     private void ExpireAllChecks()
     {
+        // DateManager는 05:00을 분 변경으로 보내지 않으므로 05:00에 끝나는 구간은 여기서 결산한다.
         ExpireChecks(int.MaxValue);
+
+        // 결산 뒤 남은 Overdue 구간까지 제거해 미니게임 중 정신력이 줄지 않게 한다.
+        _checks.Clear();
+        StopDelayedErrorFaxes();
+        _isDayEnded = true;
+
+        if (_isCrying)
+            OnPhoneCryingStop?.Invoke();
+        if (_isKnocking)
+            OnDoorKnockStop?.Invoke();
+        // 조명 상태에 맞춰 다시 켜거나 꺼서 켜짐/꺼짐은 유지하고 깜빡임만 멈춘다.
+        if (_isLightBlinking)
+        {
+            if (_isLightOn)
+                Managers.Light.RoomLightOn();
+            else
+                Managers.Light.RoomLightOff();
+        }
+        _isCrying = false;
+        _isKnocking = false;
+        _isLightBlinking = false;
+
+        OnPhoneHangUp?.Invoke();
+    }
+
+    /// <summary>
+    /// 예약된 에러 팩스 출력 코루틴을 모두 멈추고 _delayedErrorFaxCoroutines를 비운다.
+    /// </summary>
+    private void StopDelayedErrorFaxes()
+    {
+        foreach (Coroutine coroutine in _delayedErrorFaxCoroutines)
+            Managers.Instance.StopCoroutine(coroutine);
+        _delayedErrorFaxCoroutines.Clear();
     }
 
     /// <summary>

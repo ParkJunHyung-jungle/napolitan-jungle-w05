@@ -40,9 +40,12 @@ public class DoorController : MonoBehaviour, IInteractable
         _closedRotation = transform.localRotation;
         _openRotation = _closedRotation * Quaternion.Euler(0f, -_openAngle, 0f);
 
-        // 잠긴 문은 열 수 없으므로 타임라인의 노크는 잠기지 않은 문만 받는다.
+        // 잠긴 문은 열 수 없으므로 타임라인의 노크 시작과 정지는 잠기지 않은 문만 받는다.
         if (!_isLocked)
+        {
             Managers.Timeline.OnDoorKnock += StartKnockEvent;
+            Managers.Timeline.OnDoorKnockStop += StopKnock;
+        }
     }
 
     private void Update()
@@ -154,7 +157,7 @@ public class DoorController : MonoBehaviour, IInteractable
 
 
     /// <summary>
-    /// 상호작용이나 비활성화를 받아 반복 노크 예약을 중지한다.
+    /// 상호작용이나 타임라인의 노크 정지 요청을 받아 반복 노크를 중지한다.
     /// _knockRoutine을 멈추고 _isKnocking 상태를 해제한다.
     /// </summary>
     private void StopKnock()

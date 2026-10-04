@@ -31,6 +31,7 @@ public class TelephoneController : MonoBehaviour, IInteractable
         Managers.Sound.RegisterAudioSource(AudioSourceTypes.TELEPHONE, gameObject.GetComponent<AudioSource>());
         Managers.Timeline.OnPhoneRing += ReceiveCall;
         Managers.Timeline.OnPhoneRingStop += StopRinging;
+        Managers.Timeline.OnPhoneHangUp += ForceHangUp;
     }
 
     /// <summary>
@@ -87,6 +88,24 @@ public class TelephoneController : MonoBehaviour, IInteractable
 
         Managers.Sound.StopPhoneRinging();
         OnCallStateChanged?.Invoke();
+    }
+
+    /// <summary>
+    /// 타임라인의 전화 종료 요청을 받아 현재 상태와 관계없이 전화를 대기 상태로 만든다.
+    /// 울리는 중이면 벨을 멈추고, 통화 중이면 끊은 뒤 수화기를 제자리에 표시한다.
+    /// </summary>
+    private void ForceHangUp()
+    {
+        switch (_callState)
+        {
+            case CallState.Ringing:
+                StopRinging();
+                break;
+            case CallState.InCall:
+                HangUp();
+                _receiver.SetActive(true);
+                break;
+        }
     }
 
     /// <summary>

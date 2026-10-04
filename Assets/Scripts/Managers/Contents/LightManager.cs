@@ -14,6 +14,7 @@ public class LightManager
 
     [Header("Environment")]
     private Material _nightSky;
+    private Material _morningSky;
 
     [Header("Lights")]
     private LightController _roomLight;
@@ -24,6 +25,7 @@ public class LightManager
     private Coroutine _emergencyPunchCoroutine;
 
     public Material LoadNightSky => Resources.Load<Material>("Materials/Night_Sky");
+    public Material LoadMorningSky => Resources.Load<Material>("Materials/Morning_Sky");
     public GameObject LoadAmbientLight => Resources.Load<GameObject>("Prefabs/Lights/AmbientLight");
     public GameObject LoadRoomLight => Resources.Load<GameObject>("Prefabs/Lights/RoomLight");
     public GameObject LoadStairLight => Resources.Load<GameObject>("Prefabs/Lights/StairLight");
@@ -32,7 +34,9 @@ public class LightManager
     public void Init()
     {
         _nightSky = LoadNightSky;
+        _morningSky = LoadMorningSky;
         ApplyEnvironment();
+        ApplyNightSky();
 
         _ambientLight = InstantiateLight(LoadAmbientLight).GetComponent<LightController>();
         _roomLight = InstantiateLight(LoadRoomLight).GetComponent<LightController>();
@@ -41,6 +45,8 @@ public class LightManager
 
         RoomLightTintDefault();
         RoomLightOn();
+
+        Managers.Date.OnDayEnd += ApplyMorningSky;
     }
 
     public void Clear()
@@ -76,10 +82,32 @@ public class LightManager
         _roomLight.SetColor(RED_COLOR);
     }
 
+    /// <summary>
+    /// 하늘과 무관한 공통 환경 설정을 적용한다.
+    /// RenderSettings.reflectionIntensity를 REFLECTION_INTENSITY로 변경한다.
+    /// </summary>
     private void ApplyEnvironment()
     {
-        RenderSettings.skybox = _nightSky;
         RenderSettings.reflectionIntensity = REFLECTION_INTENSITY;
+    }
+
+    /// <summary>
+    /// 스카이박스를 밤 하늘로 바꾸고 환경광을 다시 계산한다.
+    /// _nightSky를 RenderSettings.skybox에 지정한다.
+    /// </summary>
+    private void ApplyNightSky()
+    {
+        RenderSettings.skybox = _nightSky;
+        DynamicGI.UpdateEnvironment();
+    }
+
+    /// <summary>
+    /// 하루 종료를 받아 스카이박스를 아침 하늘로 바꾸고 환경광을 다시 계산한다.
+    /// _morningSky를 RenderSettings.skybox에 지정한다.
+    /// </summary>
+    private void ApplyMorningSky()
+    {
+        RenderSettings.skybox = _morningSky;
         DynamicGI.UpdateEnvironment();
     }
 
