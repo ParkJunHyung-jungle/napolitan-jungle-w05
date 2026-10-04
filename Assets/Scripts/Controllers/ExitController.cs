@@ -11,30 +11,25 @@ public class ExitController : MonoBehaviour
 
     [Header("UI")]
     [SerializeField] private GameObject _noCompleteCanvasPrefab;
-    [SerializeField] private GameObject _endingPanel;
     [SerializeField] private string _incompleteMessage = "임무를 완수한 후 나가세요.";
 
     [Header("Contact")]
-    private readonly HashSet<Collider> _playerContacts = new();
     private GameObject _toastCanvas;
     private Coroutine _hideToastCoroutine;
     private bool _isDayEnded;
     private bool _isMissionComplete;
-    private bool _endingShown;
 
     void OnEnable()
     {
         Managers.Date.OnDayEnd += HandleDayEnd;
         Managers.Game.OnMissionCompleted += HandleMissionCompleted;
         _isDayEnded = Managers.Game.IsDayEnded;
-        _isMissionComplete = Managers.Game.IsMissionComplete;
     }
 
     void OnDisable()
     {
         Managers.Date.OnDayEnd -= HandleDayEnd;
         Managers.Game.OnMissionCompleted -= HandleMissionCompleted;
-        _playerContacts.Clear();
         HideToast();
         if (_toastCanvas != null)
             Destroy(_toastCanvas);
@@ -43,31 +38,20 @@ public class ExitController : MonoBehaviour
     void OnTriggerEnter(Collider other)
     {
         FirstPersonController player = other.GetComponentInParent<FirstPersonController>();
-        if (player == null || player != Managers.Game.Player)
+        if (player == null)
             return;
 
-        if (!_playerContacts.Add(other) || _playerContacts.Count != 1 || !_isDayEnded)
+        if (!_isDayEnded)
             return;
 
         if (_isMissionComplete)
         {
-            if (_endingShown)
-                return;
-
-            _endingShown = true;
-            HideToast();
-            _endingPanel.SetActive(true);
-            Managers.Input.SetInputMode(InputMode.UI);
+            Managers.Game.ShowEndingCanvas();
         }
         else
         {
             ShowToast();
         }
-    }
-
-    void OnTriggerExit(Collider other)
-    {
-        _playerContacts.Remove(other);
     }
 
     /// <summary>

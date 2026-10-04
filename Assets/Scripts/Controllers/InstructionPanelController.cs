@@ -14,6 +14,8 @@ public class InstructionPanelController : MonoBehaviour
     private int _instructionCount;
     private int _completedInstructionCount;
 
+    public bool AreAllInstructionsCompleted => _instructionCount == _completedInstructionCount;
+
     private void Awake()
     {
         _panel = transform.Find("Panel").GetComponent<RectTransform>();

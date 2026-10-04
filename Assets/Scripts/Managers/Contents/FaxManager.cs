@@ -66,6 +66,8 @@ public class FaxManager
             return;
 
         _instructionPanel.OnInstructionDestroyed();
+        if (Managers.Game.IsDayEnded && _instructionPanel.AreAllInstructionsCompleted)
+            Managers.Game.CompleteMission();
     }
 
     //리치 텍스트에서 폰트 사용 시 TMP Settings에 지정된 경로(기본 Resources/Fonts & Materials)에 폰트 에셋이 있어야 함
