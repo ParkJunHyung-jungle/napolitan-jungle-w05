@@ -49,7 +49,11 @@ public class InputManager
 
     }
 
-    public void SetInputMode(InputMode mode)
+    /// <summary>
+    /// mode에 맞춰 입력 맵과 커서를 전환한다.
+    /// UI 모드에서는 pauseGame이 true일 때만 게임 시간을 멈춘다.
+    /// </summary>
+    public void SetInputMode(InputMode mode, bool pauseGame = true)
     {
         _inputMode = mode;
 
@@ -73,7 +77,8 @@ public class InputManager
             UIMap.Enable();
             Cursor.lockState = CursorLockMode.None;
             Cursor.visible = true;
-            Time.timeScale = 0f;
+            if (pauseGame)
+                Time.timeScale = 0f;
         }
     }
 }

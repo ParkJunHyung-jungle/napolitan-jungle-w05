@@ -76,8 +76,8 @@ public class CheckOutcome
 }
 
 /// <summary>
-/// Keep 상태가 깨져 있는 동안 반복할 결과이다.
-/// 깨져 있는 동안 Every분 간격으로 ErrorFax를 출력하며, 정신력 감소는 깨져 있는 동안 OverdueAnomalyCount를 통해 지속 적용된다.
+/// Keep 상태가 깨졌거나 유지되는 동안 반복할 결과이다.
+/// 설정된 상태에서 Every분 간격으로 ErrorFax를 출력하며, 정신력 감소는 깨진 상태를 OverdueAnomalyCount로 세어 적용한다.
 /// </summary>
 public class CheckRepeat
 {
@@ -90,7 +90,7 @@ public class CheckRepeat
 /// <summary>
 /// 이벤트에 붙는 판정 구간이다. 이벤트 시각부터 Minutes분 동안 장치 동작을 판정한다.
 /// Require는 순서대로 해야 할 동작, Forbid는 하면 안 되는 동작, Keep은 구간 내내 유지할 상태이다.
-/// WhileBroken이 있으면 Keep이 깨져도 바로 실패하지 않고 구간 끝까지 감시하며 반복 결과를 실행한다.
+/// WhileBroken 또는 WhileHeld가 있으면 Keep 상태가 바뀌어도 구간 끝까지 감시하며 해당 상태의 반복 결과를 실행한다.
 /// </summary>
 public class CheckData
 {
@@ -110,6 +110,8 @@ public class CheckData
     public CheckOutcome Fail { get; private set; }
     [JsonProperty]
     public CheckRepeat WhileBroken { get; private set; }
+    [JsonProperty]
+    public CheckRepeat WhileHeld { get; private set; }
 }
 
 /// <summary>

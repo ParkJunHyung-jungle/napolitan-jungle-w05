@@ -21,6 +21,7 @@ public class GameManager
     public event Action<float, float> OnMentalityChanged;
 
     private bool _isDayEnd = false;
+    public bool IsDayEnded => _isDayEnd;
     private bool _isGameOver;
 
     private bool _isLeverPulledAtTwo = false;
@@ -68,12 +69,12 @@ public class GameManager
     }
 
     /// <summary>
-    /// GameManager의 정리 요청을 처리한다.
-    /// 현재 별도로 해제할 상태가 없어 저장된 정신력과 게임 정보를 유지한다.
+    /// 게임 재시작 시 하루 종료 상태를 초기화한다.
+    /// _isDayEnd를 false로 바꿔 다음 플레이에서 종료 이벤트를 다시 받을 수 있게 한다.
     /// </summary>
     public void Clear()
     {
-
+        _isDayEnd = false;
     }
 
     /// <summary>
@@ -87,7 +88,7 @@ public class GameManager
         _isDayEnd = true;
         Managers.Sound.StopInseinSound();
         _dayEndCanvas.gameObject.SetActive(true);
-        Managers.Input.SetInputMode(InputMode.UI);
+        Managers.Input.SetInputMode(InputMode.UI, false);
     }
 
     /// <summary>
@@ -215,12 +216,11 @@ public class GameManager
 
     /// <summary>
     /// 하루 종료 버튼 입력을 받아 하루 종료 화면을 닫고 플레이어 입력 모드로 전환한다.
-    /// _dayEndCanvas의 활성 상태와 입력 모드를 변경하고 다음 날 시작 이벤트를 발생시킨다.
+    /// _dayEndCanvas의 활성 상태와 입력 모드를 변경하며 게임 시계는 종료 상태로 유지한다.
     /// </summary>
     private void OnDayEndButtonClick()
     {
         _dayEndCanvas.gameObject.SetActive(false);
-        Managers.Date.StartDay();
         Managers.Input.SetInputMode(InputMode.Player);
     }
 
