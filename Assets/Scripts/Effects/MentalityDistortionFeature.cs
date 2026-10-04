@@ -16,7 +16,7 @@ public class MentalityDistortionFeature : FullScreenPassRendererFeature
 
     /// <summary>
     /// 현재 카메라에 전체 화면 왜곡 패스를 추가하면서 정신력에 따른 세기를 설정한다.
-    /// Managers.Game의 DayEnd 상태와 정신력 비율을 사용하며 passMaterial의 왜곡과 붉은 효과 상태를 갱신한다.
+    /// Managers.Game의 DayEnd 상태, 이상현상, 문 열림과 전등 꺼짐 상태, 정신력 비율을 사용하며 passMaterial의 왜곡과 붉은 효과 상태를 갱신한다.
     /// </summary>
     public override void AddRenderPasses(ScriptableRenderer renderer, ref RenderingData renderingData)
     {
@@ -25,7 +25,8 @@ public class MentalityDistortionFeature : FullScreenPassRendererFeature
 
         float strength = 0f;
         float redProgress = -1f;
-        if (Application.isPlaying && (Managers.Game.IsDayEnded || Managers.Timeline.HasActiveAnomalies))
+        if (Application.isPlaying && (Managers.Game.IsDayEnded || Managers.Timeline.HasActiveAnomalies
+            || Managers.Timeline.IsDoorLeftOpen || Managers.Timeline.IsLightLeftOff))
         {
             GameManager game = Managers.Game;
             float mentalityRatio = game.CurrentMentality / game.MaxMentality;
