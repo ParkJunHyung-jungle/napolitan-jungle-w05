@@ -7,7 +7,8 @@ using UI;
 public class GameManager
 {
     private const float DEFAULT_MAX_MENTALITY = 100f;
-    private const float MENTALITY_INSEIN_THRESHOLD = 0.5f;
+    private const float MENTALITY_INSEIN_THRESHOLD = 0.25f;
+    private const float MENTALITY_HEARTBEAT_THRESHOLD = 0.75f;
     private const float MENTALITY_STAGE_2_THRESHOLD = 0.75f;
     private const float MENTALITY_STAGE_3_THRESHOLD = 0.5f;
     private const float MENTALITY_STAGE_4_THRESHOLD = 0.25f;
@@ -114,6 +115,7 @@ public class GameManager
             return;
         _isDayEnd = true;
         Managers.Sound.StopInseinSound();
+        Managers.Sound.StopHeartBeatSound();
         _dayEndCanvas.gameObject.SetActive(true);
         Managers.Input.SetInputMode(InputMode.UI, false);
     }
@@ -124,6 +126,15 @@ public class GameManager
     /// </summary>
     public void ShowGameOverCanvas()
     {
+        if (_isGameOver)
+            return;
+
+        _isGameOver = true;
+        Managers.Sound.StopInseinSound();
+        Managers.Sound.StopHeartBeatSound();
+        Time.timeScale = 0f;
+        Managers.Sound.GameOverSound();
+
         _gameOverCanvas.gameObject.SetActive(true);
         Managers.Input.SetInputMode(InputMode.UI);
     }
@@ -142,13 +153,23 @@ public class GameManager
             return;
 
         bool wasInseinRange = _currentMentality / _maxMentality <= MENTALITY_INSEIN_THRESHOLD;
+        bool wasHeartbeatRange = _currentMentality / _maxMentality <= MENTALITY_HEARTBEAT_THRESHOLD;
         _currentMentality = currentMentality;
         Debug.Log($"정신력: {_currentMentality:F1} / {_maxMentality:F1}, 요청 변화량: {amount:+0.0;-0.0;0}");
         ApplyMentalityDistortion();
         OnMentalityChanged?.Invoke(_currentMentality, _maxMentality);
 
+        bool hasActiveAnomalies = Managers.Timeline.HasActiveAnomalies
+            || Managers.Timeline.IsDoorLeftOpen || Managers.Timeline.IsLightLeftOff;
+        if (!hasActiveAnomalies)
+        {
+            Managers.Sound.StopInseinSound();
+            Managers.Sound.StopHeartBeatSound();
+        }
+
+
         bool isInseinRange = _currentMentality / _maxMentality <= MENTALITY_INSEIN_THRESHOLD;
-        if (wasInseinRange != isInseinRange)
+        if (hasActiveAnomalies && wasInseinRange != isInseinRange)
         {
             if (isInseinRange)
                 Managers.Sound.InseinSound();
@@ -156,8 +177,17 @@ public class GameManager
                 Managers.Sound.StopInseinSound();
         }
 
+        bool isHeartbeatRange = _currentMentality / _maxMentality <= MENTALITY_HEARTBEAT_THRESHOLD;
+        if (hasActiveAnomalies && wasHeartbeatRange != isHeartbeatRange)
+        {
+            if (isHeartbeatRange)
+                Managers.Sound.HeartBeatSound();
+            else
+                Managers.Sound.StopHeartBeatSound();
+        }
+
         if (Mathf.Approximately(_currentMentality, 0f))
-            ShowGameOver();
+            ShowGameOverCanvas();
     }
 
     /// <summary>
@@ -205,23 +235,6 @@ public class GameManager
             intensity = STAGE_4_DISTORTION_INTENSITY;
 
         Managers.PostProcessing.SetDistortion(intensity);
-    }
-
-    /// <summary>
-    /// 게임오버 화면과 사운드를 실행하고 재시작 버튼에 현재 씬 재로드를 연결한다.
-    /// _isGameOver를 설정해 중복 실행을 막고 Time.timeScale을 정지 상태로 변경한다.
-    /// </summary>
-    private void ShowGameOver()
-    {
-        if (_isGameOver)
-            return;
-
-        _isGameOver = true;
-        Managers.Sound.StopInseinSound();
-        Time.timeScale = 0f;
-        Managers.Sound.GameOverSound();
-
-        _gameOverCanvas.gameObject.SetActive(true);
     }
 
     /// <summary>

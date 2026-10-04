@@ -78,6 +78,7 @@ public class FaxManager
     public void InstantiateFaxMessage(string message, bool isReal)
     {
         SpawnFaxMessage(message, isReal, true);
+        Managers.Sound.FaxSound();
     }
 
     /// <summary>
@@ -87,6 +88,7 @@ public class FaxManager
     public void PrintErrorFax(string message)
     {
         SpawnFaxMessage(message, false, false);
+        Managers.Sound.FaxErrorSound();
     }
 
     /// <summary>
@@ -103,7 +105,6 @@ public class FaxManager
         instruction.SetReal(isReal);
         instruction.SetInstruction(isInstruction);
 
-        Managers.Sound.FaxSound();
         _instructions.Add(instruction);
     }
 

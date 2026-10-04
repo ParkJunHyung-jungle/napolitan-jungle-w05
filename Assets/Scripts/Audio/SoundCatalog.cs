@@ -29,6 +29,7 @@ public class SoundCatalog : ScriptableObject
     [SerializeField] private AudioClip _switchOn;
     [SerializeField] private AudioClip _switchOff;
     [SerializeField] private AudioClip _fax;
+    [SerializeField] private AudioClip _faxError;
     [SerializeField] private AudioClip _handlingPaper;
     [SerializeField] private AudioClip _hitPlayer;
     [SerializeField] private AudioClip _lamp;
@@ -44,6 +45,7 @@ public class SoundCatalog : ScriptableObject
     public AudioClip SwitchOn => _switchOn;
     public AudioClip SwitchOff => _switchOff;
     public AudioClip Fax => _fax;
+    public AudioClip FaxError => _faxError;
     public AudioClip HandlingPaper => _handlingPaper;
     public AudioClip HitPlayer => _hitPlayer;
     public AudioClip Lamp => _lamp;
