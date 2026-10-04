@@ -3,6 +3,8 @@ using UnityEngine.UI;
 
 public class SceneContext : MonoBehaviour
 {
+    private const float DOOR_OPEN_DRAIN_RATE = 0.25f;
+
     [SerializeField]
     private Canvas _dateCanvas;
     [SerializeField]
@@ -23,6 +25,9 @@ public class SceneContext : MonoBehaviour
     {
         Managers.Date.ElapsedTime += Time.deltaTime;
         SetDateUI();
+
+        if (Managers.Timeline.IsDoorLeftOpen)
+            Managers.Game.ChangeMentality(-DOOR_OPEN_DRAIN_RATE * Time.deltaTime);
 
         if (Managers.Timeline.OverdueAnomalyCount > 0)
             Managers.Game.ChangeMentality(-Managers.Timeline.OverdueAnomalyCount * Time.deltaTime);

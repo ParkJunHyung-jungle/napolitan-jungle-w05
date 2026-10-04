@@ -54,6 +54,8 @@ public class TimelineManager
     public bool HasActiveAnomalies => _checks.Count > 0;
     // 기한을 넘긴 구간과 지금 Keep이 깨진 반복 구간을 정신력 지속 감소 대상으로 센다.
     public int OverdueAnomalyCount => _checks.Count(check => check.IsOverdue || (check.IsRepeating && check.IsKeepBroken(IsStateHeld)));
+    // 하루가 끝난 뒤 미니게임 중에는 문이 열려 있어도 정신력 감소 대상으로 보지 않는다.
+    public bool IsDoorLeftOpen => _isDoorOpen && !_isDayEnded;
 
     /// <summary>
     /// Resources의 Texts.json과 Timeline.json을 읽어 문구, 명령서 구성, 시각별 이벤트를 준비한다.
@@ -100,7 +102,7 @@ public class TimelineManager
 
     /// <summary>
     /// minute에 끝나는 판정 구간을 마무리하고 반복 구간을 확인한 뒤, minute에 등록된 이벤트를 Timeline.json에 적힌 순서대로 실행한다.
-    /// If, IfNot 조건을 만족하지 않는 이벤트는 건너뛰고, Check가 있는 이벤트는 판정 구간을 시작하며, 하루가 끝난 뒤에는 아무것도 하지 않는다.
+    /// If, IfNot 조건을 만족하지 않는 이벤트와 문이 열려 있을 때의 DoorKnock 이벤트는 건너뛰고, Check가 있는 이벤트는 판정 구간을 시작하며, 하루가 끝난 뒤에는 아무것도 하지 않는다.
     /// </summary>
     public void TriggerEvents(int minute)
     {
@@ -114,6 +116,9 @@ public class TimelineManager
         foreach (TimelineEvent timelineEvent in _events[minute])
         {
             if (!IsConditionMet(timelineEvent))
+                continue;
+            // 문이 열려 있으면 노크할 수 없으므로 노크와 판정 구간을 함께 건너뛴다.
+            if (timelineEvent.Type == TimelineEventType.DoorKnock && _isDoorOpen)
                 continue;
 
             Execute(timelineEvent);
@@ -235,7 +240,7 @@ public class TimelineManager
 
     /// <summary>
     /// timelineEvent의 Check로 판정 구간을 만들어 minute부터 시작한다.
-    /// 시작 시점에 실패하면 바로 기록하고, 아니면 _checks에 추가한 뒤 반복 구간은 상태가 이미 깨졌는지 확인한다.
+    /// 시작 시점에 결과가 정해지면 바로 기록하고, 아니면 _checks에 추가한 뒤 반복 구간은 상태가 이미 깨졌는지 확인한다.
     /// </summary>
     private void StartCheck(TimelineEvent timelineEvent, int minute)
     {
@@ -383,7 +388,7 @@ public class TimelineManager
 
     /// <summary>
     /// 판정 결과 outcome에 적힌 플래그 기록, 선택적 정신력 감소, 에러 팩스 출력을 실행한다.
-    /// applyPenalty가 true일 때만 정신력 감소를 적용하고, 에러 팩스는 Delay가 있으면 그만큼 기다린 뒤 출력한다.
+    /// applyPenalty가 true일 때만 펀치 연출과 함께 정신력 감소를 적용하고, 에러 팩스는 Delay가 있으면 그만큼 기다린 뒤 출력한다.
     /// </summary>
     private void ApplyOutcome(CheckOutcome outcome, bool applyPenalty)
     {
@@ -394,7 +399,7 @@ public class TimelineManager
         if (outcome.Flag != null)
             _flags.Add(outcome.Flag);
         if (applyPenalty && outcome.Penalty)
-            Managers.Game.ChangeMentality(-RULE_FAIL_PENALTY);
+            Managers.Game.PunchMentality(RULE_FAIL_PENALTY);
         if (outcome.ErrorFax == null)
             return;
 
