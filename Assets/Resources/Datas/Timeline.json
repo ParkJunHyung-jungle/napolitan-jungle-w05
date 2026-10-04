@@ -14,7 +14,7 @@
     { "time": "01:00", "type": "Instruction", "arg": "INSTRUCTION_01" },
     { "time": "01:15", "type": "PhoneRing", "check": { "id": "PHONE_RING", "minutes": 5, "require": ["PhoneAnswered"], "fail": { "penalty": true } } },
     { "time": "01:20", "type": "PhoneRingStop" },
-    { "time": "01:20", "type": "CompositeCheck", "check": { "id": "FAKE_DOOR", "minutes": 20, "require": ["DoorOpened"], "success": { "errorFax": "ERR_THANKS", "delay": 5 }, "fail": { "errorFax": "ERR_WHY" } } },
+    { "time": "01:20", "type": "CompositeCheck", "check": { "id": "FAKE_DOOR", "minutes": 20, "require": ["DoorOpened"], "acceptHeld": true, "success": { "errorFax": "ERR_THANKS", "delay": 2 }, "fail": { "errorFax": "ERR_WHY" } } },
     { "time": "01:30", "type": "LightBlink", "check": { "id": "LIGHT_BLINK", "minutes": 10, "require": ["LightOff", "LightOn"], "fail": { "penalty": true } } },
     { "time": "01:45", "type": "PhoneRing", "check": { "id": "PHONE_RING", "minutes": 5, "require": ["PhoneAnswered"], "fail": { "penalty": true } } },
     { "time": "01:50", "type": "PhoneRingStop" },

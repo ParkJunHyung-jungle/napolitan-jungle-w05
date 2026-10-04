@@ -48,6 +48,16 @@ public class DoorController : MonoBehaviour, IInteractable
         }
     }
 
+    void OnEnable()
+    {
+        Managers.Date.OnDayEnd += HandleDayEnd;
+    }
+
+    void OnDisable()
+    {
+        Managers.Date.OnDayEnd -= HandleDayEnd;
+    }
+
     private void Update()
     {
         if (!_isMoving)
@@ -167,6 +177,18 @@ public class DoorController : MonoBehaviour, IInteractable
 
         Managers.Sound.DoorKnockSoundOff();
         _isKnocking = false;
+    }
+
+    /// <summary>
+    /// 하루 종료를 받아 잠기지 않은 닫힌 문을 연다.
+    /// _isLocked와 _isOpen을 확인하고 TrySetState로 문을 열어 열린 상태를 타임라인에 알린다.
+    /// </summary>
+    private void HandleDayEnd()
+    {
+        if (_isLocked || _isOpen)
+            return;
+
+        TrySetState(true);
     }
 
 }
