@@ -45,10 +45,18 @@ public class FaxInstructionController : MonoBehaviour, IInteractable
     /// 출력물에 표시할 문구와 진짜 명령서 여부를 설정한다.
     /// message를 _text에 표시하고 isReal을 _isReal에 저장한다. false이면 가짜 명령서이다.
     /// </summary>
-    public void SetMessage(string message, bool isReal, bool isInstruction)
+    public void SetMessage(string message)
     {
         _text.text = message;
+    }
+
+    public void SetReal(bool isReal)
+    {
         _isReal = isReal;
+    }
+
+    public void SetInstruction(bool isInstruction)
+    {
         _isInstruction = isInstruction;
     }
 

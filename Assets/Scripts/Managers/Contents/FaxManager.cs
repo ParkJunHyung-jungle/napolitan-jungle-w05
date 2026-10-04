@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -5,19 +6,21 @@ public class FaxManager
 {
     [Header("Fax")]
     private Transform _fax;
-    private List<GameObject> _instructions = new();
+    private Transform _faxInstructionSpawner;
+    private List<FaxInstructionController> _instructions = new();
     private InstructionPanelController _instructionPanel;
 
     [Header("Prefab")]
     private GameObject _faxMessagePrefab;
     public GameObject LoadFax => Resources.Load<GameObject>("Prefabs/Fax");
     public GameObject LoadFaxInstruction => Resources.Load<GameObject>("Prefabs/FaxInstruction");
+    public Func<string, GameObject> LoadPastMessage => (string prefabName) => Resources.Load<GameObject>($"Prefabs/{prefabName}");
 
     public void Init()
     {
         _faxMessagePrefab = LoadFaxInstruction;
         InstantiateFax();
-        GameObject instructionCanvas = Object.Instantiate(Resources.Load<GameObject>("Prefabs/UIs/InstructionCanvas"));
+        GameObject instructionCanvas = UnityEngine.Object.Instantiate(Resources.Load<GameObject>("Prefabs/UIs/InstructionCanvas"));
         _instructionPanel = instructionCanvas.GetComponent<InstructionPanelController>();
         instructionCanvas.transform.SetParent(Managers.Instance.transform, false);
         Managers.Date.OnDayEnd += OnDayEnd;
@@ -37,14 +40,13 @@ public class FaxManager
     {
         for (int i = _instructions.Count - 1; i >= 0; i--)
         {
-            FaxInstructionController instruction = _instructions[i].GetComponent<FaxInstructionController>();
+            FaxInstructionController instruction = _instructions[i];
             if (!instruction.IsInstruction)
             {
-                Object.Destroy(_instructions[i]);
+                UnityEngine.Object.Destroy(instruction.gameObject);
                 _instructions.RemoveAt(i);
                 continue;
             }
-
             instruction.SetOutline(true);
         }
 
@@ -55,7 +57,7 @@ public class FaxManager
     /// 보관 또는 파쇄된 명령서를 목록에서 제거하고 카운터를 갱신한다.
     /// instruction을 _instructions에서 제거하고 남은 개수를 UI에 전달한다.
     /// </summary>
-    public void RemoveInstruction(GameObject instruction)
+    public void RemoveInstruction(FaxInstructionController instruction)
     {
         if (!_instructions.Remove(instruction))
             return;
@@ -70,8 +72,7 @@ public class FaxManager
     /// </summary>
     public void InstantiateFaxMessage(string message, bool isReal)
     {
-        GameObject instruction = SpawnFaxMessage(message, isReal, true);
-        _instructions.Add(instruction);
+        SpawnFaxMessage(message, isReal, true);
     }
 
     /// <summary>
@@ -80,32 +81,43 @@ public class FaxManager
     /// </summary>
     public void PrintErrorFax(string message)
     {
-        GameObject instruction = SpawnFaxMessage(message, false, false);
-        _instructions.Add(instruction);
+        SpawnFaxMessage(message, false, false);
     }
 
     /// <summary>
     /// FaxInstructionSpawner 위치에 출력물을 생성하고 팩스 소리를 재생한다.
     /// message와 isReal을 출력물에 설정하고, 생성한 출력물을 반환한다.
     /// </summary>
-    private GameObject SpawnFaxMessage(string message, bool isReal, bool isInstruction)
+    private void SpawnFaxMessage(string message, bool isReal, bool isInstruction)
     {
-        Transform spawner = GameObject.Find("FaxInstructionSpawner").transform;
-        GameObject faxMessage = Object.Instantiate(_faxMessagePrefab, spawner.position, spawner.rotation);
+
+        GameObject instructionObject = UnityEngine.Object.Instantiate(_faxMessagePrefab, _faxInstructionSpawner.position, _faxInstructionSpawner.rotation);
+
+        FaxInstructionController instruction = instructionObject.GetComponent<FaxInstructionController>();
+        instruction.SetMessage(message);
+        instruction.SetReal(isReal);
+        instruction.SetInstruction(isInstruction);
 
         Managers.Sound.FaxSound();
-        FaxInstructionController fax = faxMessage.GetComponent<FaxInstructionController>();
-        fax.SetMessage(message, isReal, isInstruction);
+        _instructions.Add(instruction);
+    }
 
-        return faxMessage;
+    public void SpawnPastMessage(string prefabName)
+    {
+        GameObject instructionObject = UnityEngine.Object.Instantiate(LoadPastMessage(prefabName));
+        FaxInstructionController instruction = instructionObject.GetComponent<FaxInstructionController>();
+        instruction.SetReal(true);
+        instruction.SetInstruction(false);
+
+        _instructions.Add(instruction);
     }
 
     private void InstantiateFax()
     {
-        GameObject fax = Object.Instantiate(LoadFax);
+        GameObject fax = UnityEngine.Object.Instantiate(LoadFax);
         Managers.Sound.RegisterAudioSource(AudioSourceTypes.FAX, fax.GetComponent<AudioSource>());
         _fax = fax.transform;
         _fax.SetParent(Managers.Instance.transform, true);
-        _fax = fax.transform;
+        _faxInstructionSpawner = _fax.Find("FaxInstructionSpawner");
     }
 }
