@@ -133,6 +133,18 @@ public class GameManager
     }
 
     /// <summary>
+    /// 정신력 실패 연출과 감소를 한 번에 실행한다.
+    /// penalty만큼 정신력을 줄이고 비상등, 왜곡, 비네트 punch를 재생한다.
+    /// </summary>
+    public void PunchMentality(float penalty)
+    {
+        Managers.Light.PunchEmergencyLight();
+        Managers.PostProcessing.PunchDistortion();
+        Managers.PostProcessing.PunchVignette();
+        ChangeMentality(-penalty);
+    }
+
+    /// <summary>
     /// 현재 정신력을 최대 정신력으로 초기화한다.
     /// 정신력이 변경되면 OnMentalityChanged 이벤트를 통해 새 상태를 알린다.
     /// </summary>
@@ -203,11 +215,12 @@ public class GameManager
 
     /// <summary>
     /// 하루 종료 버튼 입력을 받아 하루 종료 화면을 닫고 플레이어 입력 모드로 전환한다.
-    /// _dayEndCanvas의 활성 상태와 입력 모드를 변경한다.
+    /// _dayEndCanvas의 활성 상태와 입력 모드를 변경하고 다음 날 시작 이벤트를 발생시킨다.
     /// </summary>
     private void OnDayEndButtonClick()
     {
         _dayEndCanvas.gameObject.SetActive(false);
+        Managers.Date.StartDay();
         Managers.Input.SetInputMode(InputMode.Player);
     }
 

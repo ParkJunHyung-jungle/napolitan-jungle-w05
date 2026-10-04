@@ -87,10 +87,10 @@ public class PostProcessingManager
     /// 비네트를 peak만큼 순간적으로 올린 뒤 duration 동안 0으로 줄인다.
     /// 실행 중인 순간 효과는 중지하고 새로 시작하며, _vignetteBase는 변경하지 않는다.
     /// </summary>
-    public void PunchVignette(float peak, float duration)
+    public void PunchVignette()
     {
         StopEffectCoroutine(ref _vignettePunchCoroutine);
-        _vignettePunchCoroutine = Managers.Instance.StartCoroutine(VignettePunchCoroutine(peak, duration));
+        _vignettePunchCoroutine = Managers.Instance.StartCoroutine(VignettePunchCoroutine(FAILURE_VIGNETTE_PEAK, FAILURE_VIGNETTE_DURATION));
     }
 
     /// <summary>
@@ -115,28 +115,11 @@ public class PostProcessingManager
     /// strength 세기와 waveCount 주기의 감쇠 파동으로 렌즈 왜곡을 duration 동안 흔든다.
     /// 실행 중인 순간 효과는 중지하고 새로 시작하며, _distortionBase는 변경하지 않는다.
     /// </summary>
-    public void PunchDistortion(float strength, float duration, int waveCount)
+    public void PunchDistortion()
     {
         StopEffectCoroutine(ref _distortionPunchCoroutine);
         _distortionPunchCoroutine = Managers.Instance.StartCoroutine(
-            DistortionPunchCoroutine(strength, duration, waveCount));
-    }
-
-    /// <summary>
-    /// 타이머 실패 프리셋으로 렌즈 왜곡과 비네트 순간 효과를 재생한다.
-    /// 이미 실행 중인 순간 효과는 중복 시작하지 않고 유지한다.
-    /// </summary>
-    public void TriggerTimerFailure()
-    {
-        if (_distortionPunchCoroutine == null)
-        {
-            PunchDistortion(FAILURE_DISTORTION_STRENGTH, FAILURE_DISTORTION_DURATION, FAILURE_DISTORTION_WAVE_COUNT);
-        }
-
-        if (_vignettePunchCoroutine == null)
-        {
-            PunchVignette(FAILURE_VIGNETTE_PEAK, FAILURE_VIGNETTE_DURATION);
-        }
+            DistortionPunchCoroutine(FAILURE_DISTORTION_STRENGTH, FAILURE_DISTORTION_DURATION, FAILURE_DISTORTION_WAVE_COUNT));
     }
 
     /// <summary>

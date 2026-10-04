@@ -17,7 +17,7 @@ public class FaxInstructionController : MonoBehaviour, IInteractable
     private Collider[] _playerColliders;
     private Transform[] _hierarchyTransforms;
     private int _playerLayer;
-    private int _sliderLayer;
+    private int _interactableLayer;
     private bool _isReal;
     public bool IsHeld => _playerCam != null && transform.parent == _playerCam;
     public bool IsReal => _isReal;
@@ -32,7 +32,7 @@ public class FaxInstructionController : MonoBehaviour, IInteractable
         _playerColliders = _playerCam.root.GetComponentsInChildren<Collider>();
         _hierarchyTransforms = GetComponentsInChildren<Transform>(true);
         _playerLayer = LayerMask.NameToLayer("Player");
-        _sliderLayer = LayerMask.NameToLayer("Slider");
+        _interactableLayer = LayerMask.NameToLayer("Interactable");
 
         SetPlayerCollisionIgnored();
     }
@@ -82,7 +82,7 @@ public class FaxInstructionController : MonoBehaviour, IInteractable
     public void Drop()
     {
         transform.SetParent(null, true);
-        SetHierarchyLayer(_sliderLayer);
+        SetHierarchyLayer(_interactableLayer);
 
         _rb.detectCollisions = true;
         _rb.linearVelocity = Vector3.zero;

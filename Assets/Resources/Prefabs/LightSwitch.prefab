@@ -12,7 +12,7 @@ GameObject:
   - component: {fileID: 6126482568136591241}
   - component: {fileID: 3369784505114926897}
   - component: {fileID: 3754686086095360479}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: GreenLight
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -125,7 +125,7 @@ GameObject:
   - component: {fileID: 6390894164513109967}
   - component: {fileID: 650665513775957765}
   - component: {fileID: 5803137318509179348}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: LightSwitch
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -349,7 +349,7 @@ GameObject:
   - component: {fileID: 4392852835750528524}
   - component: {fileID: 5207895943762170937}
   - component: {fileID: 2538148619569608949}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: Base (1)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -573,7 +573,7 @@ GameObject:
   - component: {fileID: 6986954577319509838}
   - component: {fileID: 6397456041736439972}
   - component: {fileID: 2662383075376297426}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: RedLIght
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -685,7 +685,7 @@ GameObject:
   - component: {fileID: 6352583653532194248}
   - component: {fileID: 3408912455170138986}
   - component: {fileID: 2060050022097462637}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: Point Light
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -828,7 +828,7 @@ GameObject:
   - component: {fileID: 6398741368694843266}
   - component: {fileID: 3858068221684481}
   - component: {fileID: 4505429732083772189}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: Base
   m_TagString: Untagged
   m_Icon: {fileID: 0}

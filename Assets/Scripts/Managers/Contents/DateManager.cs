@@ -29,6 +29,7 @@ public class DateManager
 
     public Action<int> OnMinuteChange;
     public Action OnDayEnd;
+    public Action OnDayStart;
 
     public float ElapsedTime
     {
@@ -80,6 +81,15 @@ public class DateManager
     public void Init()
     {
         _elapsedTime = 0f;
+    }
+
+    /// <summary>
+    /// 다음 날 시작 이벤트를 구독 중인 오브젝트에 전달한다.
+    /// OnDayStart를 호출해 하루 종료 연출을 초기 상태로 복구하도록 알린다.
+    /// </summary>
+    public void StartDay()
+    {
+        OnDayStart?.Invoke();
     }
 
     public void Clear()

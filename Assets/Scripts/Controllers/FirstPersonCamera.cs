@@ -101,6 +101,9 @@ public class FirstPersonCamera : MonoBehaviour
             ? _aimHit.collider.GetComponentInParent<Outline>()
             : null;
 
+        if (nextTarget != null && !nextTarget.isActiveAndEnabled)
+            nextTarget = null;
+
         if (_outlinedTarget == nextTarget)
             return;
 

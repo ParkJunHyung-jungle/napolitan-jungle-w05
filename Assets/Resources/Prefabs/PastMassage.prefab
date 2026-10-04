@@ -15,7 +15,7 @@ GameObject:
   - component: {fileID: 6683100813021898514}
   - component: {fileID: 8021996634945557326}
   - component: {fileID: -3964689181623691617}
-  m_Layer: 7
+  m_Layer: 6
   m_Name: PastMassage
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -183,7 +183,7 @@ GameObject:
   - component: {fileID: 6511511183887076861}
   - component: {fileID: 1915468591618850988}
   - component: {fileID: 2553804953869319397}
-  m_Layer: 7
+  m_Layer: 6
   m_Name: Text (TMP)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
