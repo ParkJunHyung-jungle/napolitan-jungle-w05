@@ -16,7 +16,7 @@ GameObject:
   - component: {fileID: 8021996634945557326}
   - component: {fileID: -3964689181623691617}
   m_Layer: 6
-  m_Name: PastMassage
+  m_Name: PastMessage
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -169,9 +169,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d666d965c34fe034f9261c370c7716bc, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::ButtonOutline
-  outlineMaterial: {fileID: 2100000, guid: a6d194230dfae8d4f8a91c75e5899571, type: 2}
-  clickableRenderer: {fileID: 3705995166066946431}
-  FocusIndicatorRenderer: {fileID: 3705995166066946431}
+  OutlineMask: 2
+  renderers:
+  - {fileID: 3705995166066946431}
+  - {fileID: 1915468591618850988}
 --- !u!1 &5794458934996576558
 GameObject:
   m_ObjectHideFlags: 0

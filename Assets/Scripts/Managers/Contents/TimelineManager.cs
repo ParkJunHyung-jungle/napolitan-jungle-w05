@@ -237,7 +237,7 @@ public class TimelineManager
     /// </summary>
     private void SpawnPrefab(string prefabName)
     {
-        UnityEngine.Object.Instantiate(Resources.Load<GameObject>($"{PREFAB_FOLDER}/{prefabName}"));
+        Managers.Fax.SpawnPastMessage(prefabName);
     }
 
     /// <summary>

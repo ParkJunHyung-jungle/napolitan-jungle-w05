@@ -167,7 +167,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: "\uC218\uACE0\uD558\uC168\uC2B5\uB2C8\uB2E4."
+  m_text: "<color=\"red\"><b>\uB0B4\uC77C</b></color> \uBD59\uACA0\uC2B5\uB2C8\uB2E4."
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: c27a5f3ff75f097438fe970137a374e4, type: 2}
   m_sharedMaterial: {fileID: -1423517255853659089, guid: c27a5f3ff75f097438fe970137a374e4, type: 2}
@@ -304,7 +304,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: "\uD1F4\uADFC\uD558\uAE30"
+  m_text: "\uB2E4\uC74C \uB0A0\uB85C"
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: c27a5f3ff75f097438fe970137a374e4, type: 2}
   m_sharedMaterial: {fileID: -1423517255853659089, guid: c27a5f3ff75f097438fe970137a374e4, type: 2}

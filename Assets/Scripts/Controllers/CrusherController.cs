@@ -44,6 +44,7 @@ public class CrusherController : MonoBehaviour, IInteractable
             return;
 
         bool isReal = instruction.IsReal;
+        Managers.Fax.RemoveInstruction(instruction);
         Destroy(instruction.gameObject);
 
         if (isReal)

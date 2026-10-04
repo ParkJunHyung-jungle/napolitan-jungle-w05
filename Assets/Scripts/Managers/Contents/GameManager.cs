@@ -23,7 +23,6 @@ public class GameManager
 
     private bool _isDayEnd = false;
     public bool IsDayEnded => _isDayEnd;
-    public bool IsMissionComplete { get; private set; }
     private bool _isGameOver;
 
     private bool _isLeverPulledAtTwo = false;
@@ -36,10 +35,12 @@ public class GameManager
 
     private Canvas _startCanvas;
     private Canvas _dayEndCanvas;
+    private Canvas _endingCanvas;
     private Canvas _gameOverCanvas;
 
     public GameObject StartCanvasPrefab => Resources.Load<GameObject>("Prefabs/UIs/StartCanvas");
     public GameObject DayEndCanvasPrefab => Resources.Load<GameObject>("Prefabs/UIs/DayEndCanvas");
+    public GameObject EndingCanvasPrefab => Resources.Load<GameObject>("Prefabs/UIs/EndingCanvas");
     public GameObject GameOverCanvasPrefab => Resources.Load<GameObject>("Prefabs/UIs/GameOverCanvas");
 
     private FirstPersonController _player;
@@ -64,6 +65,11 @@ public class GameManager
         _dayEndCanvas.gameObject.SetActive(false);
         _dayEndCanvas.gameObject.GetComponent<GameStateUI>().Button.onClick.AddListener(OnDayEndButtonClick);
 
+        _endingCanvas = UnityEngine.Object.Instantiate(EndingCanvasPrefab).GetComponent<Canvas>();
+        _endingCanvas.transform.SetParent(Managers.Instance.transform);
+        _endingCanvas.gameObject.SetActive(false);
+        _endingCanvas.gameObject.GetComponent<GameStateUI>().Button.onClick.AddListener(OnEndingButtonClick);
+
         _gameOverCanvas = UnityEngine.Object.Instantiate(GameOverCanvasPrefab).GetComponent<Canvas>();
         _gameOverCanvas.transform.SetParent(Managers.Instance.transform);
         _gameOverCanvas.gameObject.SetActive(false);
@@ -77,7 +83,6 @@ public class GameManager
     public void Clear()
     {
         _isDayEnd = false;
-        IsMissionComplete = false;
     }
 
     /// <summary>
@@ -86,11 +91,17 @@ public class GameManager
     /// </summary>
     public void CompleteMission()
     {
-        if (IsMissionComplete)
-            return;
-
-        IsMissionComplete = true;
         OnMissionCompleted?.Invoke();
+    }
+
+    /// <summary>
+    /// 하루 종료 후 모든 명령서가 제출되면 임무 완료를 알리고 엔딩 화면을 표시한다.
+    /// IsDayEnded와 IsMissionComplete를 확인하며 _endingCanvas와 입력 모드를 UI 상태로 변경한다.
+    /// </summary>
+    public void ShowEndingCanvas()
+    {
+        _endingCanvas.gameObject.SetActive(true);
+        Managers.Input.SetInputMode(InputMode.UI);
     }
 
     /// <summary>
@@ -241,6 +252,17 @@ public class GameManager
     {
         _dayEndCanvas.gameObject.SetActive(false);
         Managers.Input.SetInputMode(InputMode.Player);
+    }
+
+    /// <summary>
+    /// 엔딩 화면의 퇴근 버튼 입력을 받아 현재 씬을 다시 연다.
+    /// _endingCanvas를 비활성화하고 매니저 상태를 초기화한다.
+    /// </summary>
+    private void OnEndingButtonClick()
+    {
+        _endingCanvas.gameObject.SetActive(false);
+        Managers.Clear();
+        SceneManager.LoadScene(SceneManager.GetActiveScene().name);
     }
 
     /// <summary>

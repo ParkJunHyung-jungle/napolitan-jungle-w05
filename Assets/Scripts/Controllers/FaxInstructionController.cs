@@ -13,14 +13,17 @@ public class FaxInstructionController : MonoBehaviour, IInteractable
     private Collider _collider;
     private TMP_Text _text;
     private Rigidbody _rb;
+    private Outline _outline;
     private Quaternion _holdRotation;
     private Collider[] _playerColliders;
     private Transform[] _hierarchyTransforms;
     private int _playerLayer;
     private int _interactableLayer;
     private bool _isReal;
+    private bool _isInstruction;
     public bool IsHeld => _playerCam != null && transform.parent == _playerCam;
     public bool IsReal => _isReal;
+    public bool IsInstruction => _isInstruction;
 
     void Awake()
     {
@@ -28,6 +31,7 @@ public class FaxInstructionController : MonoBehaviour, IInteractable
         _collider = GetComponent<Collider>();
         _text = GetComponentInChildren<TMP_Text>();
         _rb = GetComponent<Rigidbody>();
+        _outline = GetComponent<Outline>();
         _holdRotation = Quaternion.Euler(_holdRotationOffset);
         _playerColliders = _playerCam.root.GetComponentsInChildren<Collider>();
         _hierarchyTransforms = GetComponentsInChildren<Transform>(true);
@@ -41,10 +45,28 @@ public class FaxInstructionController : MonoBehaviour, IInteractable
     /// 출력물에 표시할 문구와 진짜 명령서 여부를 설정한다.
     /// message를 _text에 표시하고 isReal을 _isReal에 저장한다. false이면 가짜 명령서이다.
     /// </summary>
-    public void SetMessage(string message, bool isReal)
+    public void SetMessage(string message)
     {
         _text.text = message;
+    }
+
+    public void SetReal(bool isReal)
+    {
         _isReal = isReal;
+    }
+
+    public void SetInstruction(bool isInstruction)
+    {
+        _isInstruction = isInstruction;
+    }
+
+    /// <summary>
+    /// 명령서의 외곽선 표시 상태를 변경한다.
+    /// enabled 값을 사용해 Outline 컴포넌트의 렌더링을 갱신한다.
+    /// </summary>
+    public void SetOutline(bool enabled)
+    {
+        _outline.SetOutline(enabled);
     }
 
     /// <summary>
@@ -68,6 +90,8 @@ public class FaxInstructionController : MonoBehaviour, IInteractable
         transform.localRotation = _holdRotation;
         SetHierarchyLayer(_playerLayer);
 
+        Managers.Sound.PaperSound();
+
         _rb.detectCollisions = true;
         _rb.linearVelocity = Vector3.zero;
         _rb.angularVelocity = Vector3.zero;
@@ -83,6 +107,8 @@ public class FaxInstructionController : MonoBehaviour, IInteractable
     {
         transform.SetParent(null, true);
         SetHierarchyLayer(_interactableLayer);
+
+        Managers.Sound.PaperSound();
 
         _rb.detectCollisions = true;
         _rb.linearVelocity = Vector3.zero;
