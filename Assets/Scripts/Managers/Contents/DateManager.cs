@@ -15,12 +15,14 @@ public class DateManager
         get => _elapsedTime;
         set
         {
-            int pastMinute = CurrentMinute;
-            int pastDay = CurrentDay;
-            _elapsedTime = value;
+            if (Managers.Game.IsDayEnded)
+                return;
 
-            // 날짜가 바뀌면 분이 0으로 돌아가므로 분 변경 대신 하루 종료만 알린다.
-            if (pastDay != CurrentDay)
+            int pastMinute = CurrentMinute;
+            float dayEndTime = CurrentDay * Managers.Game.GameInfo.SecondsPerDay;
+            _elapsedTime = Mathf.Min(value, dayEndTime);
+
+            if (_elapsedTime >= dayEndTime)
             {
                 OnDayEnd?.Invoke();
                 return;
@@ -34,9 +36,13 @@ public class DateManager
     }
 
     public int CurrentDay =>
-        Mathf.FloorToInt(_elapsedTime / Managers.Game.GameInfo.SecondsPerDay) + 1;
+        Managers.Game.IsDayEnded
+            ? Mathf.CeilToInt(_elapsedTime / Managers.Game.GameInfo.SecondsPerDay)
+            : Mathf.FloorToInt(_elapsedTime / Managers.Game.GameInfo.SecondsPerDay) + 1;
     public float DayProgress =>
-        _elapsedTime % Managers.Game.GameInfo.SecondsPerDay / Managers.Game.GameInfo.SecondsPerDay;
+        Managers.Game.IsDayEnded
+            ? 1f
+            : _elapsedTime % Managers.Game.GameInfo.SecondsPerDay / Managers.Game.GameInfo.SecondsPerDay;
     public int CurrentMinute
     {
         get
@@ -75,9 +81,13 @@ public class DateManager
         OnDayStart?.Invoke();
     }
 
+    /// <summary>
+    /// 게임 재시작을 위해 경과 시간을 초기 상태로 되돌린다.
+    /// _elapsedTime을 0으로 변경해 다시 Day1부터 시간이 진행되게 한다.
+    /// </summary>
     public void Clear()
     {
-
+        _elapsedTime = 0f;
     }
 
     public void ReloadScene()

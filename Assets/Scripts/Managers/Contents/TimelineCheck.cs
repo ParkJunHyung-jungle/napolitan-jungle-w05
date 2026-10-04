@@ -16,12 +16,13 @@ public class TimelineCheck
 {
     private int _requireIndex;
     private int _nextRepeatMinute;
+    private bool _wasKeepBroken;
 
     public CheckData Data { get; }
     public string StartTime { get; }
     public int EndMinute { get; }
     public int RepeatCount { get; private set; }
-    public bool IsRepeating => Data.WhileBroken != null;
+    public bool IsRepeating => Data.WhileBroken != null || Data.WhileHeld != null;
     public bool IsOverdue { get; private set; }
 
     /// <summary>
@@ -67,27 +68,32 @@ public class TimelineCheck
     }
 
     /// <summary>
-    /// 반복 구간의 Keep 상태를 minute 시각 기준으로 확인해 반복 결과를 실행할 차례인지 반환한다.
-    /// Keep이 깨져 있고 마지막 실행 후 WhileBroken.Every분이 지났으면 true를 반환하고 RepeatCount와 다음 실행 시각을 갱신한다.
+    /// 반복 구간의 Keep 상태에 맞는 결과가 minute 시각에 실행될 차례인지 확인한다.
+    /// isStateHeld로 위반 이력을 기록하고, 간격이 지났으면 반복 결과를 반환하며 다음 실행 시각을 갱신한다.
     /// </summary>
-    public bool CheckRepeat(int minute, Func<DeviceAction, bool> isStateHeld)
+    public CheckRepeat CheckRepeat(int minute, Func<DeviceAction, bool> isStateHeld)
     {
-        // 복구했다가 다시 깨져도 마지막 실행 시각 기준 간격을 지켜 연속 출력을 막는다.
-        if (!IsKeepBroken(isStateHeld) || minute < _nextRepeatMinute)
-            return false;
+        bool isBroken = IsKeepBroken(isStateHeld);
+        if (isBroken)
+            _wasKeepBroken = true;
 
-        _nextRepeatMinute = minute + Data.WhileBroken.Every;
-        RepeatCount++;
-        return true;
+        CheckRepeat repeat = isBroken ? Data.WhileBroken : Data.WhileHeld;
+        if (repeat == null || minute < _nextRepeatMinute)
+            return null;
+
+        _nextRepeatMinute = minute + repeat.Every;
+        if (isBroken)
+            RepeatCount++;
+        return repeat;
     }
 
     /// <summary>
     /// 구간 종료 시각이 되었을 때 최종 결과를 정한다.
-    /// Require를 다 채우지 못했거나 반복 구간에서 한 번이라도 깨졌으면 Failed, 그 외에는 Succeeded를 반환한다.
+    /// Require를 다 채우지 못했거나 Keep이 한 번이라도 깨졌으면 Failed, 그 외에는 Succeeded를 반환한다.
     /// </summary>
     public CheckState Expire()
     {
-        if (_requireIndex < Data.Require.Count || RepeatCount > 0)
+        if (_requireIndex < Data.Require.Count || _wasKeepBroken)
             return CheckState.Failed;
 
         return CheckState.Succeeded;
