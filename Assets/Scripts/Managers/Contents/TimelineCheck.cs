@@ -23,6 +23,7 @@ public class TimelineCheck
     public int EndMinute { get; }
     public int RepeatCount { get; private set; }
     public bool IsRepeating => Data.WhileBroken != null;
+    public bool IsOverdue { get; private set; }
 
     /// <summary>
     /// data 판정 구간을 startTime 시각에 만든다.
@@ -98,6 +99,24 @@ public class TimelineCheck
             return CheckState.Failed;
 
         return CheckState.Succeeded;
+    }
+
+    /// <summary>
+    /// 제한 시간이 끝난 실패 체크를 지연 상태로 표시한다.
+    /// 이후 IsOverdue를 통해 지속 정신력 감소 대상으로 식별한다.
+    /// </summary>
+    public void MarkOverdue()
+    {
+        IsOverdue = true;
+    }
+
+    /// <summary>
+    /// Require와 Keep 조건이 현재 모두 충족됐는지 확인한다.
+    /// isStateHeld로 Keep 상태를 확인하고, 완료된 체크이면 true를 반환한다.
+    /// </summary>
+    public bool IsResolved(Func<DeviceAction, bool> isStateHeld)
+    {
+        return _requireIndex >= Data.Require.Count && !IsKeepBroken(isStateHeld);
     }
 
     /// <summary>

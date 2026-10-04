@@ -14,6 +14,7 @@ public class TimelineManager
     private const string TIMELINE_PATH = "Datas/Timeline";
     private const string PREFAB_FOLDER = "Prefabs";
     private const string FAX_HEADER_ID = "FAX_HEADER";
+    private const string PHONE_RING_CHECK_ID = "PHONE_RING";
     private const string TIME_FORMAT = @"hh\:mm";
     private const string RECEIVED_FLAG_FORMAT = "RECEIVED_{0}";
     private const string BROKE_FLAG_FORMAT = "BROKE_{0}";
@@ -46,6 +47,8 @@ public class TimelineManager
     public IReadOnlyList<CheckRecord> CheckRecords => _checkRecords;
     public IReadOnlyList<InstructionRecord> InstructionRecords => _instructionRecords;
     public IReadOnlyList<ErrorFaxRecord> ErrorFaxRecords => _errorFaxRecords;
+    public bool HasActiveAnomalies => _checks.Count > 0;
+    public int OverdueAnomalyCount => _checks.Count(check => check.IsOverdue);
 
     /// <summary>
     /// Resources의 Texts.json과 Timeline.json을 읽어 문구, 명령서 구성, 시각별 이벤트를 준비한다.
@@ -109,7 +112,7 @@ public class TimelineManager
 
     /// <summary>
     /// 컨트롤러가 알린 장치 동작 action으로 장치 상태를 갱신하고 진행 중인 판정 구간에 전달한다.
-    /// 판정이 끝난 구간은 현재 시각으로 결과를 기록하고 _checks에서 제거하며, 반복 구간은 상태가 깨졌는지 바로 확인한다.
+    /// 해결된 구간은 결과를 기록하고 제거하며, 기한을 넘긴 실패 구간은 늦게 해결될 때까지 유지한다.
     /// </summary>
     public void Report(DeviceAction action)
     {
@@ -120,7 +123,20 @@ public class TimelineManager
         for (int i = _checks.Count - 1; i >= 0; i--)
         {
             TimelineCheck check = _checks[i];
+            if (check.IsOverdue && check.IsResolved(IsStateHeld))
+            {
+                _checks.RemoveAt(i);
+                continue;
+            }
+
             CheckState state = check.Apply(action, IsStateHeld);
+            if (check.IsOverdue)
+            {
+                if (state == CheckState.Succeeded)
+                    _checks.RemoveAt(i);
+                continue;
+            }
+
             if (state == CheckState.Running)
             {
                 if (check.IsRepeating)
@@ -171,6 +187,7 @@ public class TimelineManager
                 OnPhoneRing?.Invoke();
                 break;
             case TimelineEventType.PhoneRingStop:
+                HandlePhoneRingStop();
                 OnPhoneRingStop?.Invoke();
                 break;
             case TimelineEventType.PhoneCrying:
@@ -221,18 +238,23 @@ public class TimelineManager
 
     /// <summary>
     /// 종료 시각이 minute 이하인 판정 구간을 마무리한다.
-    /// 각 구간의 최종 결과를 종료 시각 기준으로 기록하고 _checks에서 제거한다.
+    /// 성공 구간은 제거하고 실패 구간은 기록한 뒤 늦은 해결까지 _checks에 유지한다.
     /// </summary>
     private void ExpireChecks(int minute)
     {
         for (int i = _checks.Count - 1; i >= 0; i--)
         {
             TimelineCheck check = _checks[i];
-            if (check.EndMinute > minute)
+            if (check.IsOverdue || check.EndMinute > minute)
                 continue;
 
-            _checks.RemoveAt(i);
-            Resolve(check, check.Expire(), check.EndMinute);
+            CheckState state = check.Expire();
+            if (state == CheckState.Failed)
+                check.MarkOverdue();
+            else
+                _checks.RemoveAt(i);
+
+            Resolve(check, state, check.EndMinute, state != CheckState.Failed);
         }
     }
 
@@ -260,7 +282,7 @@ public class TimelineManager
 
     /// <summary>
     /// 반복 구간 check의 Keep 상태를 minute 시각으로 확인해 차례가 되면 WhileBroken 결과를 실행한다.
-    /// 처음 깨졌을 때만 BROKE 플래그와 정신력 감소를 적용하고, 차례마다 에러 팩스를 처리한다.
+    /// 처음 깨졌을 때 BROKE 플래그를 기록하고, 차례마다 에러 팩스를 처리한다.
     /// </summary>
     private void RunRepeat(TimelineCheck check, int minute)
     {
@@ -269,32 +291,52 @@ public class TimelineManager
 
         CheckRepeat repeat = check.Data.WhileBroken;
         if (check.RepeatCount == 1)
-        {
             _flags.Add(string.Format(BROKE_FLAG_FORMAT, check.Data.Id));
-            if (repeat.Penalty)
-                Managers.Game.ChangeMentality(-RULE_FAIL_PENALTY);
-        }
 
         PrintErrorFax(repeat.ErrorFax, check.Data.Id);
+    }
+
+    /// <summary>
+    /// 응답 없이 벨이 멈춘 PHONE_RING 체크를 실패 처리하고 관련 효과를 실행한다.
+    /// 이미 만료 처리된 체크는 기록을 중복하지 않고, 정신력 감소와 비상등 및 비네트 효과를 한 번 적용한다.
+    /// </summary>
+    private void HandlePhoneRingStop()
+    {
+        int minute = Managers.Date.CurrentMinute;
+        for (int i = _checks.Count - 1; i >= 0; i--)
+        {
+            TimelineCheck check = _checks[i];
+            if (check.Data.Id != PHONE_RING_CHECK_ID)
+                continue;
+
+            _checks.RemoveAt(i);
+            if (!check.IsOverdue)
+                Resolve(check, CheckState.Failed, minute, false);
+
+            Managers.Light.TriggerTimerFailure();
+            Managers.PostProcessing.TriggerTimerFailure();
+            Managers.Game.ChangeMentality(-RULE_FAIL_PENALTY);
+            return;
+        }
     }
 
     /// <summary>
     /// 끝난 판정 구간 check의 결과 state를 minute 시각으로 _checkRecords에 기록한다.
     /// 성공이면 Success, 실패면 Fail 결과를 실행한다.
     /// </summary>
-    private void Resolve(TimelineCheck check, CheckState state, int minute)
+    private void Resolve(TimelineCheck check, CheckState state, int minute, bool applyPenalty = true)
     {
         bool isSuccess = state == CheckState.Succeeded;
 
         _checkRecords.Add(new CheckRecord(check.Data.Id, check.StartTime, ToTimeText(minute), isSuccess, check.RepeatCount));
-        ApplyOutcome(isSuccess ? check.Data.Success : check.Data.Fail, check.Data.Id);
+        ApplyOutcome(isSuccess ? check.Data.Success : check.Data.Fail, check.Data.Id, applyPenalty);
     }
 
     /// <summary>
-    /// 판정 결과 outcome에 적힌 플래그 기록, 정신력 감소, 에러 팩스 처리를 실행한다.
-    /// 에러 팩스는 Delay가 있으면 그만큼 기다린 뒤, 없으면 바로 처리하며 cause를 출력 원인으로 기록한다.
+    /// 판정 결과 outcome에 적힌 플래그 기록, 선택적 정신력 감소, 에러 팩스 처리를 실행한다.
+    /// applyPenalty가 true일 때만 지정된 정신력 감소를 적용하고, 에러 팩스 cause도 기록한다.
     /// </summary>
-    private void ApplyOutcome(CheckOutcome outcome, string cause)
+    private void ApplyOutcome(CheckOutcome outcome, string cause, bool applyPenalty)
     {
         // 결과가 필요 없는 쪽은 Timeline.json에서 생략할 수 있다.
         if (outcome == null)
@@ -302,7 +344,7 @@ public class TimelineManager
 
         if (outcome.Flag != null)
             _flags.Add(outcome.Flag);
-        if (outcome.Penalty)
+        if (applyPenalty && outcome.Penalty)
             Managers.Game.ChangeMentality(-RULE_FAIL_PENALTY);
         if (outcome.ErrorFax == null)
             return;

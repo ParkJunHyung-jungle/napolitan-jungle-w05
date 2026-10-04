@@ -23,6 +23,12 @@ public class SceneContext : MonoBehaviour
     {
         Managers.Date.ElapsedTime += Time.deltaTime;
         SetDateUI();
+
+        if (Managers.Timeline.OverdueAnomalyCount > 0)
+            Managers.Game.ChangeMentality(-Managers.Timeline.OverdueAnomalyCount * Time.deltaTime);
+        else if (!Managers.Timeline.HasActiveAnomalies)
+            Managers.Game.ChangeMentality(Time.deltaTime * 0.5f);
+        Debug.Log($"Mentality: {Managers.Game.CurrentMentality}");
     }
 
     /// <summary>

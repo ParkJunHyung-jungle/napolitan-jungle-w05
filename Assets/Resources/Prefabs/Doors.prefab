@@ -467,6 +467,7 @@ GameObject:
   - component: {fileID: 3630302791107958343}
   - component: {fileID: 7566256309102565931}
   - component: {fileID: 6999577894222472457}
+  - component: {fileID: 465644259635211839}
   m_Layer: 6
   m_Name: LockedDoor
   m_TagString: Untagged
@@ -630,6 +631,22 @@ AudioSource:
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 4
+--- !u!114 &465644259635211839
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4101164258113133295}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d666d965c34fe034f9261c370c7716bc, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::Outline
+  OutlineMask: 2
+  renderers:
+  - {fileID: 287180316677344538}
+  - {fileID: 7511162020952324425}
 --- !u!1 &4969416456076874029
 GameObject:
   m_ObjectHideFlags: 0
@@ -1385,6 +1402,7 @@ GameObject:
   - component: {fileID: 4280236366810639856}
   - component: {fileID: 1980760423661308537}
   - component: {fileID: 6894041408783116123}
+  - component: {fileID: 1814219716017872231}
   m_Layer: 6
   m_Name: Door
   m_TagString: Untagged
@@ -1449,7 +1467,7 @@ MonoBehaviour:
     m_PostInfinity: 2
     m_RotationOrder: 4
   _knockInterval: 1
-  _isLocked: 1
+  _isLocked: 0
 --- !u!82 &6894041408783116123
 AudioSource:
   m_ObjectHideFlags: 0
@@ -1547,3 +1565,19 @@ AudioSource:
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 4
+--- !u!114 &1814219716017872231
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8990348141839119815}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d666d965c34fe034f9261c370c7716bc, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::Outline
+  OutlineMask: 2
+  renderers:
+  - {fileID: 4555950073568790189}
+  - {fileID: 885946161681890025}

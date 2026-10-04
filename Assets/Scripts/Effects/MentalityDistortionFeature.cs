@@ -25,7 +25,7 @@ public class MentalityDistortionFeature : FullScreenPassRendererFeature
 
         float strength = 0f;
         float redProgress = -1f;
-        if (Application.isPlaying)
+        if (Application.isPlaying && Managers.Timeline.HasActiveAnomalies)
         {
             GameManager game = Managers.Game;
             float mentalityRatio = game.CurrentMentality / game.MaxMentality;
