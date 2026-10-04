@@ -18,6 +18,7 @@ public class LightManager
 
     [Header("Lights")]
     private LightController _roomLight;
+    private LightController _boardLight;
     private LightController _stairLight;
     private LightController _ambientLight;
     private LightController _emergencyLight;
@@ -28,6 +29,7 @@ public class LightManager
     public Material LoadMorningSky => Resources.Load<Material>("Materials/Morning_Sky");
     public GameObject LoadAmbientLight => Resources.Load<GameObject>("Prefabs/Lights/AmbientLight");
     public GameObject LoadRoomLight => Resources.Load<GameObject>("Prefabs/Lights/RoomLight");
+    public GameObject LoadBoardLight => Resources.Load<GameObject>("Prefabs/Lights/BoardLight");
     public GameObject LoadStairLight => Resources.Load<GameObject>("Prefabs/Lights/StairLight");
     public GameObject LoadEmergencyLight => Resources.Load<GameObject>("Prefabs/Lights/EmergencyLight");
 
@@ -40,6 +42,7 @@ public class LightManager
 
         _ambientLight = InstantiateLight(LoadAmbientLight).GetComponent<LightController>();
         _roomLight = InstantiateLight(LoadRoomLight).GetComponent<LightController>();
+        _boardLight = InstantiateLight(LoadBoardLight).GetComponent<LightController>();
         _stairLight = InstantiateLight(LoadStairLight).GetComponent<LightController>();
         _emergencyLight = InstantiateLight(LoadEmergencyLight).GetComponent<LightController>();
 
@@ -57,19 +60,34 @@ public class LightManager
         RoomLightTintDefault();
         RoomLightOn();
     }
+    /// <summary>
+    /// 방 조명과 게시판 조명을 함께 켠다.
+    /// _roomLight와 _boardLight를 켜진 상태로 바꾼다.
+    /// </summary>
     public void RoomLightOn()
     {
         _roomLight.TurnOn();
+        _boardLight.TurnOn();
     }
 
+    /// <summary>
+    /// 방 조명과 게시판 조명을 함께 끈다.
+    /// _roomLight와 _boardLight를 꺼진 상태로 바꾼다.
+    /// </summary>
     public void RoomLightOff()
     {
         _roomLight.TurnOff();
+        _boardLight.TurnOff();
     }
 
+    /// <summary>
+    /// 방 조명과 게시판 조명을 같은 시점에 깜빡이게 한다.
+    /// 두 조명은 같은 블링크 커브를 쓰므로 함께 깜빡인다.
+    /// </summary>
     public void RoomLightBlink()
     {
         _roomLight.Blink();
+        _boardLight.Blink();
     }
 
     public void RoomLightTintDefault()
