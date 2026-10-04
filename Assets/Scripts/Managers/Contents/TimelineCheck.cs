@@ -15,7 +15,6 @@ public enum CheckState
 public class TimelineCheck
 {
     private int _requireIndex;
-    private bool _isBroken;
     private int _nextRepeatMinute;
 
     public CheckData Data { get; }
@@ -69,21 +68,14 @@ public class TimelineCheck
 
     /// <summary>
     /// 반복 구간의 Keep 상태를 minute 시각 기준으로 확인해 반복 결과를 실행할 차례인지 반환한다.
-    /// 새로 깨진 순간이거나 깨진 상태로 WhileBroken.Every분이 지났으면 true를 반환하고 RepeatCount와 다음 실행 시각을 갱신한다.
+    /// Keep이 깨져 있고 마지막 실행 후 WhileBroken.Every분이 지났으면 true를 반환하고 RepeatCount와 다음 실행 시각을 갱신한다.
     /// </summary>
     public bool CheckRepeat(int minute, Func<DeviceAction, bool> isStateHeld)
     {
-        if (!IsKeepBroken(isStateHeld))
-        {
-            _isBroken = false;
-            return false;
-        }
-
-        // 이미 깨진 상태가 이어지는 중이면 다음 반복 시각이 되었을 때만 실행한다.
-        if (_isBroken && minute < _nextRepeatMinute)
+        // 복구했다가 다시 깨져도 마지막 실행 시각 기준 간격을 지켜 연속 출력을 막는다.
+        if (!IsKeepBroken(isStateHeld) || minute < _nextRepeatMinute)
             return false;
 
-        _isBroken = true;
         _nextRepeatMinute = minute + Data.WhileBroken.Every;
         RepeatCount++;
         return true;
@@ -123,7 +115,7 @@ public class TimelineCheck
     /// Keep에 적힌 상태 중 하나라도 유지되지 않는지 확인한다.
     /// isStateHeld로 각 상태를 조회하고, 깨진 상태가 있으면 true를 반환한다.
     /// </summary>
-    private bool IsKeepBroken(Func<DeviceAction, bool> isStateHeld)
+    public bool IsKeepBroken(Func<DeviceAction, bool> isStateHeld)
     {
         return Data.Keep.Any(state => !isStateHeld(state));
     }

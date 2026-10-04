@@ -22,7 +22,7 @@ public enum TimelineEventType
 
 /// <summary>
 /// 컨트롤러가 타임라인에 알리는 장치 동작이다. 판정 구간의 Require, Forbid, Keep에 사용한다.
-/// Keep에서는 DoorOpened, DoorClosed, LightOn, LightOff를 현재 상태로 해석한다.
+/// Keep에서는 문, 조명, 전화기 동작을 현재 상태로 해석하며, PhoneAnswered는 통화 중 상태로 본다.
 /// </summary>
 public enum DeviceAction
 {
@@ -30,7 +30,19 @@ public enum DeviceAction
     DoorClosed,
     LightOn,
     LightOff,
+    PhoneRinging,
     PhoneAnswered,
+    PhoneIdle,
+}
+
+/// <summary>
+/// 타임라인이 들고 있는 전화기 상태이다. TelephoneController가 보고한 전화기 동작으로 갱신한다.
+/// </summary>
+public enum PhoneState
+{
+    Idle,
+    Ringing,
+    InCall,
 }
 
 /// <summary>
@@ -65,7 +77,7 @@ public class CheckOutcome
 
 /// <summary>
 /// Keep 상태가 깨져 있는 동안 반복할 결과이다.
-/// 깨지는 순간 ErrorFax를 출력하고 계속 깨져 있으면 Every분마다 다시 출력하며, Penalty는 처음 깨질 때 한 번만 적용한다.
+/// 깨져 있는 동안 Every분 간격으로 ErrorFax를 출력하며, 정신력 감소는 깨져 있는 동안 OverdueAnomalyCount를 통해 지속 적용된다.
 /// </summary>
 public class CheckRepeat
 {
@@ -73,8 +85,6 @@ public class CheckRepeat
     public int Every { get; private set; }
     [JsonProperty]
     public string ErrorFax { get; private set; }
-    [JsonProperty]
-    public bool Penalty { get; private set; }
 }
 
 /// <summary>
