@@ -37,13 +37,23 @@ public class TimelineCheck
     }
 
     /// <summary>
-    /// 판정 구간을 시작하며 Keep 상태가 이미 깨져 있는지 확인한다.
-    /// 반복 구간이 아닌데 깨져 있으면 Failed, 그 외에는 Running을 반환한다.
+    /// 판정 구간을 시작하며 Keep 상태가 이미 깨져 있는지, AcceptHeld이면 Require 상태가 이미 유지 중인지 확인한다.
+    /// 반복 구간이 아닌데 깨져 있으면 Failed, 유지 중인 상태로 Require를 모두 채우면 Succeeded, 그 외에는 Running을 반환하며 _requireIndex를 갱신한다.
     /// </summary>
     public CheckState Begin(Func<DeviceAction, bool> isStateHeld)
     {
         if (!IsRepeating && IsKeepBroken(isStateHeld))
             return CheckState.Failed;
+
+        // 시작 전에 이미 만들어 둔 상태는 다시 조작하지 않아도 수행한 것으로 본다.
+        if (Data.AcceptHeld)
+        {
+            while (_requireIndex < Data.Require.Count && isStateHeld(Data.Require[_requireIndex]))
+                _requireIndex++;
+
+            if (Data.Require.Count > 0 && _requireIndex == Data.Require.Count)
+                return CheckState.Succeeded;
+        }
 
         return CheckState.Running;
     }

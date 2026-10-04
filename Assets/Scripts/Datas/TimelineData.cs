@@ -91,6 +91,7 @@ public class CheckRepeat
 /// 이벤트에 붙는 판정 구간이다. 이벤트 시각부터 Minutes분 동안 장치 동작을 판정한다.
 /// Require는 순서대로 해야 할 동작, Forbid는 하면 안 되는 동작, Keep은 구간 내내 유지할 상태이다.
 /// WhileBroken 또는 WhileHeld가 있으면 Keep 상태가 바뀌어도 구간 끝까지 감시하며 해당 상태의 반복 결과를 실행한다.
+/// AcceptHeld가 true이면 구간 시작 시 이미 유지 중인 Require 상태를 수행한 것으로 본다.
 /// </summary>
 public class CheckData
 {
@@ -112,6 +113,8 @@ public class CheckData
     public CheckRepeat WhileBroken { get; private set; }
     [JsonProperty]
     public CheckRepeat WhileHeld { get; private set; }
+    [JsonProperty]
+    public bool AcceptHeld { get; private set; }
 }
 
 /// <summary>

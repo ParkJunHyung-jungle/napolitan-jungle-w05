@@ -27,6 +27,16 @@ public class LightSwitchController : MonoBehaviour, IInteractable
         Managers.Sound.RegisterAudioSource(AudioSourceTypes.LIGHTSWITCH, gameObject.GetComponent<AudioSource>());
     }
 
+    void OnEnable()
+    {
+        Managers.Date.OnDayEnd += HandleDayEnd;
+    }
+
+    void OnDisable()
+    {
+        Managers.Date.OnDayEnd -= HandleDayEnd;
+    }
+
     /// <summary>
     /// 플레이어의 상호작용을 받아 레버의 위/아래 상태를 전환한다.
     /// 현재 IsOn 상태를 반전하고 로컬 회전을 변경한 뒤 변경된 상태를 StateChanged와 타임라인에 전달한다.
@@ -52,6 +62,18 @@ public class LightSwitchController : MonoBehaviour, IInteractable
         StateChanged?.Invoke(_isOn);
         Managers.Timeline.Report(_isOn ? DeviceAction.LightOn : DeviceAction.LightOff);
 
+    }
+
+    /// <summary>
+    /// 하루 종료를 받아 켜져 있는 조명을 끈다.
+    /// _isOn이 true일 때만 Interact로 레버, 실내 조명, 타임라인 상태를 꺼진 상태로 바꾼다.
+    /// </summary>
+    private void HandleDayEnd()
+    {
+        if (!_isOn)
+            return;
+
+        Interact();
     }
 
     private void ActiveLight()
