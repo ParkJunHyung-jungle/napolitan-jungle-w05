@@ -17,7 +17,6 @@ public class SoundManager
     private AudioSource _sliderSource;
     private AudioSource _sfxSoruce;
     private AudioSource _ambientSource;
-    private AudioSource _subAmbientSource;
     private AudioSource _clockSource;
     private AudioSource _sirenSource;
     private AudioSource _countDownSource;
@@ -36,6 +35,7 @@ public class SoundManager
     private AudioSource _faxSource;
     private AudioSource _inseinSource;
     private AudioSource _paperSource;
+    private AudioSource _heartBeatSource;
 
     public AudioSource OnThePhoneSource => _onThePhoneSource;
 
@@ -61,18 +61,15 @@ public class SoundManager
         _sliderSource = CreateSource("Slider");
         _sfxSoruce = CreateSource("Sfx");
         _ambientSource = CreateSource("Ambient", volume: 0.5f, pitch: 0.6f);
-        _subAmbientSource = CreateSource("SubAmbient", volume: 0.5f, pitch: 0.6f);
         _clockSource = CreateSource("Clock");
         _sirenSource = CreateSource("Siren", volume: 0.9f);
         _countDownSource = CreateSource("CountDown");
         _warningSource = CreateSource("Warning");
         _gameClearSource = CreateSource("GameClear", outputGroup: _catalog.GameClearOutput);
-        _facilityButtonSource = CreateSource("FacilityButton");
-        _facilityDragSource = CreateSource("FacilityDrag", volume: 0.3f, pitch: 0.3f);
-        _facilitySnapSource = CreateSource("FacilitySnap", pitch: 0.5f);
         _onThePhoneSource = CreateSource("OnThePhone", volume: 0.7f);
         _inseinSource = CreateSource("Insein", volume: 0.7f);
         _paperSource = CreateSource("HandlingPaper", volume: 1f);
+        _heartBeatSource = CreateSource("HeartBeatSource", volume: 0.7f);
 
         AudioHighPassFilter highPass = _onThePhoneSource.gameObject.AddComponent<AudioHighPassFilter>();
         highPass.cutoffFrequency = 400f;
@@ -88,7 +85,7 @@ public class SoundManager
             _buttonSource, _sliderSource, _sfxSoruce, _ambientSource, _clockSource,
             _sirenSource, _countDownSource, _warningSource, _gameClearSource,
             _facilityButtonSource, _facilityDragSource, _facilitySnapSource, _doorSource, _cryingSource, _lockedDoorSource,
-            _phoneSource, _onThePhoneSource, _lightSwitchSource, _faxSource, _inseinSource, _paperSource
+            _phoneSource, _onThePhoneSource, _lightSwitchSource, _faxSource, _inseinSource, _paperSource, _heartBeatSource
         };
         SceneManager.activeSceneChanged += OnSceneChanged;
     }
@@ -129,6 +126,8 @@ public class SoundManager
         _faxSource = null;
         _inseinSource = null;
         _paperSource = null;
+
+        _heartBeatSource = null;
 
     }
 
@@ -248,7 +247,7 @@ public class SoundManager
     }
     public void GetHitSound()
     {
-        _sfxSoruce.PlayOneShot(_catalog.TakingDamage);
+        _sfxSoruce.PlayOneShot(_catalog.HitPlayer);
     }
 
     /// <summary>Loops the catalog clock clip on the initialized clock channel.</summary>
@@ -471,5 +470,13 @@ public class SoundManager
     {
         _sfxSoruce.PlayOneShot(_catalog.Lamp);
 
+    }
+    public void HeartBeatSound()
+    {
+        SoundPlay(_heartBeatSource, _catalog.HeartBeat, true);
+    }
+    public void StopHeartBeatSound()
+    {
+        _heartBeatSource.Stop();
     }
 }
