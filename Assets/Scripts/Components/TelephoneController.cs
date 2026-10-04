@@ -31,7 +31,7 @@ public class TelephoneController : MonoBehaviour, IInteractable
 
     /// <summary>
     /// 외부 수신 요청을 받아 대기 중인 전화를 벨이 울리는 상태로 변경한다.
-    /// 대기 상태에서만 벨소리를 시작하고 OnCallStateChanged를 호출한다.
+    /// 대기 상태에서만 벨소리를 시작하고 타임라인에 벨이 울림을 보고한 뒤 OnCallStateChanged를 호출한다.
     /// </summary>
     public void ReceiveCall()
     {
@@ -39,6 +39,7 @@ public class TelephoneController : MonoBehaviour, IInteractable
             return;
 
         _callState = CallState.Ringing;
+        Managers.Timeline.Report(DeviceAction.PhoneRinging);
 
         Managers.Sound.PhoneRinging();
         OnCallStateChanged?.Invoke();
@@ -46,7 +47,7 @@ public class TelephoneController : MonoBehaviour, IInteractable
 
     /// <summary>
     /// 벨이 울리거나 통화 중인 전화를 종료한다.
-    /// 벨소리와 통화 종료음을 멈추고 대기 상태로 변경한 뒤 끊는 소리와 OnCallStateChanged를 호출한다.
+    /// 벨소리와 통화 종료음을 멈추고 대기 상태로 변경해 타임라인에 보고한 뒤 끊는 소리와 OnCallStateChanged를 호출한다.
     /// </summary>
     public void HangUp()
     {
@@ -54,6 +55,7 @@ public class TelephoneController : MonoBehaviour, IInteractable
             return;
 
         _callState = CallState.Idle;
+        Managers.Timeline.Report(DeviceAction.PhoneIdle);
         if (_waitAndPlayCoroutine != null)
         {
             StopCoroutine(_waitAndPlayCoroutine);
@@ -68,7 +70,7 @@ public class TelephoneController : MonoBehaviour, IInteractable
 
     /// <summary>
     /// 타임라인의 벨 중지 요청을 받아 아무도 받지 않은 전화를 대기 상태로 되돌린다.
-    /// 벨이 울리는 중일 때만 벨소리를 멈추고 OnCallStateChanged를 호출한다.
+    /// 벨이 울리는 중일 때만 벨소리를 멈추고 타임라인에 대기 상태를 보고한 뒤 OnCallStateChanged를 호출한다.
     /// </summary>
     private void StopRinging()
     {
@@ -76,6 +78,7 @@ public class TelephoneController : MonoBehaviour, IInteractable
             return;
 
         _callState = CallState.Idle;
+        Managers.Timeline.Report(DeviceAction.PhoneIdle);
 
         Managers.Sound.StopPhoneRinging();
         OnCallStateChanged?.Invoke();

@@ -16,7 +16,6 @@ public class TimelineManager
     private const string FAX_HEADER_ID = "FAX_HEADER";
     private const string PHONE_RING_CHECK_ID = "PHONE_RING";
     private const string TIME_FORMAT = @"hh\:mm";
-    private const string RECEIVED_FLAG_FORMAT = "RECEIVED_{0}";
     private const string BROKE_FLAG_FORMAT = "BROKE_{0}";
     private const float RULE_FAIL_PENALTY = 10f;
 
@@ -32,7 +31,11 @@ public class TimelineManager
 
     [Header("Device State")]
     private bool _isLightOn = true;
+    private bool _isLightBlinking;
     private bool _isDoorOpen;
+    private bool _isKnocking;
+    private PhoneState _phoneState;
+    private bool _isCrying;
 
     [Header("Check")]
     private readonly List<TimelineCheck> _checks = new();
@@ -41,14 +44,11 @@ public class TimelineManager
     [Header("Record")]
     private readonly HashSet<string> _flags = new();
     private readonly List<CheckRecord> _checkRecords = new();
-    private readonly List<InstructionRecord> _instructionRecords = new();
-    private readonly List<ErrorFaxRecord> _errorFaxRecords = new();
 
     public IReadOnlyList<CheckRecord> CheckRecords => _checkRecords;
-    public IReadOnlyList<InstructionRecord> InstructionRecords => _instructionRecords;
-    public IReadOnlyList<ErrorFaxRecord> ErrorFaxRecords => _errorFaxRecords;
     public bool HasActiveAnomalies => _checks.Count > 0;
-    public int OverdueAnomalyCount => _checks.Count(check => check.IsOverdue);
+    // 기한을 넘긴 구간과 지금 Keep이 깨진 반복 구간을 정신력 지속 감소 대상으로 센다.
+    public int OverdueAnomalyCount => _checks.Count(check => check.IsOverdue || (check.IsRepeating && check.IsKeepBroken(IsStateHeld)));
 
     /// <summary>
     /// Resources의 Texts.json과 Timeline.json을 읽어 문구, 명령서 구성, 시각별 이벤트를 준비한다.
@@ -84,10 +84,12 @@ public class TimelineManager
         _checks.Clear();
         _flags.Clear();
         _checkRecords.Clear();
-        _instructionRecords.Clear();
-        _errorFaxRecords.Clear();
         _isLightOn = true;
+        _isLightBlinking = false;
         _isDoorOpen = false;
+        _isKnocking = false;
+        _phoneState = PhoneState.Idle;
+        _isCrying = false;
     }
 
     /// <summary>
@@ -168,7 +170,7 @@ public class TimelineManager
 
     /// <summary>
     /// timelineEvent의 Type에 맞는 기존 기능을 호출한다.
-    /// 문과 전화기처럼 씬 오브젝트가 처리하는 이벤트는 구독자에게 알린다.
+    /// 문과 전화기처럼 씬 오브젝트가 처리하는 이벤트는 구독자에게 알리고, 깜빡임, 노크, 울음 상태를 함께 갱신한다.
     /// </summary>
     private void Execute(TimelineEvent timelineEvent)
     {
@@ -178,10 +180,11 @@ public class TimelineManager
                 PrintInstruction(timelineEvent.Arg, timelineEvent.Time);
                 break;
             case TimelineEventType.ErrorFax:
-                PrintErrorFax(timelineEvent.Arg, null);
+                Managers.Fax.PrintErrorFax(_texts[timelineEvent.Arg]);
                 break;
             case TimelineEventType.LightBlink:
                 Managers.Light.RoomLightBlink();
+                _isLightBlinking = true;
                 break;
             case TimelineEventType.PhoneRing:
                 OnPhoneRing?.Invoke();
@@ -192,12 +195,15 @@ public class TimelineManager
                 break;
             case TimelineEventType.PhoneCrying:
                 Managers.Sound.CryingSound();
+                _isCrying = true;
                 break;
             case TimelineEventType.PhoneCryingStop:
                 OnPhoneCryingStop?.Invoke();
+                _isCrying = false;
                 break;
             case TimelineEventType.DoorKnock:
                 OnDoorKnock?.Invoke();
+                _isKnocking = true;
                 break;
             case TimelineEventType.CompositeCheck:
                 // 여러 장치에 걸친 판정 구간만 시작하는 이벤트라 실행할 동작이 없다.
@@ -238,7 +244,7 @@ public class TimelineManager
 
     /// <summary>
     /// 종료 시각이 minute 이하인 판정 구간을 마무리한다.
-    /// 성공 구간은 제거하고 실패 구간은 기록한 뒤 늦은 해결까지 _checks에 유지한다.
+    /// 성공 구간과 반복 구간은 제거하고, 그 외 실패 구간은 기록한 뒤 늦은 해결까지 _checks에 유지한다.
     /// </summary>
     private void ExpireChecks(int minute)
     {
@@ -249,7 +255,8 @@ public class TimelineManager
                 continue;
 
             CheckState state = check.Expire();
-            if (state == CheckState.Failed)
+            // 반복 구간은 깨져 있는 동안 이미 정신력이 감소했으므로 실패해도 Overdue로 남기지 않는다.
+            if (state == CheckState.Failed && !check.IsRepeating)
                 check.MarkOverdue();
             else
                 _checks.RemoveAt(i);
@@ -282,7 +289,7 @@ public class TimelineManager
 
     /// <summary>
     /// 반복 구간 check의 Keep 상태를 minute 시각으로 확인해 차례가 되면 WhileBroken 결과를 실행한다.
-    /// 처음 깨졌을 때 BROKE 플래그를 기록하고, 차례마다 에러 팩스를 처리한다.
+    /// 처음 깨졌을 때 BROKE 플래그를 기록하고, 차례마다 에러 팩스를 출력한다
     /// </summary>
     private void RunRepeat(TimelineCheck check, int minute)
     {
@@ -293,7 +300,7 @@ public class TimelineManager
         if (check.RepeatCount == 1)
             _flags.Add(string.Format(BROKE_FLAG_FORMAT, check.Data.Id));
 
-        PrintErrorFax(repeat.ErrorFax, check.Data.Id);
+        Managers.Fax.PrintErrorFax(_texts[repeat.ErrorFax]);
     }
 
     /// <summary>
@@ -329,14 +336,14 @@ public class TimelineManager
         bool isSuccess = state == CheckState.Succeeded;
 
         _checkRecords.Add(new CheckRecord(check.Data.Id, check.StartTime, ToTimeText(minute), isSuccess, check.RepeatCount));
-        ApplyOutcome(isSuccess ? check.Data.Success : check.Data.Fail, check.Data.Id, applyPenalty);
+        ApplyOutcome(isSuccess ? check.Data.Success : check.Data.Fail, applyPenalty);
     }
 
     /// <summary>
-    /// 판정 결과 outcome에 적힌 플래그 기록, 선택적 정신력 감소, 에러 팩스 처리를 실행한다.
-    /// applyPenalty가 true일 때만 지정된 정신력 감소를 적용하고, 에러 팩스 cause도 기록한다.
+    /// 판정 결과 outcome에 적힌 플래그 기록, 선택적 정신력 감소, 에러 팩스 출력을 실행한다.
+    /// applyPenalty가 true일 때만 정신력 감소를 적용하고, 에러 팩스는 Delay가 있으면 그만큼 기다린 뒤 출력한다.
     /// </summary>
-    private void ApplyOutcome(CheckOutcome outcome, string cause, bool applyPenalty)
+    private void ApplyOutcome(CheckOutcome outcome, bool applyPenalty)
     {
         // 결과가 필요 없는 쪽은 Timeline.json에서 생략할 수 있다.
         if (outcome == null)
@@ -350,14 +357,14 @@ public class TimelineManager
             return;
 
         if (outcome.Delay > 0f)
-            _delayedErrorFaxCoroutines.Add(Managers.Instance.StartCoroutine(PrintErrorFaxAfterDelay(outcome.ErrorFax, cause, outcome.Delay)));
+            _delayedErrorFaxCoroutines.Add(Managers.Instance.StartCoroutine(PrintErrorFaxAfterDelay(outcome.ErrorFax, outcome.Delay)));
         else
-            PrintErrorFax(outcome.ErrorFax, cause);
+            Managers.Fax.PrintErrorFax(_texts[outcome.ErrorFax]);
     }
 
     /// <summary>
     /// instructionId 명령서를 머리글과 함께 출력하고 진짜 명령서 여부를 함께 전달한다.
-    /// time은 머리글에 들어갈 "HH:mm" 시각이며, 출력한 명령서를 _instructionRecords에 기록한다.
+    /// time은 머리글에 들어갈 "HH:mm" 시각이다.
     /// </summary>
     private void PrintInstruction(string instructionId, string time)
     {
@@ -366,30 +373,16 @@ public class TimelineManager
         string message = string.Format(_texts[FAX_HEADER_ID], time) + "\n" + body;
 
         Managers.Fax.InstantiateFaxMessage(message, instruction.IsReal);
-        _instructionRecords.Add(new InstructionRecord(instructionId, time, instruction.IsReal));
     }
 
     /// <summary>
-    /// textId 에러 팩스를 처리한다. 에러 팩스마다 양식이 다를 수 있어 문구를 그대로 사용하며, 실제 출력은 TODO로 막아 두었다.
-    /// RECEIVED 플래그를 세우고 현재 시각과 출력 원인 cause를 _errorFaxRecords에 기록한다.
+    /// delay초를 기다린 뒤 textId 문구로 에러 팩스를 출력한다.
     /// </summary>
-    private void PrintErrorFax(string textId, string cause)
-    {
-        // TODO: 팩스 쪽에서 에러 팩스를 명령서와 구분할 수 있게 되면 출력을 연결한다. 그 전까지는 플래그와 기록만 남긴다.
-        //Managers.Fax.InstantiateFaxMessage(_texts[textId], true);
-
-        _flags.Add(string.Format(RECEIVED_FLAG_FORMAT, textId));
-        _errorFaxRecords.Add(new ErrorFaxRecord(textId, ToTimeText(Managers.Date.CurrentMinute), cause));
-    }
-
-    /// <summary>
-    /// delay초를 기다린 뒤 textId 에러 팩스를 처리하고 cause를 출력 원인으로 기록한다.
-    /// </summary>
-    private IEnumerator PrintErrorFaxAfterDelay(string textId, string cause, float delay)
+    private IEnumerator PrintErrorFaxAfterDelay(string textId, float delay)
     {
         yield return new WaitForSeconds(delay);
 
-        PrintErrorFax(textId, cause);
+        Managers.Fax.PrintErrorFax(_texts[textId]);
     }
 
     /// <summary>
@@ -408,8 +401,8 @@ public class TimelineManager
     }
 
     /// <summary>
-    /// 문과 조명 동작 action으로 _isDoorOpen, _isLightOn을 갱신한다.
-    /// 상태가 없는 동작은 아무것도 바꾸지 않는다.
+    /// 컨트롤러가 보고한 action으로 장치 상태를 갱신한다.
+    /// 조명 조작은 깜빡임을, 문 조작은 노크를 함께 멈추며, 전화기 동작은 _phoneState를 바꾼다.
     /// </summary>
     private void UpdateDeviceState(DeviceAction action)
     {
@@ -417,22 +410,35 @@ public class TimelineManager
         {
             case DeviceAction.DoorOpened:
                 _isDoorOpen = true;
+                _isKnocking = false;
                 break;
             case DeviceAction.DoorClosed:
                 _isDoorOpen = false;
+                _isKnocking = false;
                 break;
             case DeviceAction.LightOn:
                 _isLightOn = true;
+                _isLightBlinking = false;
                 break;
             case DeviceAction.LightOff:
                 _isLightOn = false;
+                _isLightBlinking = false;
+                break;
+            case DeviceAction.PhoneRinging:
+                _phoneState = PhoneState.Ringing;
+                break;
+            case DeviceAction.PhoneAnswered:
+                _phoneState = PhoneState.InCall;
+                break;
+            case DeviceAction.PhoneIdle:
+                _phoneState = PhoneState.Idle;
                 break;
         }
     }
 
     /// <summary>
     /// state를 현재 장치 상태로 해석해 지금 유지되고 있는지 반환한다.
-    /// 문과 조명 동작만 상태로 보며, 그 외 동작은 항상 유지된 것으로 본다.
+    /// 문, 조명, 전화기 동작을 현재 상태와 비교하며, 상태로 해석하지 않는 동작은 항상 유지된 것으로 본다.
     /// </summary>
     private bool IsStateHeld(DeviceAction state)
     {
@@ -446,6 +452,12 @@ public class TimelineManager
                 return _isLightOn;
             case DeviceAction.LightOff:
                 return !_isLightOn;
+            case DeviceAction.PhoneRinging:
+                return _phoneState == PhoneState.Ringing;
+            case DeviceAction.PhoneAnswered:
+                return _phoneState == PhoneState.InCall;
+            case DeviceAction.PhoneIdle:
+                return _phoneState == PhoneState.Idle;
             default:
                 return true;
         }
