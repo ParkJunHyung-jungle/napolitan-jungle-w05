@@ -56,6 +56,8 @@ public class TimelineManager
     public int OverdueAnomalyCount => _checks.Count(check => check.IsOverdue || (check.IsRepeating && check.IsKeepBroken(IsStateHeld)));
     // 하루가 끝난 뒤 미니게임 중에는 문이 열려 있어도 정신력 감소 대상으로 보지 않는다.
     public bool IsDoorLeftOpen => _isDoorOpen && !_isDayEnded;
+    // 하루가 끝난 뒤 미니게임 중에는 전등이 꺼져 있어도 정신력 감소 대상으로 보지 않는다.
+    public bool IsLightLeftOff => !_isLightOn && !_isDayEnded;
 
     /// <summary>
     /// Resources의 Texts.json과 Timeline.json을 읽어 문구, 명령서 구성, 시각별 이벤트를 준비한다.
