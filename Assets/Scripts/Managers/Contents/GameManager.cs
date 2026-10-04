@@ -215,11 +215,12 @@ public class GameManager
 
     /// <summary>
     /// 하루 종료 버튼 입력을 받아 하루 종료 화면을 닫고 플레이어 입력 모드로 전환한다.
-    /// _dayEndCanvas의 활성 상태와 입력 모드를 변경한다.
+    /// _dayEndCanvas의 활성 상태와 입력 모드를 변경하고 다음 날 시작 이벤트를 발생시킨다.
     /// </summary>
     private void OnDayEndButtonClick()
     {
         _dayEndCanvas.gameObject.SetActive(false);
+        Managers.Date.StartDay();
         Managers.Input.SetInputMode(InputMode.Player);
     }
 
