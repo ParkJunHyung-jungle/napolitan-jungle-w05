@@ -56,7 +56,7 @@ public class LightSwitchController : MonoBehaviour, IInteractable
         else
         {
             Managers.Sound.LightOffSound();
-            Managers.Sound.TurnOnLamp();
+            Managers.Sound.TurnOnLampSound();
             Managers.Light.RoomLightOn();
         }
         float angle = _isOn ? UP_ANGLE : DOWN_ANGLE;

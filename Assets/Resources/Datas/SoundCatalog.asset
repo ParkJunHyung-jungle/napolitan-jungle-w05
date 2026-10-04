@@ -18,7 +18,7 @@ MonoBehaviour:
   _facilitySliderDrag: {fileID: 8300000, guid: a25a8e248a9e3dd49ac359068a238724, type: 3}
   _facilitySliderSnap: {fileID: 8300000, guid: 7f96dc028b54d6940bbbe03a943fd5b1, type: 3}
   _engineOff: {fileID: 8300000, guid: 0ec5af34269ed134b819421121dbcc0f, type: 3}
-  _takingDamage: {fileID: 8300000, guid: 10409f24d70b4274f909f85980e7a4e1, type: 3}
+  _takingDamage: {fileID: 8300000, guid: 25635a1c86eb5b744b4730a3cc61bce0, type: 3}
   _fixCompleted: {fileID: 8300000, guid: d2895e13eaf57e244959370648964b55, type: 3}
   _mediumFix: {fileID: 8300000, guid: 25ae331e8a1152a46b7fa8d3993b8f35, type: 3}
   _gameOver: {fileID: 8300000, guid: ccced3ccc46bea14d97f0885e1fc3d69, type: 3}
@@ -48,7 +48,7 @@ MonoBehaviour:
   - {fileID: 8300000, guid: c7a5f6174754dee48b2b88ae28765e5e, type: 3}
   - {fileID: 8300000, guid: 35178d63c0bd6214c8370d74e2d29379, type: 3}
   - {fileID: 8300000, guid: 46573f868232be541aa02bac568d12d1, type: 3}
-  _ambient: {fileID: 8300000, guid: adc6bd2aee7f03b418491f7c777bf5bd, type: 3}
+  _ambient: {fileID: 8300000, guid: 2e83e29441cfb1c4a98643c0ca957274, type: 3}
   _subAmbient: {fileID: 8300000, guid: ddb8759b9310ff943a1075482e0da7da, type: 3}
   _clock: {fileID: 8300000, guid: 28980863f1ad8884b84d49d70f80162c, type: 3}
   _countDown: {fileID: 8300000, guid: 7e648e9371d24ae4ea224a876fd64ef8, type: 3}

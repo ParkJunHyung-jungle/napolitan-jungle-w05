@@ -36,6 +36,7 @@ public class SoundManager
     private AudioSource _inseinSource;
     private AudioSource _paperSource;
     private AudioSource _heartBeatSource;
+    private AudioSource _shredderSource;
 
     public AudioSource OnThePhoneSource => _onThePhoneSource;
 
@@ -69,7 +70,8 @@ public class SoundManager
         _onThePhoneSource = CreateSource("OnThePhone", volume: 0.7f);
         _inseinSource = CreateSource("Insein", volume: 0.7f);
         _paperSource = CreateSource("HandlingPaper", volume: 1f);
-        _heartBeatSource = CreateSource("HeartBeatSource", volume: 0.7f);
+        _heartBeatSource = CreateSource("HeartBeat", volume: 0.7f);
+        _shredderSource = CreateSource("Shredder", volume: 0.7f);
 
         AudioHighPassFilter highPass = _onThePhoneSource.gameObject.AddComponent<AudioHighPassFilter>();
         highPass.cutoffFrequency = 400f;
@@ -466,7 +468,7 @@ public class SoundManager
     {
         _paperSource.PlayOneShot(_catalog.HandlingPaper);
     }
-    public void TurnOnLamp()
+    public void TurnOnLampSound()
     {
         _sfxSoruce.PlayOneShot(_catalog.Lamp);
 
@@ -478,5 +480,15 @@ public class SoundManager
     public void StopHeartBeatSound()
     {
         _heartBeatSource.Stop();
+    }
+    public void StopLampSound()
+    {
+        _sfxSoruce.PlayOneShot(_catalog.Lamp);
+
+    }
+    public void ShredderSound()
+    {
+        _shredderSource.PlayOneShot(_catalog.Shredder);
+
     }
 }
