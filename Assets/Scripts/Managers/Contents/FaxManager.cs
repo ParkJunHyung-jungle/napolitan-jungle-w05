@@ -12,17 +12,19 @@ public class FaxManager
 
     [Header("Prefab")]
     private GameObject _faxMessagePrefab;
+    public GameObject LoadInstructionPanel => Resources.Load<GameObject>("Prefabs/UIs/InstructionCanvas");
     public GameObject LoadFax => Resources.Load<GameObject>("Prefabs/Fax");
     public GameObject LoadFaxInstruction => Resources.Load<GameObject>("Prefabs/FaxInstruction");
-    public Func<string, GameObject> LoadPastMessage => (string prefabName) => Resources.Load<GameObject>($"Prefabs/{prefabName}");
+    public Func<string, GameObject> LoadPastMessage => prefabName => Resources.Load<GameObject>($"Prefabs/{prefabName}");
 
     public void Init()
     {
         _faxMessagePrefab = LoadFaxInstruction;
         InstantiateFax();
-        GameObject instructionCanvas = UnityEngine.Object.Instantiate(Resources.Load<GameObject>("Prefabs/UIs/InstructionCanvas"));
+        GameObject instructionCanvas = UnityEngine.Object.Instantiate(LoadInstructionPanel);
         _instructionPanel = instructionCanvas.GetComponent<InstructionPanelController>();
         instructionCanvas.transform.SetParent(Managers.Instance.transform, false);
+        instructionCanvas.SetActive(false);
         Managers.Date.OnDayEnd += OnDayEnd;
     }
 
@@ -38,6 +40,7 @@ public class FaxManager
     /// </summary>
     public void OnDayEnd()
     {
+        _instructionPanel.gameObject.SetActive(true);
         for (int i = _instructions.Count - 1; i >= 0; i--)
         {
             FaxInstructionController instruction = _instructions[i];

@@ -48,6 +48,8 @@ public class BoardController : MonoBehaviour
         heldOutline.SetOutline(false);
         heldOutline.enabled = false;
         _instructions[slotIndex] = heldInstruction;
+
+        Managers.Sound.PaperSound();
     }
 
     /// <summary>

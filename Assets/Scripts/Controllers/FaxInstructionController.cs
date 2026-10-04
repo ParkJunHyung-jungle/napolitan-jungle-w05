@@ -90,6 +90,8 @@ public class FaxInstructionController : MonoBehaviour, IInteractable
         transform.localRotation = _holdRotation;
         SetHierarchyLayer(_playerLayer);
 
+        Managers.Sound.PaperSound();
+
         _rb.detectCollisions = true;
         _rb.linearVelocity = Vector3.zero;
         _rb.angularVelocity = Vector3.zero;
@@ -105,6 +107,8 @@ public class FaxInstructionController : MonoBehaviour, IInteractable
     {
         transform.SetParent(null, true);
         SetHierarchyLayer(_interactableLayer);
+
+        Managers.Sound.PaperSound();
 
         _rb.detectCollisions = true;
         _rb.linearVelocity = Vector3.zero;
