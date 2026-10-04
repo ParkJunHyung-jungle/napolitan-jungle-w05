@@ -124,6 +124,7 @@ GameObject:
   - component: {fileID: 5662954722332648828}
   - component: {fileID: 6390894164513109967}
   - component: {fileID: 650665513775957765}
+  - component: {fileID: 5803137318509179348}
   m_Layer: 0
   m_Name: LightSwitch
   m_TagString: Untagged
@@ -263,6 +264,25 @@ MonoBehaviour:
   _redLight: {fileID: 6936068597710080761}
   _greenLight: {fileID: 981839539610860899}
   _leverPivot: {fileID: 0}
+--- !u!114 &5803137318509179348
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1212389461917461059}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d666d965c34fe034f9261c370c7716bc, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::Outline
+  OutlineMask: 2
+  renderers:
+  - {fileID: 3858068221684481}
+  - {fileID: 5207895943762170937}
+  - {fileID: 6397456041736439972}
+  - {fileID: 3369784505114926897}
+  - {fileID: 8297178974521057201}
 --- !u!1 &1561560203165419304
 GameObject:
   m_ObjectHideFlags: 0

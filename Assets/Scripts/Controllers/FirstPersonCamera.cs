@@ -25,6 +25,7 @@ public class FirstPersonCamera : MonoBehaviour
     private float _pitch;
     private bool _isLookLocked;
     private float _lookScale = 1f;
+    private int _aimLayerMask;
     private bool _hasAimHit;
     private RaycastHit _aimHit;
     private Outline _outlinedTarget;
@@ -36,6 +37,7 @@ public class FirstPersonCamera : MonoBehaviour
     {
         _camera = GetComponent<Camera>();
         if (playerBody == null) playerBody = transform.parent;
+        _aimLayerMask = Physics.DefaultRaycastLayers & ~LayerMask.GetMask("Player");
 
         // 카메라가 몸의 자식이 아니면 좌우 회전과 이동이 화면에 반영되지 않는다
         if (playerBody == null || !transform.IsChildOf(playerBody))
@@ -92,7 +94,7 @@ public class FirstPersonCamera : MonoBehaviour
             GetAimRay(),
             out _aimHit,
             AIM_DISTANCE,
-            Physics.DefaultRaycastLayers,
+            _aimLayerMask,
             QueryTriggerInteraction.Ignore);
 
         Outline nextTarget = _hasAimHit
@@ -116,5 +118,4 @@ public class FirstPersonCamera : MonoBehaviour
     {
         _lookScale = Mathf.Max(0f, scale);
     }
-
 }

@@ -943,6 +943,7 @@ GameObject:
   - component: {fileID: 6564196875098583783}
   - component: {fileID: 6802056684079746334}
   - component: {fileID: 8255437057977261372}
+  - component: {fileID: 4628819906308092730}
   m_Layer: 6
   m_Name: Telephone
   m_TagString: Untagged
@@ -1083,6 +1084,31 @@ AudioSource:
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 4
+--- !u!114 &4628819906308092730
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4013500678335995511}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d666d965c34fe034f9261c370c7716bc, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::Outline
+  OutlineMask: 2
+  renderers:
+  - {fileID: 6020822412055710069}
+  - {fileID: 4269823007341473246}
+  - {fileID: 4385482239146572597}
+  - {fileID: 2088012780186391584}
+  - {fileID: 8310726081702895974}
+  - {fileID: 628858777081407849}
+  - {fileID: 2857896690682280698}
+  - {fileID: 570865481906392929}
+  - {fileID: 671045304022481905}
+  - {fileID: 4607246155892655}
+  - {fileID: 1763182871843128358}
 --- !u!1 &5148676117365337791
 GameObject:
   m_ObjectHideFlags: 0
