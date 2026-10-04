@@ -19,9 +19,11 @@ public class GameManager
     public GameInfo GameInfo { get; private set; }
 
     public event Action<float, float> OnMentalityChanged;
+    public event Action OnMissionCompleted;
 
     private bool _isDayEnd = false;
     public bool IsDayEnded => _isDayEnd;
+    public bool IsMissionComplete { get; private set; }
     private bool _isGameOver;
 
     private bool _isLeverPulledAtTwo = false;
@@ -70,11 +72,25 @@ public class GameManager
 
     /// <summary>
     /// 게임 재시작 시 하루 종료 상태를 초기화한다.
-    /// _isDayEnd를 false로 바꿔 다음 플레이에서 종료 이벤트를 다시 받을 수 있게 한다.
+    /// _isDayEnd와 IsMissionComplete를 초기화해 다음 플레이의 출구 판정을 준비한다.
     /// </summary>
     public void Clear()
     {
         _isDayEnd = false;
+        IsMissionComplete = false;
+    }
+
+    /// <summary>
+    /// 임무 시스템에서 완료를 알릴 때 완료 상태를 저장하고 구독자에게 한 번 통지한다.
+    /// IsMissionComplete를 true로 변경하며 OnMissionCompleted를 호출한다.
+    /// </summary>
+    public void CompleteMission()
+    {
+        if (IsMissionComplete)
+            return;
+
+        IsMissionComplete = true;
+        OnMissionCompleted?.Invoke();
     }
 
     /// <summary>
