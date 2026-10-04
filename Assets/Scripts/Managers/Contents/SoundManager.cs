@@ -502,7 +502,10 @@ public class SoundManager
     {
         SoundPlay(_cryingSource, _catalog.Crying, true);
     }
-
+    public void StopCryingSound()
+    {
+        _cryingSource.Stop();
+    }
     public void LightOnSound()
     {
         SoundPlay(_lightSwitchSource, _catalog.SwitchOn);
