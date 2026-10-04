@@ -49,6 +49,8 @@ public class CabinetController : MonoBehaviour, IInteractable
         Managers.Fax.RemoveInstruction(instruction);
         Destroy(instruction.gameObject);
 
+        Managers.Sound.PaperSound();
+
         if (!isReal)
             Managers.Game.PunchMentality(RULE_FAIL_PENALTY);
     }

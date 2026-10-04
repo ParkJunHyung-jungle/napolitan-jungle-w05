@@ -47,6 +47,8 @@ public class CrusherController : MonoBehaviour, IInteractable
         Managers.Fax.RemoveInstruction(instruction);
         Destroy(instruction.gameObject);
 
+        Managers.Sound.ShredderSound();
+
         if (isReal)
             Managers.Game.PunchMentality(RULE_FAIL_PENALTY);
     }

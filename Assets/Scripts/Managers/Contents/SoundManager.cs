@@ -456,6 +456,10 @@ public class SoundManager
     {
         SoundPlay(_faxSource, _catalog.Fax);
     }
+    public void FaxErrorSound()
+    {
+        SoundPlay(_faxSource, _catalog.FaxError);
+    }
     public void InseinSound()
     {
         SoundPlay(_inseinSource, _catalog.Insein, true);
