@@ -510,10 +510,7 @@ PrefabInstance:
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
-    m_AddedComponents:
-    - targetCorrespondingSourceObject: {fileID: 2323824646428444312, guid: 8cf65b7fa07c1854ea27a438b19c9e58, type: 3}
-      insertIndex: -1
-      addedObject: {fileID: 0}
+    m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 8cf65b7fa07c1854ea27a438b19c9e58, type: 3}
 --- !u!1 &84109514
 GameObject:
@@ -3878,6 +3875,10 @@ PrefabInstance:
     - target: {fileID: 6199676943508247232, guid: 9760fd76326cb7849b5a57fc42462cdf, type: 3}
       propertyPath: m_Name
       value: DateCanvas
+      objectReference: {fileID: 0}
+    - target: {fileID: 6199676943508247232, guid: 9760fd76326cb7849b5a57fc42462cdf, type: 3}
+      propertyPath: m_IsActive
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 6844568154633177126, guid: 9760fd76326cb7849b5a57fc42462cdf, type: 3}
       propertyPath: m_Pivot.x
@@ -7728,10 +7729,7 @@ PrefabInstance:
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
-    m_AddedComponents:
-    - targetCorrespondingSourceObject: {fileID: 6188579034015118136, guid: 0fbb3d263d6b8be4abc919e2bb8087e9, type: 3}
-      insertIndex: -1
-      addedObject: {fileID: 0}
+    m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 0fbb3d263d6b8be4abc919e2bb8087e9, type: 3}
 --- !u!1 &1358773198
 GameObject:

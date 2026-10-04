@@ -320,7 +320,7 @@ public class TimelineManager
 
     /// <summary>
     /// 진행 중인 반복 구간을 minute 시각 기준으로 확인한다.
-    /// 깨진 상태가 이어지는 구간은 WhileBroken.Every분마다 반복 결과를 실행한다.
+    /// Keep 상태에 따라 WhileBroken 또는 WhileHeld의 Every분 간격으로 반복 결과를 실행한다.
     /// </summary>
     private void RepeatChecks(int minute)
     {
@@ -332,15 +332,15 @@ public class TimelineManager
     }
 
     /// <summary>
-    /// 반복 구간 check의 Keep 상태를 minute 시각으로 확인해 차례가 되면 WhileBroken 결과를 실행한다.
-    /// 처음 깨졌을 때 BROKE 플래그를 기록하고, 차례마다 에러 팩스를 출력한다
+    /// 반복 구간 check의 Keep 상태를 minute 시각으로 확인해 해당 상태의 결과를 실행한다.
+    /// WhileBroken의 첫 반복에는 BROKE 플래그를 기록하고, 결과가 도래하면 에러 팩스를 출력한다.
     /// </summary>
     private void RunRepeat(TimelineCheck check, int minute)
     {
-        if (!check.CheckRepeat(minute, IsStateHeld))
+        CheckRepeat repeat = check.CheckRepeat(minute, IsStateHeld);
+        if (repeat == null)
             return;
 
-        CheckRepeat repeat = check.Data.WhileBroken;
         if (check.RepeatCount == 1)
             _flags.Add(string.Format(BROKE_FLAG_FORMAT, check.Data.Id));
 
