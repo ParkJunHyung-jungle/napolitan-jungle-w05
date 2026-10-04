@@ -159,6 +159,9 @@ public class GameManager
         Managers.PostProcessing.PunchDistortion();
         Managers.PostProcessing.PunchVignette();
         ChangeMentality(-penalty);
+        Managers.Sound.TakingDamageSound();
+        Managers.Sound.GetHitSound();
+
     }
 
     /// <summary>

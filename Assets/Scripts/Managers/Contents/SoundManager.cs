@@ -59,7 +59,7 @@ public class SoundManager
         //2D 사운드 소스 초기화
         _buttonSource = CreateSource("Button");
         _sliderSource = CreateSource("Slider");
-        _sfxSoruce = CreateSource("Sfx", pitch: 0.5f);
+        _sfxSoruce = CreateSource("Sfx");
         _ambientSource = CreateSource("Ambient", volume: 0.5f, pitch: 0.6f);
         _subAmbientSource = CreateSource("SubAmbient", volume: 0.5f, pitch: 0.6f);
         _clockSource = CreateSource("Clock");
@@ -71,8 +71,8 @@ public class SoundManager
         _facilityDragSource = CreateSource("FacilityDrag", volume: 0.3f, pitch: 0.3f);
         _facilitySnapSource = CreateSource("FacilitySnap", pitch: 0.5f);
         _onThePhoneSource = CreateSource("OnThePhone", volume: 0.7f);
-        _inseinSource = CreateSource("Insein", volume: 0.2f);
-        _paperSource = CreateSource("HandlingPaper", volume: 0.5f);
+        _inseinSource = CreateSource("Insein", volume: 0.7f);
+        _paperSource = CreateSource("HandlingPaper", volume: 1f);
 
         AudioHighPassFilter highPass = _onThePhoneSource.gameObject.AddComponent<AudioHighPassFilter>();
         highPass.cutoffFrequency = 400f;
@@ -225,11 +225,6 @@ public class SoundManager
         SoundPlay(_buttonSource, _catalog.ButtonHovering);
     }
 
-    /// <summary>Plays the catalog slider clip once on the initialized slider channel.</summary>
-    public void SliderSound()
-    {
-        SoundPlay(_sliderSource, _catalog.Slider);
-    }
 
     /// <summary>Loops the catalog ambient clip on the initialized ambient channel.</summary>
     public void AmbientSound()
@@ -243,34 +238,17 @@ public class SoundManager
         _ambientSource.Stop();
     }
 
-    /// <summary>Loops the catalog ambient clip on the initialized ambient channel.</summary>
-    public void SubAmbientSound()
-    {
-        SoundPlay(_subAmbientSource, _catalog.SubAmbient, true);
-    }
-
-    /// <summary>Stops playback on the initialized ambient channel without affecting other channels.</summary>
-    public void SubAmbientSoundOff()
-    {
-        _subAmbientSource.Stop();
-    }
-
     /// <summary>Plays the catalog engine-off clip once, replacing the initialized Sfx channel.</summary>
-    public void EngineOffSound()
-    {
-        SoundPlay(_sfxSoruce, _catalog.EngineOff);
-    }
+
 
     /// <summary>Overlays the catalog damage clip on the initialized Sfx channel without stopping it.</summary>
     public void TakingDamageSound()
     {
         _sfxSoruce.PlayOneShot(_catalog.TakingDamage);
     }
-
-    /// <summary>Overlays the catalog repair-complete clip on the initialized Sfx channel.</summary>
-    public void FixCompletedSound()
+    public void GetHitSound()
     {
-        _sfxSoruce.PlayOneShot(_catalog.FixCompleted);
+        _sfxSoruce.PlayOneShot(_catalog.TakingDamage);
     }
 
     /// <summary>Loops the catalog clock clip on the initialized clock channel.</summary>
@@ -322,12 +300,6 @@ public class SoundManager
         _sirenSource.Stop();
     }
 
-    /// <summary>Plays the catalog medium-repair clip once, replacing the initialized Sfx channel.</summary>
-    public void MediumFixSound()
-    {
-        SoundPlay(_sfxSoruce, _catalog.MediumFix);
-    }
-
     /// <summary>Plays the catalog game-over clip once, replacing the initialized Sfx channel.</summary>
     public void GameOverSound()
     {
@@ -340,42 +312,7 @@ public class SoundManager
         SoundPlay(_gameClearSource, _catalog.GameClear);
     }
 
-    /// <summary>
-    /// 설비 버튼의 클릭음을 카탈로그에서 읽어 버튼 채널에 겹쳐 재생한다.
-    /// 재생 중인 클릭음은 끊지 않고 유지한다.
-    /// </summary>
-    public void FacilityButtonClickSound()
-    {
-        _facilityButtonSource.PlayOneShot(_catalog.ButtonClick);
-    }
 
-    /// <summary>
-    /// 설비 슬라이더가 움직이면 전용 채널에서 드래그음을 반복 재생한다.
-    /// 이미 재생 중이면 시작하지 않아 루프 상태를 유지한다.
-    /// </summary>
-    public void StartFacilitySliderDragSound()
-    {
-        if (!_facilityDragSource.isPlaying)
-            SoundPlay(_facilityDragSource, _catalog.FacilitySliderDrag, true);
-    }
-
-    /// <summary>
-    /// 설비 슬라이더가 멈추면 전용 드래그 채널을 중지한다.
-    /// 다른 효과음 채널에는 영향을 주지 않는다.
-    /// </summary>
-    public void StopFacilitySliderDragSound()
-    {
-        _facilityDragSource.Stop();
-    }
-
-    /// <summary>
-    /// 설비 슬라이더가 목표 범위에 진입할 때 철컥 소리를 겹쳐 재생한다.
-    /// 드래그 루프와 독립된 채널을 사용한다.
-    /// </summary>
-    public void FacilitySliderSnapSound()
-    {
-        _facilitySnapSource.PlayOneShot(_catalog.FacilitySliderSnap);
-    }
 
     /// <summary>
     /// 문 열림 소리를 한번 재생한다
@@ -462,7 +399,7 @@ public class SoundManager
     }
     public void PhonePickUp()
     {
-        SoundPlay(_phoneSource, _catalog.PhonePickUp);
+        _phoneSource.PlayOneShot(_catalog.PhonePickUp);
 
     }
     public void PhoneHangUp()
@@ -502,7 +439,10 @@ public class SoundManager
     {
         SoundPlay(_cryingSource, _catalog.Crying, true);
     }
-
+    public void StopCryingSound()
+    {
+        _cryingSource.Stop();
+    }
     public void LightOnSound()
     {
         SoundPlay(_lightSwitchSource, _catalog.SwitchOn);
@@ -526,5 +466,10 @@ public class SoundManager
     public void PaperSound()
     {
         _paperSource.PlayOneShot(_catalog.HandlingPaper);
+    }
+    public void TurnOnLamp()
+    {
+        _sfxSoruce.PlayOneShot(_catalog.Lamp);
+
     }
 }

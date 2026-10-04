@@ -49,11 +49,14 @@ public class LightSwitchController : MonoBehaviour, IInteractable
         if (_isOn == false)
         {
             Managers.Sound.LightOnSound();
+
             Managers.Light.RoomLightOff();
+
         }
         else
         {
             Managers.Sound.LightOffSound();
+            Managers.Sound.TurnOnLamp();
             Managers.Light.RoomLightOn();
         }
         float angle = _isOn ? UP_ANGLE : DOWN_ANGLE;
