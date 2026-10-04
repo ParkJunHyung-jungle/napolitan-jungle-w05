@@ -91,17 +91,10 @@ public class LightManager
         return instance;
     }
 
-    public void TriggerTimerFailure()
-    {
-        if (_emergencyPunchCoroutine != null) return;
-
-        PunchEmergencyLight(EMERGENCY_INTENSITY, EMERGENCY_PUNCH_DURATION);
-    }
-
-    public void PunchEmergencyLight(float peak, float duration)
+    public void PunchEmergencyLight()
     {
         StopEffectCoroutine(ref _emergencyPunchCoroutine);
-        _emergencyPunchCoroutine = Managers.Instance.StartCoroutine(EmergencyPunchCoroutine(peak, duration));
+        _emergencyPunchCoroutine = Managers.Instance.StartCoroutine(EmergencyPunchCoroutine(EMERGENCY_INTENSITY, EMERGENCY_PUNCH_DURATION));
     }
 
     private void StopEffectCoroutine(ref Coroutine coroutine)

@@ -133,6 +133,18 @@ public class GameManager
     }
 
     /// <summary>
+    /// 정신력 실패 연출과 감소를 한 번에 실행한다.
+    /// penalty만큼 정신력을 줄이고 비상등, 왜곡, 비네트 punch를 재생한다.
+    /// </summary>
+    public void PunchMentality(float penalty)
+    {
+        Managers.Light.PunchEmergencyLight();
+        Managers.PostProcessing.PunchDistortion();
+        Managers.PostProcessing.PunchVignette();
+        ChangeMentality(-penalty);
+    }
+
+    /// <summary>
     /// 현재 정신력을 최대 정신력으로 초기화한다.
     /// 정신력이 변경되면 OnMentalityChanged 이벤트를 통해 새 상태를 알린다.
     /// </summary>

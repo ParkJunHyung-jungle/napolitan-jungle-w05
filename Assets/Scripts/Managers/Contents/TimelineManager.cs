@@ -313,9 +313,7 @@ public class TimelineManager
             if (!check.IsOverdue)
                 Resolve(check, CheckState.Failed, minute, false);
 
-            Managers.Light.TriggerTimerFailure();
-            Managers.PostProcessing.TriggerTimerFailure();
-            Managers.Game.ChangeMentality(-RULE_FAIL_PENALTY);
+            Managers.Game.PunchMentality(RULE_FAIL_PENALTY);
             return;
         }
     }
