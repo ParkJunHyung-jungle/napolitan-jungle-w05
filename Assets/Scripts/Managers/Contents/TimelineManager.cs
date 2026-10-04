@@ -27,7 +27,6 @@ public class TimelineManager
     public event Action OnPhoneRing;
     public event Action OnPhoneRingStop;
     public event Action OnPhoneHangUp;
-    public event Action OnPhoneCryingStop;
     public event Action OnDoorKnock;
     public event Action OnDoorKnockStop;
 
@@ -84,7 +83,6 @@ public class TimelineManager
         OnPhoneRing = null;
         OnPhoneRingStop = null;
         OnPhoneHangUp = null;
-        OnPhoneCryingStop = null;
         OnDoorKnock = null;
         OnDoorKnockStop = null;
 
@@ -215,7 +213,7 @@ public class TimelineManager
                 _isCrying = true;
                 break;
             case TimelineEventType.PhoneCryingStop:
-                OnPhoneCryingStop?.Invoke();
+                Managers.Sound.StopCryingSound();
                 _isCrying = false;
                 break;
             case TimelineEventType.DoorKnock:
@@ -297,7 +295,7 @@ public class TimelineManager
         _isDayEnded = true;
 
         if (_isCrying)
-            OnPhoneCryingStop?.Invoke();
+            Managers.Sound.StopCryingSound();
         if (_isKnocking)
             OnDoorKnockStop?.Invoke();
         // 조명 상태에 맞춰 다시 켜거나 꺼서 켜짐/꺼짐은 유지하고 깜빡임만 멈춘다.
