@@ -27,7 +27,7 @@ public class FirstPersonController : MonoBehaviour
     [SerializeField] private float gravity = -9.81f;
 
     [Header("Interaction")]
-    [Tooltip("상호작용 Raycast 대상 레이어 (Button, Slider)")]
+    [Tooltip("상호작용 Raycast 대상 레이어")]
     [SerializeField] private LayerMask interactLayerMask;
 
     [Header("Drag")]
@@ -37,10 +37,10 @@ public class FirstPersonController : MonoBehaviour
     private float _verticalVelocity;
     public FirstPersonCamera FirstPersonCamera => firstPersonCamera;
 
-    // 컴포넌트를 처음 붙일 때 기본 레이어 마스크를 Button, Slider로 채운다
+    // 컴포넌트를 처음 붙일 때 기본 레이어 마스크를 Interactable로 채운다
     private void Reset()
     {
-        interactLayerMask = LayerMask.GetMask("Button", "Slider");
+        interactLayerMask = LayerMask.GetMask("Interactable");
     }
 
     private void Awake()
@@ -99,7 +99,11 @@ public class FirstPersonController : MonoBehaviour
             return false;
 
         int hitLayerMask = 1 << hit.collider.gameObject.layer;
-        return (interactLayerMask.value & hitLayerMask) != 0;
+        if ((interactLayerMask.value & hitLayerMask) != 0)
+            return true;
+
+        return hit.collider.GetComponentInParent<CabinetController>() != null ||
+            hit.collider.GetComponentInParent<CrusherController>() != null;
     }
 
     /// <summary>
@@ -112,7 +116,8 @@ public class FirstPersonController : MonoBehaviour
         bool hasTarget = TryGetTarget(out RaycastHit hit);
         IInteractable interactable = hasTarget ? hit.collider.GetComponentInParent<IInteractable>() : null;
 
-        if (heldFax != null && !(interactable is BoardSlotController))
+        if (heldFax != null && !(interactable is BoardSlotController) &&
+            !(interactable is CabinetController) && !(interactable is CrusherController))
         {
             heldFax.Drop();
             return;

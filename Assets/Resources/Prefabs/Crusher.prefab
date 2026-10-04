@@ -12,7 +12,7 @@ GameObject:
   - component: {fileID: 2490338587744563726}
   - component: {fileID: 2546773002138593468}
   - component: {fileID: 1008514436767908666}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: Cylinder
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -125,7 +125,7 @@ GameObject:
   - component: {fileID: 6147835018188023703}
   - component: {fileID: 269231332689352721}
   - component: {fileID: 2715180627286353944}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: Text (TMP) (1)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -304,7 +304,9 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 6623744298647405702}
-  m_Layer: 0
+  - component: {fileID: 8473119056234410002}
+  - component: {fileID: 3279939506177844915}
+  m_Layer: 6
   m_Name: Crusher
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -329,6 +331,40 @@ Transform:
   - {fileID: 6147835018188023703}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &8473119056234410002
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3161924665060272008}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 84c67f12c66e4f599d3209cb770236c0, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!114 &3279939506177844915
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3161924665060272008}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d666d965c34fe034f9261c370c7716bc, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::Outline
+  OutlineMask: 2
+  renderers:
+  - {fileID: 292403269633917035}
+  - {fileID: 6903328858822112672}
+  - {fileID: 3771221400215189097}
+  - {fileID: 6286373233508702615}
+  - {fileID: 2546773002138593468}
+  - {fileID: 8033019512245306360}
+  - {fileID: 8048764657965382666}
+  - {fileID: 269231332689352721}
 --- !u!1 &3203111597875691803
 GameObject:
   m_ObjectHideFlags: 0
@@ -339,7 +375,7 @@ GameObject:
   m_Component:
   - component: {fileID: 3662915827837647816}
   - component: {fileID: 7620440520931287613}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: Collider
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -394,7 +430,7 @@ GameObject:
   - component: {fileID: 4644242179113684704}
   - component: {fileID: 3771221400215189097}
   - component: {fileID: 2652275459269348877}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: Left
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -506,7 +542,7 @@ GameObject:
   - component: {fileID: 9197617711931876782}
   - component: {fileID: 6903328858822112672}
   - component: {fileID: 6210706407750595823}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: Entrance (2)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -618,7 +654,7 @@ GameObject:
   - component: {fileID: 8838023560918274705}
   - component: {fileID: 6286373233508702615}
   - component: {fileID: 8761861598685196939}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: Left (1)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -730,7 +766,7 @@ GameObject:
   - component: {fileID: 7819814263913545839}
   - component: {fileID: 8048764657965382666}
   - component: {fileID: 3316609575402209665}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: Base
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -842,7 +878,7 @@ GameObject:
   - component: {fileID: 8845022225886597472}
   - component: {fileID: 292403269633917035}
   - component: {fileID: 9019666171468867724}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: Entrance (1)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -951,7 +987,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 5921357762491184040}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: Body
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -992,7 +1028,7 @@ GameObject:
   - component: {fileID: 1303920263792429671}
   - component: {fileID: 8033019512245306360}
   - component: {fileID: 6072131215993153782}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: Cylinder (1)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
