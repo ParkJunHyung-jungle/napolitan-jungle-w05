@@ -21,6 +21,7 @@ Shader "Hidden/Effects/DarknessBox"
             float3 _BoxMax;
             float4x4 _WorldToBox;
             float _Density;
+            float4 _DarknessColor;
 
             half4 Fragment(Varyings input) : SV_Target
             {
@@ -67,7 +68,7 @@ Shader "Hidden/Effects/DarknessBox"
                 }
 
                 float distanceInBox = max(0.0, exit - entry);
-                color.rgb *= exp(-_Density * distanceInBox);
+                color.rgb = lerp(color.rgb, _DarknessColor.rgb, 1.0 - exp(-_Density * distanceInBox));
                 return color;
             }
             ENDHLSL

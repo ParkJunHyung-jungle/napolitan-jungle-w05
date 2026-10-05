@@ -10,6 +10,7 @@ public class DarknessBoxFeature : FullScreenPassRendererFeature
     private static readonly int BOX_MAX = Shader.PropertyToID("_BoxMax");
     private static readonly int WORLD_TO_BOX = Shader.PropertyToID("_WorldToBox");
     private static readonly int DENSITY = Shader.PropertyToID("_Density");
+    private static readonly int DARKNESS_COLOR = Shader.PropertyToID("_DarknessColor");
 
     /// <summary>
     /// 활성 DarknessBoxVolume의 BoxCollider 로컬 범위, 월드 변환 역행렬과 밀도를 전달해 현재 카메라에 패스를 추가한다.
@@ -28,6 +29,8 @@ public class DarknessBoxFeature : FullScreenPassRendererFeature
         passMaterial.SetVector(BOX_MAX, box.center + halfSize);
         passMaterial.SetMatrix(WORLD_TO_BOX, volume.transform.worldToLocalMatrix);
         passMaterial.SetFloat(DENSITY, volume.Density);
+        passMaterial.SetColor(DARKNESS_COLOR, volume.DarknessColor);
         base.AddRenderPasses(renderer, ref renderingData);
     }
+
 }

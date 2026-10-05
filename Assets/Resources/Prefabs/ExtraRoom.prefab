@@ -10549,6 +10549,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::DarknessBoxVolume
   _boxCollider: {fileID: 4986271560273198412}
+  _darknessColor: {r: 0, g: 0, b: 0, a: 1}
   _density: 0.25
 --- !u!65 &4986271560273198412
 BoxCollider:
