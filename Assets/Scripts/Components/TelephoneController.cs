@@ -15,6 +15,8 @@ public class TelephoneController : MonoBehaviour, IInteractable
     [Header("Child")]
     [SerializeField]
     private GameObject _receiver;
+    [SerializeField]
+    private GameObject _playerReceiver;
 
     [Header("통화 상태")]
     private CallState _callState;
@@ -48,6 +50,8 @@ public class TelephoneController : MonoBehaviour, IInteractable
         if (_callState == CallState.InCall)
             Managers.Sound.StopCallEndSound();
 
+        if (_playerReceiver != null)
+            _playerReceiver.SetActive(false);
         _receiver.SetActive(true);
         _callState = CallState.Ringing;
         Managers.Timeline.Report(DeviceAction.PhoneRinging);
@@ -63,6 +67,8 @@ public class TelephoneController : MonoBehaviour, IInteractable
     public void HangUp()
     {
         _callState = CallState.Idle;
+        if (_playerReceiver != null)
+            _playerReceiver.SetActive(false);
         Managers.Timeline.Report(DeviceAction.PhoneIdle);
         if (_waitAndPlayCoroutine != null)
         {
@@ -84,6 +90,8 @@ public class TelephoneController : MonoBehaviour, IInteractable
             return;
 
         _callState = CallState.Idle;
+        if (_playerReceiver != null)
+            _playerReceiver.SetActive(false);
         Managers.Timeline.Report(DeviceAction.PhoneIdle);
 
         Managers.Sound.StopPhoneRinging();
@@ -121,6 +129,8 @@ public class TelephoneController : MonoBehaviour, IInteractable
                 break;
             case CallState.Ringing:
                 _callState = CallState.InCall;
+                if (_playerReceiver != null)
+                    _playerReceiver.SetActive(true);
                 _receiver.SetActive(false);
                 Managers.Timeline.Report(DeviceAction.PhoneAnswered);
                 Managers.Sound.StopPhoneRinging();

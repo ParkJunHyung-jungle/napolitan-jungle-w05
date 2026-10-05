@@ -3530,6 +3530,26 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 262303690}
     m_Modifications:
+    - target: {fileID: 1065143964454968499, guid: 9760fd76326cb7849b5a57fc42462cdf, type: 3}
+      propertyPath: m_AnchorMax.y
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 1065143964454968499, guid: 9760fd76326cb7849b5a57fc42462cdf, type: 3}
+      propertyPath: m_AnchorMin.y
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 1065143964454968499, guid: 9760fd76326cb7849b5a57fc42462cdf, type: 3}
+      propertyPath: m_SizeDelta.y
+      value: 108
+      objectReference: {fileID: 0}
+    - target: {fileID: 1065143964454968499, guid: 9760fd76326cb7849b5a57fc42462cdf, type: 3}
+      propertyPath: m_AnchoredPosition.x
+      value: 337.5
+      objectReference: {fileID: 0}
+    - target: {fileID: 1065143964454968499, guid: 9760fd76326cb7849b5a57fc42462cdf, type: 3}
+      propertyPath: m_AnchoredPosition.y
+      value: -54
+      objectReference: {fileID: 0}
     - target: {fileID: 6199676943508247232, guid: 9760fd76326cb7849b5a57fc42462cdf, type: 3}
       propertyPath: m_Name
       value: DateCanvas
@@ -3613,6 +3633,26 @@ PrefabInstance:
     - target: {fileID: 6844568154633177126, guid: 9760fd76326cb7849b5a57fc42462cdf, type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6970512691743168526, guid: 9760fd76326cb7849b5a57fc42462cdf, type: 3}
+      propertyPath: m_AnchorMax.y
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 6970512691743168526, guid: 9760fd76326cb7849b5a57fc42462cdf, type: 3}
+      propertyPath: m_AnchorMin.y
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 6970512691743168526, guid: 9760fd76326cb7849b5a57fc42462cdf, type: 3}
+      propertyPath: m_SizeDelta.y
+      value: 108
+      objectReference: {fileID: 0}
+    - target: {fileID: 6970512691743168526, guid: 9760fd76326cb7849b5a57fc42462cdf, type: 3}
+      propertyPath: m_AnchoredPosition.x
+      value: 97.5
+      objectReference: {fileID: 0}
+    - target: {fileID: 6970512691743168526, guid: 9760fd76326cb7849b5a57fc42462cdf, type: 3}
+      propertyPath: m_AnchoredPosition.y
+      value: -54
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
@@ -9946,11 +9986,20 @@ PrefabInstance:
       propertyPath: m_Name
       value: Telephone
       objectReference: {fileID: 0}
+    - target: {fileID: 7282712597017528059, guid: 975cc3ab8c4816b438559db1f17c352b, type: 3}
+      propertyPath: _playerReceiver
+      value: 
+      objectReference: {fileID: 3744908838215371454}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 975cc3ab8c4816b438559db1f17c352b, type: 3}
+--- !u!1 &3744908838215371454 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 978629987974641255, guid: be911bf26c1938d44abb78f9a30581b0, type: 3}
+  m_PrefabInstance: {fileID: 4477338399717776369}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1001 &4477338399717776369
 PrefabInstance:
   m_ObjectHideFlags: 0
