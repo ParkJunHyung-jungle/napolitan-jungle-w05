@@ -30,7 +30,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 5065797902650261198}
   serializedVersion: 2
-  m_LocalRotation: {x: 0.16768934, y: -0.68693554, z: 0.68693537, w: 0.16768934}
+  m_LocalRotation: {x: 0.1676917, y: -0.6869349, z: 0.6869349, w: 0.1676917}
   m_LocalPosition: {x: 1.01, y: 0.84, z: -6.64}
   m_LocalScale: {x: 1, y: 1.4285715, z: 0.028571429}
   m_ConstrainProportionsScale: 1
@@ -462,27 +462,23 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: "<align=\"right\"><size=120%><b>1992/12/24 04:00</b></size></align>\n<size=30%>
-    </size>\n4<font=\"EastSeaDokdo-Regular SDF\"><color=#8B0000><size=240%>\uC6B8</size></color></font>
-    \uC2DC3\uAED0 \uC74C\uB418\uC2ED <b>\uD558</b>\uC758 \uB178\uC624\uC2DC \uD06C\uC2DC\uC2DC
-    \uB9AC\uBA85 <font=\"EastSeaDokdo-Regular SDF\"><color=#8B0000><size=240%>\uC624</size></color></font><b>\uD76C\uC800</b>.<b>\uC1C4</b>\n\uC2E0\uBD841<b>\uB294\uBC1C</b>
-    \uAC00\uD654\uBA74\uC744\uBA74 \uB2C8<b>\uC774</b> <font=\"EastSeaDokdo-Regular
-    SDF\"><color=#8B0000><size=240%>\uC0C1</size></color></font>\uC6D0<font=\"EastSeaDokdo-Regular
-    SDF\"><color=#8B0000><size=240%>\uC624</size></color></font>\uC870 \uB54C\uD558
-    \uAC00\uB9AC<b>\uB2C8</b> \uC624\uC2ED\n\uAC70\uBB38 .\uC2E0..\uC5B4 \uC6B4<b>\uC9C0</b>\uB2E4<font=\"EastSeaDokdo-Regular
-    SDF\"><color=#8B0000><size=240%>\uAC00</size></color></font> \uB85C<b>\uB294\uB2E4</b>
-    <b>\uC788\uC778</b>\uB4E4\uD558\uC0C8 \uC804\uBA74 <font=\"EastSeaDokdo-Regular
-    SDF\"><color=#8B0000><size=240%>\uB4E4</size></color></font>.\n\n<size=110%><b>7.
-    \u300C04\uC2DC 30\uBD84\uBD80\uD130 \uBD88\uC744 \uD0A4\uACE0 \uBB38\uC744 \uB2EB\uC544\uC8FC\uC138\uC694.\u300D</b></size>\n\n<b>.</b>\uAE5C.
-    <font=\"EastSeaDokdo-Regular SDF\"><color=#8B0000><size=240%>.</size></color></font><b>\uAE09</b>
-    65\uC5F4\uB2E4<b>\uC11C</b> \uD0A4\uAC00 2\uB839\uBC16\uC624 <b>\uBD88\uB839\uB7C9</b>
-    \uC18C<font=\"EastSeaDokdo-Regular SDF\"><color=#8B0000><size=240%>\uC2DC</size></color></font>
-    \uC2E0\n<b>\uB97C</b>\uC8FC\uB9AC \uC9C0\uC2ED5\uD654\uC11C .\uC815.<b>\uBA85</b>\uBB38
-    <font=\"EastSeaDokdo-Regular SDF\"><color=#8B0000><size=240%>\uC54A</size></color></font>\uAC00\uC804
-    \uBE61\uB429\uC62C\uB85C\uB97C <font=\"EastSeaDokdo-Regular SDF\"><color=#8B0000><size=240%>\uC5D0</size></color></font>\n<font=\"EastSeaDokdo-Regular
-    SDF\"><color=#8B0000><size=240%>\uAE09</size></color></font>\uC774\uB294\uBBF8\uB2E4
-    <b>\uC2B5</b>\uB0B4\uB9AC \uBC1C\uC2ED \uB9C8\uB824 \uBA74. \uBA85.\uC2DC \uC218\uAC00
-    <font=\"EastSeaDokdo-Regular SDF\"><color=#8B0000><size=240%>\uC218</size></color></font>\uC18C\uC11C"
+  m_text: "<align=\"right\"><size=120%><b>1992/12/25 04:00</b></size></align>\n<size=30%>
+    </size>\n4<rotate=-90>\uC6B8</rotate> \uC2DC3<rotate=90>\uAED0</rotate> \uC74C\uB418\uC2ED
+    <b>\uD558</b>\uC758 \uB178<rotate=180>\uC624</rotate>\uC2DC \uD06C\uC2DC\uC2DC
+    \uB9AC\uBA85 <rotate=90>\uC624</rotate><b>\uD76C\uC800</b>.<b>\uC1C4</b>\n\uC2E0\uBD841<b>\uB294\uBC1C</b>
+    \uAC00<rotate=180>\uD654</rotate>\uBA74\uC744\uBA74 \uB2C8<b>\uC774</b> <rotate=-90>\uC0C1</rotate>\uC6D0<rotate=90>\uC624</rotate>\uC870
+    \uB54C\uD558 \uAC00<rotate=180>\uB9AC</rotate><b>\uB2C8</b> \uC624\uC2ED\n\uAC70\uBB38
+    .\uC2E0..<rotate=90>\uC5B4</rotate> \uC6B4<b>\uC9C0</b>\uB2E4<rotate=-90>\uAC00</rotate>
+    \uB85C<b>\uB294\uB2E4</b> <b>\uC788\uC778</b>\uB4E4\uD558<rotate=180>\uC0C8</rotate>
+    \uC804\uBA74 <rotate=90>\uB4E4</rotate>.\n\n<size=110%><b>7. \u300C04\uC2DC 30\uBD84\uBD80\uD130
+    \uBD88\uC744 \uD0A4\uACE0 \uBB38\uC744 \uB2EB\uC544\uC8FC\uC138\uC694.\u300D</b></size>\n\n<b>.</b>\uAE5C.
+    <rotate=180>.</rotate><b>\uAE09</b> 65<rotate=-90>\uC5F4</rotate>\uB2E4<b>\uC11C</b>
+    \uD0A4\uAC00 <rotate=90>2</rotate>\uB839\uBC16\uC624 <b>\uBD88\uB839\uB7C9</b>
+    \uC18C<rotate=180>\uC2DC</rotate> \uC2E0\n<b>\uB97C</b>\uC8FC\uB9AC <rotate=90>\uC9C0</rotate>\uC2ED5\uD654\uC11C
+    .\uC815.<b>\uBA85</b>\uBB38 <rotate=-90>\uC54A</rotate>\uAC00\uC804 \uBE61<rotate=180>\uB429</rotate>\uC62C\uB85C\uB97C
+    <rotate=90>\uC5D0</rotate>\n<rotate=-90>\uAE09</rotate>\uC774\uB294\uBBF8\uB2E4
+    <b>\uC2B5</b>\uB0B4\uB9AC <rotate=180>\uBC1C</rotate>\uC2ED \uB9C8\uB824 \uBA74.
+    \uBA85.<rotate=90>\uC2DC</rotate> \uC218\uAC00 <rotate=-90>\uC218</rotate>\uC18C\uC11C"
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: c27a5f3ff75f097438fe970137a374e4, type: 2}
   m_sharedMaterial: {fileID: -1423517255853659089, guid: c27a5f3ff75f097438fe970137a374e4, type: 2}

@@ -20,6 +20,8 @@ public class BoardSlotController : MonoBehaviour, IInteractable
         if (_slotIndex != 5)
             return;
 
+        _pastMessage.SetInstruction(false);
+        _pastMessage.SetReal(true);
         _pastMessage.transform.SetPositionAndRotation(
             transform.position,
             transform.rotation * Quaternion.Euler(0f, 180f, 0f));
