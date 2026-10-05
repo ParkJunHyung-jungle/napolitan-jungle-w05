@@ -21,12 +21,14 @@ public class FootstepFollower : MonoBehaviour
     [Header("Footstep")]
     [SerializeField, Min(0.1f)]
     private float _strideLength = 2.1f;
-    private AudioSource _audioSource;
     private float _strideProgress;
 
     private void Awake()
     {
-        _audioSource = GetComponent<AudioSource>();
+        // 플레이어 자식으로 두면 함께 끌려가므로 부모에서 떼어 경로만 따라가게 한다.
+        transform.SetParent(null, true);
+        Managers.Sound.RegisterAudioSource(AudioSourceTypes.GHOAST, GetComponent<AudioSource>());
+        Managers.Timeline.OnFollowerActiveChanged += SetFollowing;
     }
 
     private void OnEnable()
@@ -39,6 +41,15 @@ public class FootstepFollower : MonoBehaviour
         RecordPlayerPosition();
         float movedDistance = FollowTrail();
         UpdateFootstep(movedDistance);
+    }
+
+    /// <summary>
+    /// 타임라인의 팔로워 활성 여부를 받아 따라가기와 발소리를 켜거나 끈다.
+    /// isActive를 컴포넌트 enabled에 적용하며, 켜질 때 OnEnable에서 경로를 플레이어 발 위치로 초기화한다.
+    /// </summary>
+    private void SetFollowing(bool isActive)
+    {
+        enabled = isActive;
     }
 
     /// <summary>
@@ -98,7 +109,7 @@ public class FootstepFollower : MonoBehaviour
 
     /// <summary>
     /// 이동 거리를 누적해 보폭에 도달할 때마다 발소리를 한 번 재생한다.
-    /// movedDistance를 _strideProgress에 더하고 _strideLength를 넘으면 _audioSource로 재생한 뒤 차감한다.
+    /// movedDistance를 _strideProgress에 더하고 _strideLength를 넘으면 GhostStepSound로 재생한 뒤 차감한다.
     /// </summary>
     private void UpdateFootstep(float movedDistance)
     {
@@ -107,7 +118,7 @@ public class FootstepFollower : MonoBehaviour
             return;
 
         _strideProgress -= _strideLength;
-        //소리 재생;
+        Managers.Sound.GhostStepSound();
     }
 
     /// <summary>

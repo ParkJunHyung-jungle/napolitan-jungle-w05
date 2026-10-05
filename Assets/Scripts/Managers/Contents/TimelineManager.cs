@@ -31,6 +31,8 @@ public class TimelineManager
     public event Action OnDoorKnockStop;
     public event Action OnDoorOpen;
     public event Action OnLightToggle;
+    public event Action<bool> OnFollowerActiveChanged;
+    public event Action<bool> OnBreatherActiveChanged;
 
     [Header("Day")]
     private bool _isDayEnded;
@@ -42,6 +44,9 @@ public class TimelineManager
     private bool _isKnocking;
     private PhoneState _phoneState;
     private bool _isCrying;
+
+    [Header("Presence")]
+    private bool _isPresenceActive;
 
     [Header("Check")]
     private readonly List<TimelineCheck> _checks = new();
@@ -89,6 +94,8 @@ public class TimelineManager
         OnDoorKnockStop = null;
         OnDoorOpen = null;
         OnLightToggle = null;
+        OnFollowerActiveChanged = null;
+        OnBreatherActiveChanged = null;
 
         StopDelayedErrorFaxes();
 
@@ -102,6 +109,7 @@ public class TimelineManager
         _isKnocking = false;
         _phoneState = PhoneState.Idle;
         _isCrying = false;
+        _isPresenceActive = false;
     }
 
     /// <summary>
@@ -137,12 +145,13 @@ public class TimelineManager
     /// <summary>
     /// 컨트롤러가 알린 장치 동작 action으로 장치 상태를 갱신하고 진행 중인 판정 구간에 전달한다.
     /// 해결된 구간은 결과를 기록하고 제거하며, 기한을 넘긴 실패 구간은 늦게 해결될 때까지 유지한다.
-    /// 장치 상태를 갱신하기 전에 통화가 끝나기 전 전화를 끊었는지 먼저 확인한다.
+    /// 장치 상태를 갱신하기 전에 통화가 끝나기 전 전화를 끊었는지 먼저 확인하고, 갱신한 문과 조명 상태를 팔로워와 브레서에 반영한다.
     /// </summary>
     public void Report(DeviceAction action)
     {
         HandleEarlyHangUp(action);
         UpdateDeviceState(action);
+        UpdatePresence();
         int minute = Managers.Date.CurrentMinute;
 
         // 판정이 끝난 구간을 바로 제거하기 위해 뒤에서부터 순회한다.
@@ -195,6 +204,7 @@ public class TimelineManager
     /// <summary>
     /// timelineEvent의 Type에 맞는 기존 기능을 호출한다.
     /// 문, 전등 스위치, 전화기처럼 씬 오브젝트가 처리하는 이벤트는 구독자에게 알리고, 깜빡임, 노크, 울음 상태를 함께 갱신한다.
+    /// Presence는 새벽 구간을 시작해 현재 문과 조명 상태를 팔로워와 브레서에 바로 반영한다.
     /// </summary>
     private void Execute(TimelineEvent timelineEvent)
     {
@@ -240,6 +250,10 @@ public class TimelineManager
                 break;
             case TimelineEventType.LightToggle:
                 OnLightToggle?.Invoke();
+                break;
+            case TimelineEventType.Presence:
+                _isPresenceActive = true;
+                UpdatePresence();
                 break;
         }
     }
@@ -298,6 +312,7 @@ public class TimelineManager
     /// <summary>
     /// 하루가 끝났을 때 남은 판정 구간을 결산하고 미니게임을 위해 타임라인을 정리한다.
     /// 결과를 기록한 뒤 모든 구간과 예약된 에러 팩스를 제거해 이후 이벤트를 막고, 문과 조명 상태는 유지한 채 연출을 멈추고 전화를 끊는다.
+    /// 팔로워와 브레서도 함께 끈다.
     /// </summary>
     private void ExpireAllChecks()
     {
@@ -324,6 +339,7 @@ public class TimelineManager
         _isCrying = false;
         _isKnocking = false;
         _isLightBlinking = false;
+        UpdatePresence();
 
         OnPhoneHangUp?.Invoke();
     }
@@ -405,6 +421,17 @@ public class TimelineManager
             return;
 
         Managers.Game.PunchMentality(RULE_FAIL_PENALTY);
+    }
+
+    /// <summary>
+    /// 새벽 구간의 문과 조명 상태로 팔로워와 브레서의 활성 여부를 구독자에게 알린다.
+    /// _isPresenceActive와 _isDayEnded를 확인하며, 문이 닫혀 있으면 팔로워를, 불이 켜져 있으면 브레서를 활성으로 전달한다.
+    /// </summary>
+    private void UpdatePresence()
+    {
+        bool isPresenceTime = _isPresenceActive && !_isDayEnded;
+        OnFollowerActiveChanged?.Invoke(isPresenceTime && !_isDoorOpen);
+        OnBreatherActiveChanged?.Invoke(isPresenceTime && _isLightOn);
     }
 
     /// <summary>
