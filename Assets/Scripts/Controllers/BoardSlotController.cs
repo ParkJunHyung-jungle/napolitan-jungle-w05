@@ -2,13 +2,40 @@ using UnityEngine;
 
 public class BoardSlotController : MonoBehaviour, IInteractable
 {
-    [SerializeField] private int _slotIndex;
+    [SerializeField] 
+    private int _slotIndex;
+    
+    [SerializeField]
+    private FaxInstructionController _pastMessage;
 
     private BoardController _boardController;
 
     private void Awake()
     {
         _boardController = GetComponentInParent<BoardController>();
+    }
+
+    private void Start()
+    {
+        if (_slotIndex != 5)
+            return;
+
+        _pastMessage.transform.SetPositionAndRotation(
+            transform.position,
+            transform.rotation * Quaternion.Euler(0f, 180f, 0f));
+
+        _pastMessage.enabled = false;
+
+        Rigidbody rigidbody = _pastMessage.GetComponent<Rigidbody>();
+        rigidbody.isKinematic = true;
+        rigidbody.useGravity = false;
+        rigidbody.detectCollisions = false;
+
+        Outline outline = _pastMessage.GetComponent<Outline>();
+        outline.SetOutline(false);
+        outline.enabled = false;
+
+        _boardController.InitializeSlot(_slotIndex, _pastMessage);
     }
 
     /// <summary>

@@ -13,6 +13,15 @@ public class BoardController : MonoBehaviour
     private FaxInstructionController[] _instructions = new FaxInstructionController[6];
 
     /// <summary>
+    /// 씬 시작 시 이미 슬롯에 놓인 명령서를 슬롯 상태로 등록한다.
+    /// slotIndex와 instruction을 사용해 _instructions의 해당 항목을 설정한다.
+    /// </summary>
+    public void InitializeSlot(int slotIndex, FaxInstructionController instruction)
+    {
+        _instructions[slotIndex] = instruction;
+    }
+
+    /// <summary>
     /// 지정된 슬롯에 들고 있는 명령서를 보관하거나 이미 보관된 명령서를 다시 든다.
     /// slotIndex로 슬롯과 보관된 명령서를 선택하고 명령서의 물리, 상호작용, 아웃라인 상태를 변경한다.
     /// </summary>
@@ -92,4 +101,5 @@ public class BoardController : MonoBehaviour
             default: return _slot6;
         }
     }
+
 }
