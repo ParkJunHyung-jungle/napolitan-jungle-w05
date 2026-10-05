@@ -18,4 +18,5 @@ public enum AudioSourceTypes
     CRYING,
     LAMP,
     FOOTSTEP,
+    GHOAST,
 };

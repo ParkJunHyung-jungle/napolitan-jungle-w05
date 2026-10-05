@@ -37,6 +37,7 @@ public class SoundCatalog : ScriptableObject
     [SerializeField] private AudioClip _shredder;
     [SerializeField] private AudioClip _womenLaugh;
     [SerializeField] private AudioClip[] _footStep;
+    [SerializeField] private AudioClip[] _wetFootStep;
 
     public AudioClip TakingDamage => _takingDamage;
     public AudioClip GameOver => _gameOver;
@@ -55,6 +56,7 @@ public class SoundCatalog : ScriptableObject
     public AudioClip Shredder => _shredder;
     public AudioClip WomenLaugh => _womenLaugh;
     public AudioClip[] FootStep => _footStep;
+    public AudioClip[] WetFootStep => _wetFootStep;
 
 
     [Header("Phone Clips")]
@@ -81,6 +83,7 @@ public class SoundCatalog : ScriptableObject
     [SerializeField] public AudioClip _crying;
     [SerializeField] public AudioClip _insein;
     [SerializeField] public AudioClip _lampAmbient;
+    [SerializeField] public AudioClip _womenBreath;
     public AudioClip Ambient => _ambient;
     public AudioClip SubAmbient => _subAmbient;
     public AudioClip Clock => _clock;
@@ -88,6 +91,7 @@ public class SoundCatalog : ScriptableObject
     public AudioClip Crying => _crying;
     public AudioClip Insein => _insein;
     public AudioClip LampAmbient => _lampAmbient;
+    public AudioClip WomenBreath => _womenBreath;
 
     [Header("Siren And Warning Clips")]
     [SerializeField] private AudioClip _simpleSiren;

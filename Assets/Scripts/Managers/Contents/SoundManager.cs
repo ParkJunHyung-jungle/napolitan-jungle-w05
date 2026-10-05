@@ -40,6 +40,7 @@ public class SoundManager
     private AudioSource _shredderSource;
     private AudioSource _lampSource;
     private AudioSource _footStepSource;
+    private AudioSource _ghostSource;
 
     public AudioSource OnThePhoneSource => _onThePhoneSource;
     public AudioSource InseinSource => _inseinSource;
@@ -81,7 +82,6 @@ public class SoundManager
         _footStepSource = CreateSource("Footstep");
 
 
-
         AudioHighPassFilter highPass = _onThePhoneSource.gameObject.AddComponent<AudioHighPassFilter>();
         highPass.cutoffFrequency = 400f;
 
@@ -96,7 +96,8 @@ public class SoundManager
             _buttonSource, _sliderSource, _sfxSoruce, _ambientSource, _subAmbientSource, _clockSource,
             _sirenSource, _countDownSource, _warningSource, _gameClearSource,
             _facilityButtonSource, _facilityDragSource, _facilitySnapSource, _doorSource, _cryingSource, _lockedDoorSource,
-            _phoneSource, _onThePhoneSource, _lightSwitchSource, _faxSource, _inseinSource, _paperSource, _heartBeatSource, _footStepSource
+            _phoneSource, _onThePhoneSource, _lightSwitchSource, _faxSource, _inseinSource, _paperSource, _heartBeatSource, _footStepSource,
+            _ghostSource
         };
         SceneManager.activeSceneChanged += OnSceneChanged;
     }
@@ -141,7 +142,7 @@ public class SoundManager
         _heartBeatSource = null;
         _lampSource = null;
         _footStepSource = null;
-
+        _ghostSource = null;
     }
 
     private void OnSceneChanged(Scene previousScene, Scene nextScene)
@@ -206,6 +207,8 @@ public class SoundManager
                 break;
             case AudioSourceTypes.LAMP:
                 _lampSource = audioSource;
+                break;
+            case AudioSourceTypes.GHOAST:
                 break;
             default:
                 break;
@@ -570,5 +573,22 @@ public class SoundManager
         AudioClip[] clips = _catalog.FootStep;
         int index = UnityEngine.Random.Range(0, clips.Length);
         _footStepSource.PlayOneShot(clips[index]);
+    }
+    public void GhostStepSound()
+    {
+        AudioClip[] clips = _catalog.WetFootStep;
+        int index = UnityEngine.Random.Range(0, clips.Length);
+        _ghostSource.PlayOneShot(clips[index]);
+    }
+    public void GhostBreathSound()
+    {
+        SoundPlay(_ghostSource, _catalog.WomenBreath, true);
+
+    }
+
+    public void StopBreathSound()
+    {
+        _ghostSource.Stop();
+
     }
 }
