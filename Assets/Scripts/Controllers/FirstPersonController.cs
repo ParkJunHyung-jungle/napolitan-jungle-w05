@@ -75,6 +75,27 @@ public class FirstPersonController : MonoBehaviour
     }
 
     /// <summary>
+    /// worldY를 플레이어 루트의 높이로 적용하면서 X·Z와 회전을 유지한다.
+    /// CharacterController를 잠시 비활성화해 루트와 카메라를 함께 옮기고 낙하 속도를 초기화한다.
+    /// </summary>
+    public void TeleportToY(float worldY)
+    {
+        Transform playerRoot = transform.parent;
+        //Vector3 position = playerRoot.position;
+        //position.y = worldY;
+
+        float deltaY = worldY - transform.position.y;
+        playerRoot.position += Vector3.up * deltaY;
+
+        characterController.enabled = false;
+        //playerRoot.position = position;
+        characterController.enabled = true;
+        _verticalVelocity = 0f;
+
+
+    }
+
+    /// <summary>
     /// 중앙 입력 매니저에서 이동, 시점, 상호작용 상태를 읽는다.
     /// 현재 프레임 입력을 사용해 드래그 이동량을 누적하고 상호작용 시작·해제를 처리한다.
     /// </summary>
