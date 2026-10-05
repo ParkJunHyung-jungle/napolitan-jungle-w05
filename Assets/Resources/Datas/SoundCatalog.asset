@@ -36,7 +36,7 @@ MonoBehaviour:
   _handlingPaper: {fileID: 8300000, guid: 6d2f2d28a5ea6cb4798176155fa735bd, type: 3}
   _hitPlayer: {fileID: 8300000, guid: 07402da6a18b43649acae01602f33bda, type: 3}
   _lamp: {fileID: 8300000, guid: 11335f6831b156a42aba7b2ad854eca1, type: 3}
-  _heartBeat: {fileID: 8300000, guid: 3b64e6b2cf0071a4aa00696d6d72ce25, type: 3}
+  _heartBeat: {fileID: 8300000, guid: f6b0125b73b808c42b6e421c4b4124ea, type: 3}
   _shredder: {fileID: 8300000, guid: 63eca52386d491042bb7a89fc62d009c, type: 3}
   _phoneBell: {fileID: 8300000, guid: 0b839ff315be79c488acae481e9c3ff8, type: 3}
   _phonePickUp: {fileID: 8300000, guid: 8b1be58ca8a5718479e5942c9be4ef99, type: 3}
