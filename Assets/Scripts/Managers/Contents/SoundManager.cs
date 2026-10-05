@@ -41,6 +41,8 @@ public class SoundManager
     private AudioSource _lampSource;
 
     public AudioSource OnThePhoneSource => _onThePhoneSource;
+    public AudioSource InseinSource => _inseinSource;
+    public AudioSource HeartBeatSource => _heartBeatSource;
 
     /// <summary>
     /// Loads the Resources catalog and creates twelve independent audio channels under
@@ -146,6 +148,27 @@ public class SoundManager
             if (source != null)
                 source.Stop();
         }
+    }
+
+    /// <summary>
+    /// HeartBeat와 Insein을 제외한 모든 효과음 채널의 재생을 중지한다.
+    /// 관리 중인 채널과 씬 오브젝트에 등록된 채널의 재생 상태를 변경한다.
+    /// </summary>
+    public void StopAllSoundsExceptMentalitySounds()
+    {
+        if (_phoneRingingRoutine != null)
+            StopPhoneRinging();
+
+        foreach (AudioSource source in _sources)
+        {
+            if (source != null && source != _heartBeatSource && source != _inseinSource)
+                source.Stop();
+        }
+
+        if (_shredderSource != null)
+            _shredderSource.Stop();
+        if (_lampSource != null)
+            _lampSource.Stop();
     }
 
     public void RegisterAudioSource(AudioSourceTypes audioSourceTypes, AudioSource audioSource)
@@ -505,6 +528,7 @@ public class SoundManager
     {
         _heartBeatSource.Stop();
     }
+
     public void LampAmbientSound()
     {
         SoundPlay(_lampSource, _catalog.LampAmbient, true);
