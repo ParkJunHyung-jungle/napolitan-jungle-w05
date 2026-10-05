@@ -1734,7 +1734,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::ExitController
   _noCompleteCanvasPrefab: {fileID: 6695999494776357348, guid: d79d4d93fd03b4f48b9aa36de8efc827, type: 3}
-  _incompleteMessage: "\uC784\uBB34\uB97C \uC644\uC218\uD55C \uD6C4 \uB098\uAC00\uC138\uC694."
+  _incompleteMessage: "\uD1F4\uADFC\uD558\uAE30 \uC804\uC5D0 \uBD84\uB958\uB97C \uB9C8\uBB34\uB9AC\uD558\uC138\uC694."
 --- !u!1 &712345678901234003
 GameObject:
   m_ObjectHideFlags: 0
