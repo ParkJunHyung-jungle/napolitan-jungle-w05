@@ -29,6 +29,8 @@ public class TimelineManager
     public event Action OnPhoneHangUp;
     public event Action OnDoorKnock;
     public event Action OnDoorKnockStop;
+    public event Action OnDoorToggle;
+    public event Action OnLightToggle;
 
     [Header("Day")]
     private bool _isDayEnded;
@@ -85,6 +87,8 @@ public class TimelineManager
         OnPhoneHangUp = null;
         OnDoorKnock = null;
         OnDoorKnockStop = null;
+        OnDoorToggle = null;
+        OnLightToggle = null;
 
         StopDelayedErrorFaxes();
 
@@ -102,7 +106,7 @@ public class TimelineManager
 
     /// <summary>
     /// minute에 끝나는 판정 구간을 마무리하고 반복 구간을 확인한 뒤, minute에 등록된 이벤트를 Timeline.json에 적힌 순서대로 실행한다.
-    /// If, IfNot 조건을 만족하지 않는 이벤트와 문이 열려 있을 때의 DoorKnock 이벤트는 건너뛰고, Check가 있는 이벤트는 판정 구간을 시작하며, 하루가 끝난 뒤에는 아무것도 하지 않는다.
+    /// If, IfNot 조건을 만족하지 않는 이벤트, 문이 열려 있을 때의 DoorKnock 이벤트, 조명이 깜빡이는 중의 LightToggle 이벤트는 건너뛰고, Check가 있는 이벤트는 판정 구간을 시작하며, 하루가 끝난 뒤에는 아무것도 하지 않는다.
     /// </summary>
     public void TriggerEvents(int minute)
     {
@@ -119,6 +123,9 @@ public class TimelineManager
                 continue;
             // 문이 열려 있으면 노크할 수 없으므로 노크와 판정 구간을 함께 건너뛴다.
             if (timelineEvent.Type == TimelineEventType.DoorKnock && _isDoorOpen)
+                continue;
+            // 깜빡이는 중에 전등을 한 번만 바꾸면 껐다 켜야 한다는 신호가 사라지므로 토글을 건너뛴다.
+            if (timelineEvent.Type == TimelineEventType.LightToggle && _isLightBlinking)
                 continue;
 
             Execute(timelineEvent);
@@ -185,7 +192,7 @@ public class TimelineManager
 
     /// <summary>
     /// timelineEvent의 Type에 맞는 기존 기능을 호출한다.
-    /// 문과 전화기처럼 씬 오브젝트가 처리하는 이벤트는 구독자에게 알리고, 깜빡임, 노크, 울음 상태를 함께 갱신한다.
+    /// 문, 전등 스위치, 전화기처럼 씬 오브젝트가 처리하는 이벤트는 구독자에게 알리고, 깜빡임, 노크, 울음 상태를 함께 갱신한다.
     /// </summary>
     private void Execute(TimelineEvent timelineEvent)
     {
@@ -225,6 +232,12 @@ public class TimelineManager
                 break;
             case TimelineEventType.Spawn:
                 SpawnPrefab(timelineEvent.Arg);
+                break;
+            case TimelineEventType.DoorToggle:
+                OnDoorToggle?.Invoke();
+                break;
+            case TimelineEventType.LightToggle:
+                OnLightToggle?.Invoke();
                 break;
         }
     }

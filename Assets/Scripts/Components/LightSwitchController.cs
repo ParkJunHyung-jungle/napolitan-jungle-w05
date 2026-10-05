@@ -30,11 +30,13 @@ public class LightSwitchController : MonoBehaviour, IInteractable
     void OnEnable()
     {
         Managers.Date.OnDayEnd += HandleDayEnd;
+        Managers.Timeline.OnLightToggle += HandleLightToggle;
     }
 
     void OnDisable()
     {
         Managers.Date.OnDayEnd -= HandleDayEnd;
+        Managers.Timeline.OnLightToggle -= HandleLightToggle;
     }
 
     /// <summary>
@@ -77,6 +79,15 @@ public class LightSwitchController : MonoBehaviour, IInteractable
         if (!_isOn)
             return;
 
+        Interact();
+    }
+
+    /// <summary>
+    /// 타임라인의 전등 토글 이벤트를 받아 전등 스위치를 현재 상태의 반대로 전환한다.
+    /// Interact로 레버, 표시등, 실내 조명, 램프 루프, 타임라인 상태를 함께 바꾼다.
+    /// </summary>
+    private void HandleLightToggle()
+    {
         Interact();
     }
 

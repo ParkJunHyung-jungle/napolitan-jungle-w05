@@ -5,6 +5,7 @@ using Newtonsoft.Json;
 /// <summary>
 /// 타임라인 이벤트 종류이다. 장치 이벤트는 플레이어가 다뤄야 하는 장치 이름을 앞에 붙이고, 멈춤 이벤트는 Stop을 뒤에 붙인다.
 /// CompositeCheck는 실행할 동작 없이 여러 장치에 걸친 판정 구간만 시작하는 복합 이벤트이다.
+/// DoorToggle과 LightToggle은 문과 전등 스위치를 현재 상태의 반대로 바꾼다.
 /// </summary>
 public enum TimelineEventType
 {
@@ -18,6 +19,8 @@ public enum TimelineEventType
     DoorKnock,
     CompositeCheck,
     Spawn,
+    DoorToggle,
+    LightToggle,
 }
 
 /// <summary>
