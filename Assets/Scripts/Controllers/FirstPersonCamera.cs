@@ -8,18 +8,17 @@ using UnityEngine;
 [RequireComponent(typeof(Camera))]
 public class FirstPersonCamera : MonoBehaviour
 {
-    private const float AIM_DISTANCE = 3f;
-
     [Header("Rotation")]
     [Tooltip("좌우 회전 대상. 비어 있으면 부모 Transform")]
     [SerializeField] private Transform playerBody;
 
-    [Tooltip("마우스 delta(픽셀) 배율")]
+    [Header("Look")]
     [SerializeField] private float sensitivity = 0.1f;
-
-    [Tooltip("상하 각도 제한 (아래로 볼 때 양수)")]
     [SerializeField] private float minPitch = -85f;
     [SerializeField] private float maxPitch = 85f;
+
+    [Header("Interact")]
+    [SerializeField] private float _aimDistance = 4f;
 
     private Camera _camera;
     private float _pitch;
@@ -93,7 +92,7 @@ public class FirstPersonCamera : MonoBehaviour
         _hasAimHit = Physics.Raycast(
             GetAimRay(),
             out _aimHit,
-            AIM_DISTANCE,
+            _aimDistance,
             _aimLayerMask,
             QueryTriggerInteraction.Ignore);
 

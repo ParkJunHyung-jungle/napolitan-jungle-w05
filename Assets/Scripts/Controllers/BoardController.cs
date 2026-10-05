@@ -21,6 +21,30 @@ public class BoardController : MonoBehaviour
         if (_instructions[slotIndex] != null)
         {
             FaxInstructionController instruction = _instructions[slotIndex];
+            FaxInstructionController swapInstruction = Camera.main.GetComponentInChildren<FaxInstructionController>();
+
+            if (swapInstruction != null)
+            {
+                Transform swapSlot = GetSlot(slotIndex);
+                swapInstruction.transform.SetParent(null, true);
+                swapInstruction.transform.SetPositionAndRotation(swapSlot.position, swapSlot.rotation);
+                Rigidbody swapRigidbody = swapInstruction.GetComponent<Rigidbody>();
+                swapRigidbody.isKinematic = true;
+                swapRigidbody.useGravity = false;
+                swapRigidbody.detectCollisions = false;
+                swapInstruction.enabled = false;
+                Outline swapOutline = swapInstruction.GetComponent<Outline>();
+                swapOutline.SetOutline(false);
+                swapOutline.enabled = false;
+                _instructions[slotIndex] = swapInstruction;
+
+                instruction.enabled = true;
+                Outline instructionOutline = instruction.GetComponent<Outline>();
+                instructionOutline.enabled = true;
+                instruction.PickUp();
+                return;
+            }
+
             Rigidbody rigidbody = instruction.GetComponent<Rigidbody>();
             Outline outline = instruction.GetComponent<Outline>();
 

@@ -5,6 +5,8 @@ using UnityEngine;
 
 public class DoorController : MonoBehaviour, IInteractable
 {
+    private const float PLAYER_OPEN_Z = -7.5f;
+
     [Header("Door Movement")]
     [SerializeField] private float _duration = 1f;
     [SerializeField] private float _openAngle = 90f;
@@ -17,6 +19,7 @@ public class DoorController : MonoBehaviour, IInteractable
 
     private bool _isOpen = false;
     private bool _isMoving = false;
+    private bool _isAutoClosing;
     private bool _isKnocking;
     private Coroutine _knockRoutine;
 
@@ -27,6 +30,7 @@ public class DoorController : MonoBehaviour, IInteractable
 
     private Quaternion _closedRotation;
     private Quaternion _openRotation;
+    private Quaternion _startRotation;
 
     public bool IsOpen => _isOpen;
     public bool IsMoving => _isMoving;
@@ -45,7 +49,7 @@ public class DoorController : MonoBehaviour, IInteractable
         {
             Managers.Timeline.OnDoorKnock += StartKnockEvent;
             Managers.Timeline.OnDoorKnockStop += StopKnock;
-            Managers.Timeline.OnDoorToggle += HandleDoorToggle;
+            Managers.Timeline.OnDoorOpen += HandleDoorOpen;
         }
     }
 
@@ -61,37 +65,38 @@ public class DoorController : MonoBehaviour, IInteractable
 
     private void Update()
     {
-        if (!_isMoving)
+        if (_isMoving)
+        {
+            _elapsedTime += Time.deltaTime;
+
+            // 문이 천천히 열리도록
+            float duration = _isAutoClosing ? _duration / 3f : _duration;
+            float t = Mathf.Clamp01(_elapsedTime / duration);
+            float curveValue = _moveCurve.Evaluate(t);
+            transform.localRotation = Quaternion.Lerp(
+                _startRotation,
+                _isOpen ? _openRotation : _closedRotation,
+                curveValue
+            );
+
+            if (t >= 1f)
+            {
+                _isMoving = false;
+                _elapsedTime = 0f;
+                _isAutoClosing = false;
+            }
+        }
+
+        if (Managers.Game.Player.transform.position.z > PLAYER_OPEN_Z)
             return;
 
-        _elapsedTime += Time.deltaTime;
+        Managers.Game.ChangeMentality(-Time.deltaTime);
 
-        // 문이 천천히 열리도록
-        float t = Mathf.Clamp01(_elapsedTime / _duration);
-        float curveValue = _moveCurve.Evaluate(t);
+        if (!_isOpen || _isMoving)
+            return;
 
-        if (_isOpen)
-        {
-            transform.localRotation = Quaternion.Lerp(
-                _closedRotation,
-                _openRotation,
-                curveValue
-            );
-        }
-        else
-        {
-            transform.localRotation = Quaternion.Lerp(
-                _openRotation,
-                _closedRotation,
-                curveValue
-            );
-        }
-
-        if (t >= 1f)
-        {
-            _isMoving = false;
-            _elapsedTime = 0f;
-        }
+        if (TrySetState(false))
+            _isAutoClosing = true;
     }
 
 
@@ -140,6 +145,8 @@ public class DoorController : MonoBehaviour, IInteractable
         _isOpen = open;
         _isMoving = true;
         _elapsedTime = 0f;
+        _startRotation = transform.localRotation;
+        _isAutoClosing = false;
 
         if (!_isLocked)
             Managers.Timeline.Report(open ? DeviceAction.DoorOpened : DeviceAction.DoorClosed);
@@ -193,12 +200,22 @@ public class DoorController : MonoBehaviour, IInteractable
     }
 
     /// <summary>
-    /// 타임라인의 문 토글 이벤트를 받아 문을 현재 상태의 반대로 전환한다.
-    /// _isOpen을 사용하며 TrySetState로 문 회전, 소리, 타임라인 상태를 함께 바꾸고, 문이 움직이는 중이면 무시된다.
+    /// 타임라인의 문 열기 이벤트를 받아 문을 열린 상태로 전환한다.
+    /// 닫히는 중이면 현재 회전에서 열림 동작을 다시 시작하고 DoorOpened 상태를 타임라인에 알린다.
     /// </summary>
-    private void HandleDoorToggle()
+    private void HandleDoorOpen()
     {
-        TrySetState(!_isOpen);
+        if (_isOpen)
+            return;
+
+        StopKnock();
+        Managers.Sound.DoorOpenSound();
+        _isOpen = true;
+        _isMoving = true;
+        _elapsedTime = 0f;
+        _startRotation = transform.localRotation;
+        _isAutoClosing = false;
+        Managers.Timeline.Report(DeviceAction.DoorOpened);
     }
 
 }
