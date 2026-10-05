@@ -35,9 +35,10 @@ MonoBehaviour:
   _faxError: {fileID: 8300000, guid: 7e387623624f0b94aa9b2f27b9fe4421, type: 3}
   _handlingPaper: {fileID: 8300000, guid: 6d2f2d28a5ea6cb4798176155fa735bd, type: 3}
   _hitPlayer: {fileID: 8300000, guid: 07402da6a18b43649acae01602f33bda, type: 3}
-  _lamp: {fileID: 8300000, guid: 11335f6831b156a42aba7b2ad854eca1, type: 3}
+  _lampFlicker: {fileID: 8300000, guid: 11335f6831b156a42aba7b2ad854eca1, type: 3}
   _heartBeat: {fileID: 8300000, guid: f6b0125b73b808c42b6e421c4b4124ea, type: 3}
   _shredder: {fileID: 8300000, guid: 63eca52386d491042bb7a89fc62d009c, type: 3}
+  _womenLaugh: {fileID: 8300000, guid: c48b1e698fd9ebb40aa5956bb2429755, type: 3}
   _phoneBell: {fileID: 8300000, guid: 0b839ff315be79c488acae481e9c3ff8, type: 3}
   _phonePickUp: {fileID: 8300000, guid: 8b1be58ca8a5718479e5942c9be4ef99, type: 3}
   _phoneOff: {fileID: 8300000, guid: 7093ad19aea779d479b035300d21a29f, type: 3}
@@ -56,6 +57,7 @@ MonoBehaviour:
   _countDown: {fileID: 8300000, guid: 7e648e9371d24ae4ea224a876fd64ef8, type: 3}
   _crying: {fileID: 8300000, guid: 0f81aaa62b14dd649a14673c42c9afd4, type: 3}
   _insein: {fileID: 8300000, guid: b5a1d06415127ac4bb25036bfd349685, type: 3}
+  _lampAmbient: {fileID: 8300000, guid: 7dd9abf860b010245aea542091b30aa2, type: 3}
   _simpleSiren: {fileID: 8300000, guid: cef22b6ebd5aa494a928029d0317feca, type: 3}
   _complaxSiren: {fileID: 8300000, guid: bd06d474851f0e74d894aa22505593ef, type: 3}
   _halfHp: {fileID: 8300000, guid: b7450293dcea61f49843e22e18d5df60, type: 3}

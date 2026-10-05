@@ -505,4 +505,8 @@ public class SoundManager
         _shredderSource.PlayOneShot(_catalog.Shredder);
 
     }
+    public void LaughSound()
+    {
+        _faxSource.PlayOneShot(_catalog.WomenLaugh);
+    }
 }

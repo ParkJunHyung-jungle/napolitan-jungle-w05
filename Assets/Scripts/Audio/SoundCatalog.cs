@@ -35,6 +35,7 @@ public class SoundCatalog : ScriptableObject
     [SerializeField] private AudioClip _lampFlicker;
     [SerializeField] private AudioClip _heartBeat;
     [SerializeField] private AudioClip _shredder;
+    [SerializeField] private AudioClip _womenLaugh;
 
     public AudioClip TakingDamage => _takingDamage;
     public AudioClip GameOver => _gameOver;
@@ -51,6 +52,7 @@ public class SoundCatalog : ScriptableObject
     public AudioClip LampFlicker => _lampFlicker;
     public AudioClip HeartBeat => _heartBeat;
     public AudioClip Shredder => _shredder;
+    public AudioClip WomenLaugh => _womenLaugh;
 
 
     [Header("Phone Clips")]
