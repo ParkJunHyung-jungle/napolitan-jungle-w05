@@ -1,5 +1,6 @@
 using System;
 using System.Collections;
+using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Audio;
 using UnityEngine.SceneManagement;
@@ -12,7 +13,7 @@ public class SoundManager
     [Header("Runtime Audio")]
     private SoundCatalog _catalog;
     private GameObject _sourceRoot;
-    private AudioSource[] _sources;
+    private readonly HashSet<AudioSource> _sources = new();
     private AudioSource _buttonSource;
     private AudioSource _sliderSource;
     private AudioSource _sfxSoruce;
@@ -48,8 +49,8 @@ public class SoundManager
     public AudioSource HeartBeatSource => _heartBeatSource;
 
     /// <summary>
-    /// Loads the Resources catalog and creates twelve independent audio channels under
-    /// Managers.Instance. Repeated calls preserve the existing channels and playback.
+    /// Loads the Resources catalog and creates audio channels under Managers.Instance.
+    /// Tracks the persistent fax source as well; repeated calls preserve existing channels.
     /// </summary>
     public void Init()
     {
@@ -92,20 +93,14 @@ public class SoundManager
         AudioLowPassFilter lowPass = _onThePhoneSource.gameObject.AddComponent<AudioLowPassFilter>();
         lowPass.cutoffFrequency = 3000f;
 
-        _sources = new[]
-        {
-            _buttonSource, _sliderSource, _sfxSoruce, _ambientSource, _subAmbientSource, _clockSource,
-            _sirenSource, _countDownSource, _warningSource, _gameClearSource,
-            _facilityButtonSource, _facilityDragSource, _facilitySnapSource, _doorSource, _cryingSource, _lockedDoorSource,
-            _phoneSource, _onThePhoneSource, _lightSwitchSource, _faxSource, _inseinSource, _paperSource, _heartBeatSource, _footStepSource,
-            _ghostSource
-        };
+        if (_faxSource != null)
+            _sources.Add(_faxSource);
         SceneManager.activeSceneChanged += OnSceneChanged;
     }
 
     /// <summary>
-    /// Stops all owned channels, releases their clips, and destroys the audio child
-    /// without destroying Managers or catalog assets. Resets state so Init can recreate it.
+    /// Stops tracked channels and releases clips, then destroys only the owned audio child.
+    /// Keeps the persistent fax reference and resets other state so Init can recreate channels.
     /// </summary>
     public void Clear()
     {
@@ -116,6 +111,9 @@ public class SoundManager
                 StopPhoneRinging();
             foreach (AudioSource source in _sources)
             {
+                if (source == null)
+                    continue;
+
                 source.Stop();
                 source.clip = null;
             }
@@ -125,7 +123,7 @@ public class SoundManager
         }
 
         _sourceRoot = null;
-        _sources = null;
+        _sources.Clear();
         _catalog = null;
         _buttonSource = _sliderSource = _sfxSoruce = _ambientSource = _subAmbientSource = _clockSource = null;
         _sirenSource = _countDownSource = _warningSource = _gameClearSource = null;
@@ -136,13 +134,13 @@ public class SoundManager
         _phoneSource = null;
         _onThePhoneSource = null;
         _lightSwitchSource = null;
-        _faxSource = null;
         _inseinSource = null;
         _paperSource = null;
 
         _heartBeatSource = null;
         _lampSource = null;
         _footStepSource = null;
+        _shredderSource = null;
         _ghostSource = null;
         _ghostBreathSource = null;
     }
@@ -173,16 +171,11 @@ public class SoundManager
                 source.Stop();
         }
 
-        if (_shredderSource != null)
-            _shredderSource.Stop();
-        if (_lampSource != null)
-            _lampSource.Stop();
-        if (_ghostBreathSource != null)
-            _ghostBreathSource.Stop();
     }
 
+    /// <summary>
     /// audioSourceTypes에 해당하는 사운드 채널에 전달받은 audioSource를 등록한다.
-    /// 이후 해당 종류의 사운드를 재생할 때 사용할 AudioSource 참조를 변경한다.
+    /// 해당 종류의 참조와 정리 대상 소스 목록을 변경한다.
     /// </summary>
     public void RegisterAudioSource(AudioSourceTypes audioSourceTypes, AudioSource audioSource)
     {
@@ -221,11 +214,14 @@ public class SoundManager
             default:
                 break;
         }
+
+        if (audioSource != null)
+            _sources.Add(audioSource);
     }
 
     /// <summary>
     /// Creates a non-autoplaying 2D source under the owned root using name, volume,
-    /// pitch, and optional outputGroup. Returns the newly configured channel.
+    /// pitch, and optional outputGroup. Tracks and returns the new channel.
     /// </summary>
     private AudioSource CreateSource(string name, float volume = 1f, float pitch = 1f,
         AudioMixerGroup outputGroup = null)
@@ -238,6 +234,7 @@ public class SoundManager
         source.volume = volume;
         source.pitch = pitch;
         source.outputAudioMixerGroup = outputGroup;
+        _sources.Add(source);
         return source;
     }
     /// <summary>
@@ -446,7 +443,8 @@ public class SoundManager
             _phoneRingingRoutine = null;
         }
 
-        _phoneSource.Stop();
+        if (_phoneSource != null)
+            _phoneSource.Stop();
     }
 
     /// <summary>

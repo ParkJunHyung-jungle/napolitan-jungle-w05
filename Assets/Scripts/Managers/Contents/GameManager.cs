@@ -78,13 +78,29 @@ public class GameManager
     }
 
     /// <summary>
-    /// 게임 재시작 시 하루 종료 상태를 초기화한다.
-    /// _isDayEnd와 IsMissionComplete를 초기화해 다음 플레이의 출구 판정을 준비한다.
+    /// 게임 재시작 시 하루 종료·게임오버·레버·플레이어 상태를 초기화한다.
+    /// 정신력 효과음 페이드를 멈추고 새 씬의 ResetMentality가 정신력을 복구하도록 준비한다.
     /// </summary>
     public void Clear()
     {
         StopMentalitySoundFade();
         _isDayEnd = false;
+        _isGameOver = false;
+        _isLeverPulledAtTwo = false;
+        Player = null;
+    }
+
+    /// <summary>
+    /// 새 씬의 시작 화면을 기존 Canvas로 표시하고 다른 상태 화면을 닫는다.
+    /// UI 입력 모드로 전환해 시작 버튼을 누를 때까지 게임 시간을 멈춘다.
+    /// </summary>
+    public void RestoreStartScreen()
+    {
+        _dayEndCanvas.gameObject.SetActive(false);
+        _endingCanvas.gameObject.SetActive(false);
+        _gameOverCanvas.gameObject.SetActive(false);
+        _startCanvas.gameObject.SetActive(true);
+        Managers.Input.SetInputMode(InputMode.UI);
     }
 
     /// <summary>
@@ -294,10 +310,13 @@ public class GameManager
 
     /// <summary>
     /// 시작 버튼 입력을 받아 시작 화면을 닫고 플레이어 입력 모드로 전환한다.
-    /// _startCanvas의 활성 상태와 입력 모드를 변경하고 00:00 타임라인 이벤트를 실행한다.
+    /// _startCanvas가 활성일 때만 입력 모드를 변경하고 00:00 타임라인 이벤트를 한 번 실행한다.
     /// </summary>
     private void OnStartButtonClick()
     {
+        if (!_startCanvas.gameObject.activeSelf)
+            return;
+
         _startCanvas.gameObject.SetActive(false);
         Managers.Input.SetInputMode(InputMode.Player);
         Managers.Timeline.TriggerEvents(0);
@@ -315,24 +334,25 @@ public class GameManager
 
     /// <summary>
     /// 엔딩 화면의 퇴근 버튼 입력을 받아 현재 씬을 다시 연다.
-    /// _endingCanvas를 비활성화하고 매니저 상태를 초기화한다.
+    /// _endingCanvas를 비활성화하고 매니저 정리 후 사운드를 재초기화한다.
     /// </summary>
     private void OnEndingButtonClick()
     {
         _endingCanvas.gameObject.SetActive(false);
         Managers.Clear();
+        Managers.Sound.Init();
         SceneManager.LoadScene(SceneManager.GetActiveScene().name);
     }
 
     /// <summary>
     /// 게임오버 버튼 입력을 받아 게임오버 화면을 닫고 현재 씬을 다시 연다.
-    /// _gameOverCanvas를 비활성화하고 시간과 매니저 상태를 정리한다.
+    /// _gameOverCanvas를 비활성화하고 일시정지를 유지하며 매니저 정리 후 사운드를 재초기화한다.
     /// </summary>
     private void OnGameOverButtonClick()
     {
         _gameOverCanvas.gameObject.SetActive(false);
-        Time.timeScale = 1f;
         Managers.Clear();
+        Managers.Sound.Init();
         SceneManager.LoadScene(SceneManager.GetActiveScene().name);
     }
 }

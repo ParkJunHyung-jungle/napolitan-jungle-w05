@@ -90,9 +90,15 @@ public class DateManager
         _elapsedTime = 0f;
     }
 
+    /// <summary>
+    /// 게임 시간을 멈추고 매니저 상태를 정리한 뒤 사운드를 다시 초기화하고 첫 번째 씬을 연다.
+    /// UI 입력을 유지하고 새 씬의 사운드 등록보다 먼저 소스를 준비한다.
+    /// </summary>
     public void ReloadScene()
     {
+        Managers.Input.SetInputMode(InputMode.UI);
         Managers.Clear();
+        Managers.Sound.Init();
         SceneManager.LoadScene(0);
     }
 }
