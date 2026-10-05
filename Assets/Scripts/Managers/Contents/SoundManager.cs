@@ -500,9 +500,13 @@ public class SoundManager
     {
         _heartBeatSource.Stop();
     }
+    /// <summary>
+    /// RoomLightController가 등록한 램프 소스에서 램프 루프 사운드를 반복 재생한다.
+    /// _catalog.LampAmbient를 사용하며 _lampSource의 재생을 교체한다.
+    /// </summary>
     public void LampAmbientSound()
     {
-        SoundPlay(_ambientSource, _catalog.LampAmbient, true);
+        SoundPlay(_lampSource, _catalog.LampAmbient, true);
 
     }
     public void StopLampAmbientSound()

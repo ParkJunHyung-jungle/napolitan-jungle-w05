@@ -35,6 +35,10 @@ public class LightManager
     public GameObject LoadStairLight => Resources.Load<GameObject>("Prefabs/Lights/StairLight");
     public GameObject LoadEmergencyLight => Resources.Load<GameObject>("Prefabs/Lights/EmergencyLight");
 
+    /// <summary>
+    /// 하늘과 조명 프리팹을 초기화하고 방 조명을 켠다.
+    /// _roomLight의 깜빡임 상태 변경과 하루 종료 이벤트를 구독한다.
+    /// </summary>
     public void Init()
     {
         _nightSky = LoadNightSky;
@@ -49,22 +53,31 @@ public class LightManager
         _stairLight = InstantiateLight(LoadStairLight).GetComponent<LightController>();
         _emergencyLight = InstantiateLight(LoadEmergencyLight).GetComponent<LightController>();
 
+        _roomLight.OnBlinkToggled += HandleRoomLightBlinkToggled;
+
         RoomLightTintDefault();
         RoomLightOn();
 
         Managers.Date.OnDayEnd += ApplyMorningSky;
     }
 
+    /// <summary>
+    /// 재시작을 위해 비상 조명 연출을 멈추고 방 조명, 게시판 조명, 팩스 조명을 기본 색으로 켠다.
+    /// _emergencyLight 세기를 0으로, _roomLight 색을 DEFAULT_COLOR로 바꾼다.
+    /// </summary>
     public void Clear()
     {
         StopEffectCoroutine(ref _emergencyPunchCoroutine);
         _emergencyLight.SetIntensity(0f);
 
         RoomLightTintDefault();
-        RoomLightOn();
+        // Managers.Clear에서 Sound가 먼저 정리되어 램프 소스가 없으므로 사운드 없이 조명만 켠다.
+        _roomLight.TurnOn();
+        _boardLight.TurnOn();
+        _faxLight.TurnOn();
     }
     /// <summary>
-    /// 방 조명, 게시판 조명, 팩스 조명을 함께 켠다.
+    /// 방 조명, 게시판 조명, 팩스 조명을 함께 켜고 램프 루프 사운드를 재생한다.
     /// _roomLight, _boardLight, _faxLight를 켜진 상태로 바꾼다.
     /// </summary>
     public void RoomLightOn()
@@ -72,10 +85,11 @@ public class LightManager
         _roomLight.TurnOn();
         _boardLight.TurnOn();
         _faxLight.TurnOn();
+        Managers.Sound.LampAmbientSound();
     }
 
     /// <summary>
-    /// 방 조명, 게시판 조명, 팩스 조명을 함께 끈다.
+    /// 방 조명, 게시판 조명, 팩스 조명을 함께 끄고 램프 루프 사운드를 정지한다.
     /// _roomLight, _boardLight, _faxLight를 꺼진 상태로 바꾼다.
     /// </summary>
     public void RoomLightOff()
@@ -83,6 +97,7 @@ public class LightManager
         _roomLight.TurnOff();
         _boardLight.TurnOff();
         _faxLight.TurnOff();
+        Managers.Sound.StopLampAmbientSound();
     }
 
     /// <summary>
@@ -94,6 +109,18 @@ public class LightManager
         _roomLight.Blink();
         _boardLight.Blink();
         _faxLight.Blink();
+    }
+
+    /// <summary>
+    /// 방 조명이 깜빡이며 켜짐 상태가 바뀔 때 램프 루프 사운드를 맞춘다.
+    /// isOn이 true면 램프 루프를 재생하고, false면 정지한다.
+    /// </summary>
+    private void HandleRoomLightBlinkToggled(bool isOn)
+    {
+        if (isOn)
+            Managers.Sound.LampAmbientSound();
+        else
+            Managers.Sound.StopLampAmbientSound();
     }
 
     public void RoomLightTintDefault()
