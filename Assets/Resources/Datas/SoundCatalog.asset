@@ -46,6 +46,7 @@ MonoBehaviour:
   - {fileID: 8300000, guid: 3169ca4cb00aa05429250965f10a12af, type: 3}
   - {fileID: 8300000, guid: 21806f0551f066441a84aab2ca9bc9e6, type: 3}
   - {fileID: 8300000, guid: 22232f668c5b67e4db09dc7c4e5c2e7f, type: 3}
+  _qickDoorClose: {fileID: 8300000, guid: a162c4594268e4c4ab48b35ea6d71b06, type: 3}
   _phoneBell: {fileID: 8300000, guid: 0b839ff315be79c488acae481e9c3ff8, type: 3}
   _phonePickUp: {fileID: 8300000, guid: 8b1be58ca8a5718479e5942c9be4ef99, type: 3}
   _phoneOff: {fileID: 8300000, guid: 7093ad19aea779d479b035300d21a29f, type: 3}

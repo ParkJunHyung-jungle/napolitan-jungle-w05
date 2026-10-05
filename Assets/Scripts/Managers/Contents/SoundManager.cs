@@ -404,6 +404,12 @@ public class SoundManager
     {
         SoundPlay(_doorSource, _catalog.DoorClose, false);
     }
+
+    public void QickDoorCloseSound()
+    {
+        SoundPlay(_doorSource, _catalog.QickDoorClose, false);
+    }
+
     /// 문 잠김 소리를 한번 재생한다.
     /// </summary>
     public void DoorLockedSound()
