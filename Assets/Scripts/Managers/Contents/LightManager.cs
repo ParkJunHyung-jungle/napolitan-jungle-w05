@@ -24,6 +24,13 @@ public class LightManager
     private LightController _ambientLight;
     private LightController _emergencyLight;
 
+    private LightController _stairLightFakeUp;
+    private LightController _stairLightFakeDown;
+    private LightController _roomLightFakeUp;
+    private LightController _roomLightFakeDown;
+    private LightController _ambientLightFakeUp;
+    private LightController _ambientLightFakeDown;
+
     private Coroutine _emergencyPunchCoroutine;
 
     public Material LoadNightSky => Resources.Load<Material>("Materials/Night_Sky");
@@ -35,6 +42,13 @@ public class LightManager
     public GameObject LoadStairLight => Resources.Load<GameObject>("Prefabs/Lights/StairLight");
     public GameObject LoadEmergencyLight => Resources.Load<GameObject>("Prefabs/Lights/EmergencyLight");
     public LightController EmergencyLight => _emergencyLight;
+    public GameObject LoadStairLightFakeUp => Resources.Load<GameObject>("Prefabs/Lights/StairLightFakeUp");
+    public GameObject LoadStairLightFakeDown => Resources.Load<GameObject>("Prefabs/Lights/StairLightFakeDown");
+    public GameObject LoadRoomLightFakeUp => Resources.Load<GameObject>("Prefabs/Lights/RoomLightFakeUp");
+    public GameObject LoadRoomLightFakeDown => Resources.Load<GameObject>("Prefabs/Lights/RoomLightFakeDown");
+    public GameObject LoadAmbientLightFakeUp => Resources.Load<GameObject>("Prefabs/Lights/AmbientLightFakeUp");
+    public GameObject LoadAmbientLightFakeDown => Resources.Load<GameObject>("Prefabs/Lights/AmbientLightFakeDown");
+
 
     /// <summary>
     /// 하늘과 조명 프리팹을 초기화하고 방 조명을 켠다.
@@ -53,6 +67,13 @@ public class LightManager
         _faxLight = InstantiateLight(LoadFaxLight).GetComponent<LightController>();
         _stairLight = InstantiateLight(LoadStairLight).GetComponent<LightController>();
         _emergencyLight = InstantiateLight(LoadEmergencyLight).GetComponent<LightController>();
+
+        _stairLightFakeUp = InstantiateLight(LoadStairLightFakeUp).GetComponent<LightController>();
+        _stairLightFakeDown = InstantiateLight(LoadStairLightFakeDown).GetComponent<LightController>();
+        _roomLightFakeUp = InstantiateLight(LoadRoomLightFakeUp).GetComponent<LightController>();
+        _roomLightFakeDown = InstantiateLight(LoadRoomLightFakeDown).GetComponent<LightController>();
+        _ambientLightFakeUp = InstantiateLight(LoadAmbientLightFakeUp).GetComponent<LightController>();
+        _ambientLightFakeDown = InstantiateLight(LoadAmbientLightFakeDown).GetComponent<LightController>();
 
         _roomLight.OnBlinkToggled += HandleRoomLightBlinkToggled;
 
