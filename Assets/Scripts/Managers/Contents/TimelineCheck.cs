@@ -24,6 +24,7 @@ public class TimelineCheck
     public int RepeatCount { get; private set; }
     public bool IsRepeating => Data.WhileBroken != null || Data.WhileHeld != null;
     public bool IsOverdue { get; private set; }
+    public bool WasKeepBroken => _wasKeepBroken;
 
     /// <summary>
     /// data 판정 구간을 startTime 시각에 만든다.
