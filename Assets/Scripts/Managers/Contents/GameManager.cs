@@ -10,13 +10,6 @@ public class GameManager
     private const float DEFAULT_MAX_MENTALITY = 100f;
     private const float MENTALITY_INSEIN_THRESHOLD = 0.25f;
     private const float MENTALITY_HEARTBEAT_THRESHOLD = 0.75f;
-    private const float MENTALITY_STAGE_2_THRESHOLD = 0.75f;
-    private const float MENTALITY_STAGE_3_THRESHOLD = 0.5f;
-    private const float MENTALITY_STAGE_4_THRESHOLD = 0.25f;
-    private const float STAGE_1_DISTORTION_INTENSITY = 10f;
-    private const float STAGE_2_DISTORTION_INTENSITY = 25f;
-    private const float STAGE_3_DISTORTION_INTENSITY = 40f;
-    private const float STAGE_4_DISTORTION_INTENSITY = 60f;
     private const float MENTALITY_SOUND_FADE_SECONDS = 5f;
 
     public GameInfo GameInfo { get; private set; }
@@ -232,7 +225,6 @@ public class GameManager
         bool wasHeartbeatRange = _currentMentality / _maxMentality <= MENTALITY_HEARTBEAT_THRESHOLD;
         _currentMentality = currentMentality;
         Debug.Log($"정신력: {_currentMentality:F1} / {_maxMentality:F1}, 요청 변화량: {amount:+0.0;-0.0;0}");
-        ApplyMentalityDistortion();
         OnMentalityChanged?.Invoke(_currentMentality, _maxMentality);
 
         bool hasActiveAnomalies = Managers.Timeline.HasActiveAnomalies
@@ -289,28 +281,6 @@ public class GameManager
     {
         _isGameOver = false;
         ChangeMentality(_maxMentality - _currentMentality);
-        ApplyMentalityDistortion();
-    }
-
-    /// <summary>
-    /// 현재 정신력 비율에 맞는 네 단계 왜곡 강도를 설정한다.
-    /// _currentMentality와 _maxMentality를 사용하며 PostProcessingManager의 렌즈 왜곡을 갱신한다.
-    /// </summary>
-    private void ApplyMentalityDistortion()
-    {
-        float mentalityRatio = _currentMentality / _maxMentality;
-        float intensity;
-
-        if (mentalityRatio > MENTALITY_STAGE_2_THRESHOLD)
-            intensity = STAGE_1_DISTORTION_INTENSITY;
-        else if (mentalityRatio > MENTALITY_STAGE_3_THRESHOLD)
-            intensity = STAGE_2_DISTORTION_INTENSITY;
-        else if (mentalityRatio > MENTALITY_STAGE_4_THRESHOLD)
-            intensity = STAGE_3_DISTORTION_INTENSITY;
-        else
-            intensity = STAGE_4_DISTORTION_INTENSITY;
-
-        Managers.PostProcessing.SetDistortion(intensity);
     }
 
     /// <summary>
