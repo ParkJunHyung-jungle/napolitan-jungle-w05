@@ -32,7 +32,7 @@ public class SoundCatalog : ScriptableObject
     [SerializeField] private AudioClip _faxError;
     [SerializeField] private AudioClip _handlingPaper;
     [SerializeField] private AudioClip _hitPlayer;
-    [SerializeField] private AudioClip _lamp;
+    [SerializeField] private AudioClip _lampFlicker;
     [SerializeField] private AudioClip _heartBeat;
     [SerializeField] private AudioClip _shredder;
 
@@ -48,7 +48,7 @@ public class SoundCatalog : ScriptableObject
     public AudioClip FaxError => _faxError;
     public AudioClip HandlingPaper => _handlingPaper;
     public AudioClip HitPlayer => _hitPlayer;
-    public AudioClip Lamp => _lamp;
+    public AudioClip LampFlicker => _lampFlicker;
     public AudioClip HeartBeat => _heartBeat;
     public AudioClip Shredder => _shredder;
 
@@ -76,12 +76,14 @@ public class SoundCatalog : ScriptableObject
     [SerializeField] private AudioClip _countDown;
     [SerializeField] public AudioClip _crying;
     [SerializeField] public AudioClip _insein;
+    [SerializeField] public AudioClip _lampAmbient;
     public AudioClip Ambient => _ambient;
     public AudioClip SubAmbient => _subAmbient;
     public AudioClip Clock => _clock;
     public AudioClip CountDown => _countDown;
     public AudioClip Crying => _crying;
     public AudioClip Insein => _insein;
+    public AudioClip LampAmbient => _lampAmbient;
 
     [Header("Siren And Warning Clips")]
     [SerializeField] private AudioClip _simpleSiren;
