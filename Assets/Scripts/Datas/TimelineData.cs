@@ -92,6 +92,7 @@ public class CheckRepeat
 /// Require는 순서대로 해야 할 동작, Forbid는 하면 안 되는 동작, Keep은 구간 내내 유지할 상태이다.
 /// WhileBroken 또는 WhileHeld가 있으면 Keep 상태가 바뀌어도 구간 끝까지 감시하며 해당 상태의 반복 결과를 실행한다.
 /// AcceptHeld가 true이면 구간 시작 시 이미 유지 중인 Require 상태를 수행한 것으로 본다.
+/// BrokenPenalty는 반복 구간의 Keep이 처음 깨질 때 한 번 실행할 펀치의 피해 배수이다.
 /// </summary>
 public class CheckData
 {
@@ -115,6 +116,8 @@ public class CheckData
     public CheckRepeat WhileHeld { get; private set; }
     [JsonProperty]
     public bool AcceptHeld { get; private set; }
+    [JsonProperty]
+    public int BrokenPenalty { get; private set; }
 }
 
 /// <summary>
