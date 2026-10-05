@@ -16,5 +16,6 @@ public enum AudioSourceTypes
     TELEPHONE,
     LIGHTSWITCH,
     CRYING,
+    LAMP,
     FOOTSTEP,
 };
