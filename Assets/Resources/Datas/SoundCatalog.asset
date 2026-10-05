@@ -38,6 +38,11 @@ MonoBehaviour:
   _lampFlicker: {fileID: 8300000, guid: 11335f6831b156a42aba7b2ad854eca1, type: 3}
   _heartBeat: {fileID: 8300000, guid: f6b0125b73b808c42b6e421c4b4124ea, type: 3}
   _shredder: {fileID: 8300000, guid: 63eca52386d491042bb7a89fc62d009c, type: 3}
+  _womenLaugh: {fileID: 8300000, guid: c48b1e698fd9ebb40aa5956bb2429755, type: 3}
+  _footStep:
+  - {fileID: 8300000, guid: d77fcfc785107554eac9aecf0660120e, type: 3}
+  - {fileID: 8300000, guid: b3cd1fe1fa1f9254ab8fadf8a2044177, type: 3}
+  - {fileID: 8300000, guid: e7bd562dbbf93684192dd76e72e9cbd0, type: 3}
   _phoneBell: {fileID: 8300000, guid: 0b839ff315be79c488acae481e9c3ff8, type: 3}
   _phonePickUp: {fileID: 8300000, guid: 8b1be58ca8a5718479e5942c9be4ef99, type: 3}
   _phoneOff: {fileID: 8300000, guid: 7093ad19aea779d479b035300d21a29f, type: 3}
