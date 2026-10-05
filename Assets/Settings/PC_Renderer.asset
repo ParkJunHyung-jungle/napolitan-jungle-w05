@@ -42,9 +42,10 @@ MonoBehaviour:
   m_RendererFeatures:
   - {fileID: 7833122117494664109}
   - {fileID: -7131295187823035878}
+  - {fileID: 7850191741820111001}
   - {fileID: 8049158137132417291}
   - {fileID: 997839643797730584}
-  m_RendererFeatureMap: ad6b866f10d7b46c1afa5a55cf8c089d0b01b9f0ad5ab46f18b55d87de09d90d
+  m_RendererFeatureMap: ad6b866f10d7b46c1afa5a55cf8c089d9988e40dcc7bf16c0b01b9f0ad5ab46f18b55d87de09d90d
   m_UseNativeRenderPass: 1
   xrSystemData: {fileID: 0}
   postProcessData: {fileID: 11400000, guid: 41439944d30ece34e96484bdb6645b55, type: 2}
@@ -142,6 +143,26 @@ MonoBehaviour:
   _distortionStartRatio: 0.75
   _distortionInitialStrength: 0.5
   _redStartRatio: 0.25
+--- !u!114 &7850191741820111001
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1c8bde30d2744fabb1df46c36ac4672a, type: 3}
+  m_Name: Darkness Box
+  m_EditorClassIdentifier: Assembly-CSharp::DarknessBoxFeature
+  m_Active: 1
+  injectionPoint: 550
+  fetchColorBuffer: 1
+  requirements: 5
+  passMaterial: {fileID: 2100000, guid: 1f08fe8cfcf34e4f96802bef192b241e, type: 2}
+  passIndex: 0
+  bindDepthStencilAttachment: 0
+  m_Version: 1
 --- !u!114 &8371243167787358127
 MonoBehaviour:
   m_ObjectHideFlags: 0
