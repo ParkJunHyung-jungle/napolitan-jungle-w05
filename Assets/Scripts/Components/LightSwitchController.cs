@@ -56,8 +56,9 @@ public class LightSwitchController : MonoBehaviour, IInteractable
         else
         {
             Managers.Sound.LightOffSound();
-            Managers.Sound.LampFlickerSound();
             Managers.Light.RoomLightOn();
+            // 램프 루프 재생이 램프 소스를 먼저 정지하므로 플리커 소리는 조명을 켠 뒤 재생한다.
+            Managers.Sound.LampFlickerSound();
         }
         float angle = _isOn ? UP_ANGLE : DOWN_ANGLE;
 

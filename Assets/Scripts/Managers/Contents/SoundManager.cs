@@ -39,6 +39,7 @@ public class SoundManager
     private AudioSource _heartBeatSource;
     private AudioSource _shredderSource;
     private AudioSource _lampSource;
+    private AudioSource _footStepSource;
 
     public AudioSource OnThePhoneSource => _onThePhoneSource;
     public AudioSource InseinSource => _inseinSource;
@@ -77,6 +78,8 @@ public class SoundManager
         _paperSource = CreateSource("HandlingPaper");
         _heartBeatSource = CreateSource("HeartBeat", volume: 0.7f);
         _shredderSource = CreateSource("Shredder", volume: 0.7f);
+        _footStepSource = CreateSource("Footstep");
+
 
 
         AudioHighPassFilter highPass = _onThePhoneSource.gameObject.AddComponent<AudioHighPassFilter>();
@@ -93,7 +96,7 @@ public class SoundManager
             _buttonSource, _sliderSource, _sfxSoruce, _ambientSource, _subAmbientSource, _clockSource,
             _sirenSource, _countDownSource, _warningSource, _gameClearSource,
             _facilityButtonSource, _facilityDragSource, _facilitySnapSource, _doorSource, _cryingSource, _lockedDoorSource,
-            _phoneSource, _onThePhoneSource, _lightSwitchSource, _faxSource, _inseinSource, _paperSource, _heartBeatSource
+            _phoneSource, _onThePhoneSource, _lightSwitchSource, _faxSource, _inseinSource, _paperSource, _heartBeatSource, _footStepSource
         };
         SceneManager.activeSceneChanged += OnSceneChanged;
     }
@@ -136,6 +139,8 @@ public class SoundManager
         _paperSource = null;
 
         _heartBeatSource = null;
+        _lampSource = null;
+        _footStepSource = null;
 
     }
 
@@ -171,6 +176,9 @@ public class SoundManager
             _lampSource.Stop();
     }
 
+    /// audioSourceTypes에 해당하는 사운드 채널에 전달받은 audioSource를 등록한다.
+    /// 이후 해당 종류의 사운드를 재생할 때 사용할 AudioSource 참조를 변경한다.
+    /// </summary>
     public void RegisterAudioSource(AudioSourceTypes audioSourceTypes, AudioSource audioSource)
     {
         switch (audioSourceTypes)
@@ -191,6 +199,7 @@ public class SoundManager
                 _cryingSource = audioSource;
                 break;
             case AudioSourceTypes.FOOTSTEP:
+                _footStepSource = audioSource;
                 break;
             case AudioSourceTypes.TELEPHONE:
                 _phoneSource = audioSource;
@@ -528,7 +537,10 @@ public class SoundManager
     {
         _heartBeatSource.Stop();
     }
-
+    /// <summary>
+    /// RoomLightController가 등록한 램프 소스에서 램프 루프 사운드를 반복 재생한다.
+    /// _catalog.LampAmbient를 사용하며 _lampSource의 재생을 교체한다.
+    /// </summary>
     public void LampAmbientSound()
     {
         SoundPlay(_lampSource, _catalog.LampAmbient, true);
@@ -543,5 +555,20 @@ public class SoundManager
     {
         _shredderSource.PlayOneShot(_catalog.Shredder);
 
+    }
+    public void LaughSound()
+    {
+        _faxSource.PlayOneShot(_catalog.WomenLaugh);
+    }
+
+    /// <summary>
+    /// SoundCatalog의 발소리 목록에서 무작위 클립을 선택한다.
+    /// 선택한 클립을 발소리 전용 AudioSource에서 한 번 재생한다.
+    /// </summary>
+    public void FootStepSound()
+    {
+        AudioClip[] clips = _catalog.FootStep;
+        int index = UnityEngine.Random.Range(0, clips.Length);
+        _footStepSource.PlayOneShot(clips[index]);
     }
 }

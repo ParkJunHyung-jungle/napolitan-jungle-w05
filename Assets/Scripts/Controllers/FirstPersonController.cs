@@ -37,6 +37,11 @@ public class FirstPersonController : MonoBehaviour
     private float _verticalVelocity;
     public FirstPersonCamera FirstPersonCamera => firstPersonCamera;
 
+    [Header("Footstep")]
+    [Tooltip("이동 중 발소리를 재생하는 간격(초)")]
+    [SerializeField, Min(0.05f)] private float _footstepInterval = 0.7f;
+    private float _footstepTimer;
+
     // 컴포넌트를 처음 붙일 때 기본 레이어 마스크를 Interactable로 채운다
     private void Reset()
     {
@@ -58,6 +63,10 @@ public class FirstPersonController : MonoBehaviour
         Move();
     }
 
+    /// <summary>
+    /// 이동 입력과 중력을 사용해 CharacterController를 이동한다.
+    /// 현재 프레임 이동 결과를 반영하고 이동 중 발소리 재생 시간을 갱신한다.
+    /// </summary>
     private void Move()
     {
         // WASD 컴포지트는 이미 정규화되어 있다. 게임패드 스틱 대비로 길이만 1로 제한한다
@@ -72,6 +81,30 @@ public class FirstPersonController : MonoBehaviour
 
         Vector3 velocity = direction * moveSpeed + Vector3.up * _verticalVelocity;
         characterController.Move(velocity * Time.deltaTime);
+        UpdateFootstep();
+    }
+
+    /// <summary>
+    /// 접지 상태와 실제 수평 속도를 사용해 이동 중 발소리를 반복 재생한다.
+    /// 설정된 재생 간격에 따라 타이머를 갱신하고 정지하거나 공중에 있으면 초기화한다.
+    /// </summary>
+    private void UpdateFootstep()
+    {
+        Vector3 horizontalVelocity = characterController.velocity;
+        horizontalVelocity.y = 0f;
+
+        if (!characterController.isGrounded || horizontalVelocity.sqrMagnitude <= 0.01f)
+        {
+            _footstepTimer = 0f;
+            return;
+        }
+
+        _footstepTimer -= Time.deltaTime;
+        if (_footstepTimer > 0f)
+            return;
+
+        Managers.Sound.FootStepSound();
+        _footstepTimer = _footstepInterval;
     }
 
     /// <summary>

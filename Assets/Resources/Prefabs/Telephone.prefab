@@ -426,6 +426,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::TelephoneController
   _receiver: {fileID: 1390560583327513593}
+  _playerReceiver: {fileID: 1390560583327513593}
 --- !u!82 &3442541919917457226
 AudioSource:
   m_ObjectHideFlags: 0
@@ -448,7 +449,7 @@ AudioSource:
   Priority: 128
   DopplerLevel: 1
   MinDistance: 1
-  MaxDistance: 500
+  MaxDistance: 15
   Pan2D: 0
   rolloffMode: 0
   BypassEffects: 0
