@@ -1,9 +1,7 @@
 using System.Collections;
-using System.Collections.Generic;
+using TMPro;
 
 using UnityEngine;
-
-using TMPro;
 
 public class ExitController : MonoBehaviour
 {
@@ -12,6 +10,7 @@ public class ExitController : MonoBehaviour
     [Header("UI")]
     [SerializeField] private GameObject _noCompleteCanvasPrefab;
     [SerializeField] private string _incompleteMessage = "임무를 완수한 후 나가세요.";
+    [SerializeField] private string _completeMessage = "이제 밖으로 나가 퇴근하실 수 있습니다.";
 
     [Header("Contact")]
     private GameObject _toastCanvas;
@@ -46,6 +45,7 @@ public class ExitController : MonoBehaviour
 
         if (_isMissionComplete)
         {
+            HideToast();
             Managers.Game.ShowEndingCanvas();
         }
         else
@@ -71,6 +71,7 @@ public class ExitController : MonoBehaviour
     {
         _isMissionComplete = true;
         HideToast();
+        ShowToast(_completeMessage, false);
     }
 
     /// <summary>
@@ -79,19 +80,32 @@ public class ExitController : MonoBehaviour
     /// </summary>
     private void ShowToast()
     {
+        ShowToast(_incompleteMessage);
+    }
+
+    /// <summary>
+    /// 연결된 NoCompleteCanvas를 재사용해 전달된 안내를 표시한다.
+    /// message를 출력하고 autoHide가 true이면 기존 숨김 예약을 새 5초 예약으로 교체한다.
+    /// </summary>
+    private void ShowToast(string message, bool autoHide = true)
+    {
         if (_toastCanvas == null)
         {
             _toastCanvas = Instantiate(_noCompleteCanvasPrefab, Managers.Instance.transform);
-            _toastCanvas.GetComponentInChildren<TMP_Text>().text = _incompleteMessage;
         }
         else
         {
             _toastCanvas.SetActive(true);
         }
+        _toastCanvas.GetComponentInChildren<TMP_Text>().text = message;
 
         if (_hideToastCoroutine != null)
+        {
             StopCoroutine(_hideToastCoroutine);
-        _hideToastCoroutine = StartCoroutine(HideToastAfterDelay());
+            _hideToastCoroutine = null;
+        }
+        if (autoHide)
+            _hideToastCoroutine = StartCoroutine(HideToastAfterDelay());
     }
 
     /// <summary>
