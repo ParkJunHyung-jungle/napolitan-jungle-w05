@@ -33,7 +33,8 @@ Transform:
   m_LocalPosition: {x: 0, y: 1.436, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
-  m_Children: []
+  m_Children:
+  - {fileID: 4744549934039692083}
   m_Father: {fileID: 8164929365816398196}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!20 &25445156190434611
@@ -600,7 +601,7 @@ AudioSource:
   Priority: 128
   DopplerLevel: 1
   MinDistance: 1
-  MaxDistance: 5
+  MaxDistance: 15
   Pan2D: 0
   rolloffMode: 0
   BypassEffects: 0
@@ -675,3 +676,69 @@ AudioSource:
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 4
+--- !u!1001 &5510001516950078719
+PrefabInstance:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    serializedVersion: 3
+    m_TransformParent: {fileID: 4857006944646947494}
+    m_Modifications:
+    - target: {fileID: 986132364979976140, guid: f869388e23957584fbf4198002cc02fd, type: 3}
+      propertyPath: m_LocalPosition.x
+      value: 0.4
+      objectReference: {fileID: 0}
+    - target: {fileID: 986132364979976140, guid: f869388e23957584fbf4198002cc02fd, type: 3}
+      propertyPath: m_LocalPosition.y
+      value: -0.1
+      objectReference: {fileID: 0}
+    - target: {fileID: 986132364979976140, guid: f869388e23957584fbf4198002cc02fd, type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 0.3
+      objectReference: {fileID: 0}
+    - target: {fileID: 986132364979976140, guid: f869388e23957584fbf4198002cc02fd, type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 0.6830127
+      objectReference: {fileID: 0}
+    - target: {fileID: 986132364979976140, guid: f869388e23957584fbf4198002cc02fd, type: 3}
+      propertyPath: m_LocalRotation.x
+      value: 0.18301274
+      objectReference: {fileID: 0}
+    - target: {fileID: 986132364979976140, guid: f869388e23957584fbf4198002cc02fd, type: 3}
+      propertyPath: m_LocalRotation.y
+      value: 0.18301274
+      objectReference: {fileID: 0}
+    - target: {fileID: 986132364979976140, guid: f869388e23957584fbf4198002cc02fd, type: 3}
+      propertyPath: m_LocalRotation.z
+      value: -0.6830127
+      objectReference: {fileID: 0}
+    - target: {fileID: 986132364979976140, guid: f869388e23957584fbf4198002cc02fd, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: 30
+      objectReference: {fileID: 0}
+    - target: {fileID: 986132364979976140, guid: f869388e23957584fbf4198002cc02fd, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 986132364979976140, guid: f869388e23957584fbf4198002cc02fd, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: -90
+      objectReference: {fileID: 0}
+    - target: {fileID: 1542392338361983023, guid: f869388e23957584fbf4198002cc02fd, type: 3}
+      propertyPath: m_Name
+      value: TelephoneReceiver
+      objectReference: {fileID: 0}
+    - target: {fileID: 1542392338361983023, guid: f869388e23957584fbf4198002cc02fd, type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
+    m_RemovedComponents: []
+    m_RemovedGameObjects: []
+    m_AddedGameObjects: []
+    m_AddedComponents: []
+  m_SourcePrefab: {fileID: 100100000, guid: f869388e23957584fbf4198002cc02fd, type: 3}
+--- !u!4 &4744549934039692083 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 986132364979976140, guid: f869388e23957584fbf4198002cc02fd, type: 3}
+  m_PrefabInstance: {fileID: 5510001516950078719}
+  m_PrefabAsset: {fileID: 0}

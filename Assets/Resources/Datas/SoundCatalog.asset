@@ -54,8 +54,8 @@ MonoBehaviour:
   - {fileID: 8300000, guid: c7a5f6174754dee48b2b88ae28765e5e, type: 3}
   - {fileID: 8300000, guid: 35178d63c0bd6214c8370d74e2d29379, type: 3}
   - {fileID: 8300000, guid: 46573f868232be541aa02bac568d12d1, type: 3}
-  _ambient: {fileID: 8300000, guid: 2e83e29441cfb1c4a98643c0ca957274, type: 3}
-  _subAmbient: {fileID: 8300000, guid: ddb8759b9310ff943a1075482e0da7da, type: 3}
+  _ambient: {fileID: 8300000, guid: 69ce827f2805ce84c9571051279bc8e2, type: 3}
+  _subAmbient: {fileID: 8300000, guid: 2e83e29441cfb1c4a98643c0ca957274, type: 3}
   _clock: {fileID: 8300000, guid: 28980863f1ad8884b84d49d70f80162c, type: 3}
   _countDown: {fileID: 8300000, guid: 7e648e9371d24ae4ea224a876fd64ef8, type: 3}
   _crying: {fileID: 8300000, guid: 0f81aaa62b14dd649a14673c42c9afd4, type: 3}

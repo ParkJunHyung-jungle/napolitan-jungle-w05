@@ -17,6 +17,7 @@ public class SoundManager
     private AudioSource _sliderSource;
     private AudioSource _sfxSoruce;
     private AudioSource _ambientSource;
+    private AudioSource _subAmbientSource;
     private AudioSource _clockSource;
     private AudioSource _sirenSource;
     private AudioSource _countDownSource;
@@ -41,6 +42,8 @@ public class SoundManager
     private AudioSource _footStepSource;
 
     public AudioSource OnThePhoneSource => _onThePhoneSource;
+    public AudioSource InseinSource => _inseinSource;
+    public AudioSource HeartBeatSource => _heartBeatSource;
 
     /// <summary>
     /// Loads the Resources catalog and creates twelve independent audio channels under
@@ -63,7 +66,8 @@ public class SoundManager
         _buttonSource = CreateSource("Button");
         _sliderSource = CreateSource("Slider");
         _sfxSoruce = CreateSource("Sfx");
-        _ambientSource = CreateSource("Ambient", volume: 0.5f, pitch: 0.6f);
+        _ambientSource = CreateSource("Ambient", volume: 0.3f);
+        _subAmbientSource = CreateSource("SubAmbient");
         _clockSource = CreateSource("Clock");
         _sirenSource = CreateSource("Siren", volume: 0.9f);
         _countDownSource = CreateSource("CountDown");
@@ -71,7 +75,7 @@ public class SoundManager
         _gameClearSource = CreateSource("GameClear", outputGroup: _catalog.GameClearOutput);
         _onThePhoneSource = CreateSource("OnThePhone", volume: 0.7f);
         _inseinSource = CreateSource("Insein", volume: 0.7f);
-        _paperSource = CreateSource("HandlingPaper", volume: 1f);
+        _paperSource = CreateSource("HandlingPaper");
         _heartBeatSource = CreateSource("HeartBeat", volume: 0.7f);
         _shredderSource = CreateSource("Shredder", volume: 0.7f);
         _footStepSource = CreateSource("Footstep");
@@ -89,7 +93,7 @@ public class SoundManager
 
         _sources = new[]
         {
-            _buttonSource, _sliderSource, _sfxSoruce, _ambientSource, _clockSource,
+            _buttonSource, _sliderSource, _sfxSoruce, _ambientSource, _subAmbientSource, _clockSource,
             _sirenSource, _countDownSource, _warningSource, _gameClearSource,
             _facilityButtonSource, _facilityDragSource, _facilitySnapSource, _doorSource, _cryingSource, _lockedDoorSource,
             _phoneSource, _onThePhoneSource, _lightSwitchSource, _faxSource, _inseinSource, _paperSource, _heartBeatSource, _footStepSource
@@ -121,7 +125,7 @@ public class SoundManager
         _sourceRoot = null;
         _sources = null;
         _catalog = null;
-        _buttonSource = _sliderSource = _sfxSoruce = _ambientSource = _clockSource = null;
+        _buttonSource = _sliderSource = _sfxSoruce = _ambientSource = _subAmbientSource = _clockSource = null;
         _sirenSource = _countDownSource = _warningSource = _gameClearSource = null;
         _facilityButtonSource = _facilityDragSource = _facilitySnapSource = null;
         _doorSource = null;
@@ -152,6 +156,26 @@ public class SoundManager
     }
 
     /// <summary>
+    /// HeartBeat와 Insein을 제외한 모든 효과음 채널의 재생을 중지한다.
+    /// 관리 중인 채널과 씬 오브젝트에 등록된 채널의 재생 상태를 변경한다.
+    /// </summary>
+    public void StopAllSoundsExceptMentalitySounds()
+    {
+        if (_phoneRingingRoutine != null)
+            StopPhoneRinging();
+
+        foreach (AudioSource source in _sources)
+        {
+            if (source != null && source != _heartBeatSource && source != _inseinSource)
+                source.Stop();
+        }
+
+        if (_shredderSource != null)
+            _shredderSource.Stop();
+        if (_lampSource != null)
+            _lampSource.Stop();
+    }
+
     /// audioSourceTypes에 해당하는 사운드 채널에 전달받은 audioSource를 등록한다.
     /// 이후 해당 종류의 사운드를 재생할 때 사용할 AudioSource 참조를 변경한다.
     /// </summary>
@@ -252,6 +276,19 @@ public class SoundManager
     public void AmbientSoundOff()
     {
         _ambientSource.Stop();
+    }
+
+
+    /// <summary>Loops the catalog ambient clip on the initialized ambient channel.</summary>
+    public void SubAmbientSound()
+    {
+        SoundPlay(_subAmbientSource, _catalog.SubAmbient, true);
+    }
+
+    /// <summary>Stops playback on the initialized ambient channel without affecting other channels.</summary>
+    public void SubAmbientSoundOff()
+    {
+        _subAmbientSource.Stop();
     }
 
     /// <summary>Plays the catalog engine-off clip once, replacing the initialized Sfx channel.</summary>

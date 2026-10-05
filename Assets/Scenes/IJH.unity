@@ -1064,6 +1064,11 @@ MeshFilter:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 152275911}
   m_Mesh: {fileID: 10202, guid: 0000000000000000e000000000000000, type: 0}
+--- !u!1 &167450118 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 6417867544710210768, guid: be911bf26c1938d44abb78f9a30581b0, type: 3}
+  m_PrefabInstance: {fileID: 4477338399717776369}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1 &172079009
 GameObject:
   m_ObjectHideFlags: 0
@@ -3659,6 +3664,26 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 262303690}
     m_Modifications:
+    - target: {fileID: 1065143964454968499, guid: 9760fd76326cb7849b5a57fc42462cdf, type: 3}
+      propertyPath: m_AnchorMax.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1065143964454968499, guid: 9760fd76326cb7849b5a57fc42462cdf, type: 3}
+      propertyPath: m_AnchorMin.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1065143964454968499, guid: 9760fd76326cb7849b5a57fc42462cdf, type: 3}
+      propertyPath: m_SizeDelta.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1065143964454968499, guid: 9760fd76326cb7849b5a57fc42462cdf, type: 3}
+      propertyPath: m_AnchoredPosition.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1065143964454968499, guid: 9760fd76326cb7849b5a57fc42462cdf, type: 3}
+      propertyPath: m_AnchoredPosition.y
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 6199676943508247232, guid: 9760fd76326cb7849b5a57fc42462cdf, type: 3}
       propertyPath: m_Name
       value: DateCanvas
@@ -3741,6 +3766,26 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 6844568154633177126, guid: 9760fd76326cb7849b5a57fc42462cdf, type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6970512691743168526, guid: 9760fd76326cb7849b5a57fc42462cdf, type: 3}
+      propertyPath: m_AnchorMax.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6970512691743168526, guid: 9760fd76326cb7849b5a57fc42462cdf, type: 3}
+      propertyPath: m_AnchorMin.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6970512691743168526, guid: 9760fd76326cb7849b5a57fc42462cdf, type: 3}
+      propertyPath: m_SizeDelta.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6970512691743168526, guid: 9760fd76326cb7849b5a57fc42462cdf, type: 3}
+      propertyPath: m_AnchoredPosition.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6970512691743168526, guid: 9760fd76326cb7849b5a57fc42462cdf, type: 3}
+      propertyPath: m_AnchoredPosition.y
       value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
@@ -10031,10 +10076,6 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
-    - target: {fileID: 3442541919917457226, guid: 975cc3ab8c4816b438559db1f17c352b, type: 3}
-      propertyPath: MaxDistance
-      value: 15
-      objectReference: {fileID: 0}
     - target: {fileID: 3540839522549287192, guid: 975cc3ab8c4816b438559db1f17c352b, type: 3}
       propertyPath: m_LocalPosition.x
       value: -1.529
@@ -10079,6 +10120,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: Telephone
       objectReference: {fileID: 0}
+    - target: {fileID: 7282712597017528059, guid: 975cc3ab8c4816b438559db1f17c352b, type: 3}
+      propertyPath: _playerReceiver
+      value: 
+      objectReference: {fileID: 167450118}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -10095,10 +10140,6 @@ PrefabInstance:
     - target: {fileID: 1949345611171678690, guid: be911bf26c1938d44abb78f9a30581b0, type: 3}
       propertyPath: m_Name
       value: Player
-      objectReference: {fileID: 0}
-    - target: {fileID: 2139331384225562886, guid: be911bf26c1938d44abb78f9a30581b0, type: 3}
-      propertyPath: MaxDistance
-      value: 15
       objectReference: {fileID: 0}
     - target: {fileID: 8164929365816398196, guid: be911bf26c1938d44abb78f9a30581b0, type: 3}
       propertyPath: m_LocalPosition.x

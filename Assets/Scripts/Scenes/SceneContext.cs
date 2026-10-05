@@ -18,8 +18,12 @@ public class SceneContext : MonoBehaviour
         Managers.Input.SetInputMode(InputMode.UI);
         _dateCanvas.gameObject.SetActive(true);
         Managers.Game.ResetMentality();
+    }
 
+    void Start()
+    {
         Managers.Sound.AmbientSound();
+        Managers.Sound.SubAmbientSound();
     }
 
     void Update()

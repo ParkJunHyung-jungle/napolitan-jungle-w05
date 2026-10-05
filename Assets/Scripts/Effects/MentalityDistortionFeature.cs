@@ -3,6 +3,8 @@ using UnityEngine.Rendering.Universal;
 
 public class MentalityDistortionFeature : FullScreenPassRendererFeature
 {
+    private const float EFFECT_DAMPING_TIME = 0.5f;
+
     private static readonly int MENTALITY_STRENGTH = Shader.PropertyToID("_MentalityStrength");
     private static readonly int RED_PROGRESS = Shader.PropertyToID("_RedProgress");
     private static readonly int WAVE_TIME = Shader.PropertyToID("_WaveTime");
@@ -13,6 +15,11 @@ public class MentalityDistortionFeature : FullScreenPassRendererFeature
 
     [Header("Mentality Red Edge")]
     [SerializeField, Range(0.01f, 1f)] private float _redStartRatio = 0.25f;
+
+    private float _currentStrength;
+    private float _strengthVelocity;
+    private float _currentRedProgress = -1f;
+    private float _redProgressVelocity;
 
     /// <summary>
     /// 현재 카메라에 전체 화면 왜곡 패스를 추가하면서 정신력에 따른 세기를 설정한다.
@@ -31,13 +38,20 @@ public class MentalityDistortionFeature : FullScreenPassRendererFeature
             GameManager game = Managers.Game;
             float mentalityRatio = game.CurrentMentality / game.MaxMentality;
             if (game.IsDayEnded || mentalityRatio <= _distortionStartRatio)
-                strength = Mathf.Lerp(_distortionInitialStrength, 1f, 1f - mentalityRatio / _distortionStartRatio);
+            {
+                float distortionProgress = 1f - mentalityRatio / _distortionStartRatio;
+                strength = Mathf.Lerp(_distortionInitialStrength, 1f, Mathf.Pow(distortionProgress, 0.7f));
+            }
             if (mentalityRatio <= _redStartRatio)
-                redProgress = 1f - mentalityRatio / _redStartRatio;
+                redProgress = Mathf.Pow(1f - mentalityRatio / _redStartRatio, 0.7f);
         }
 
-        passMaterial.SetFloat(MENTALITY_STRENGTH, strength);
-        passMaterial.SetFloat(RED_PROGRESS, redProgress);
+        _currentStrength = Mathf.SmoothDamp(_currentStrength, strength, ref _strengthVelocity,
+            EFFECT_DAMPING_TIME, Mathf.Infinity, Time.unscaledDeltaTime);
+        _currentRedProgress = Mathf.SmoothDamp(_currentRedProgress, redProgress, ref _redProgressVelocity,
+            EFFECT_DAMPING_TIME, Mathf.Infinity, Time.unscaledDeltaTime);
+        passMaterial.SetFloat(MENTALITY_STRENGTH, _currentStrength);
+        passMaterial.SetFloat(RED_PROGRESS, _currentRedProgress);
         passMaterial.SetFloat(WAVE_TIME, Time.unscaledTime);
         base.AddRenderPasses(renderer, ref renderingData);
     }

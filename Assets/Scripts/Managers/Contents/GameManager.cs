@@ -1,4 +1,5 @@
 using System;
+using System.Collections;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
@@ -9,13 +10,7 @@ public class GameManager
     private const float DEFAULT_MAX_MENTALITY = 100f;
     private const float MENTALITY_INSEIN_THRESHOLD = 0.25f;
     private const float MENTALITY_HEARTBEAT_THRESHOLD = 0.75f;
-    private const float MENTALITY_STAGE_2_THRESHOLD = 0.75f;
-    private const float MENTALITY_STAGE_3_THRESHOLD = 0.5f;
-    private const float MENTALITY_STAGE_4_THRESHOLD = 0.25f;
-    private const float STAGE_1_DISTORTION_INTENSITY = 10f;
-    private const float STAGE_2_DISTORTION_INTENSITY = 25f;
-    private const float STAGE_3_DISTORTION_INTENSITY = 40f;
-    private const float STAGE_4_DISTORTION_INTENSITY = 60f;
+    private const float MENTALITY_SOUND_FADE_SECONDS = 5f;
 
     public GameInfo GameInfo { get; private set; }
 
@@ -25,6 +20,11 @@ public class GameManager
     private bool _isDayEnd = false;
     public bool IsDayEnded => _isDayEnd;
     private bool _isGameOver;
+    private Coroutine _mentalitySoundFadeRoutine;
+    private AudioSource _mentalitySoundFadeHeartBeatSource;
+    private AudioSource _mentalitySoundFadeInseinSource;
+    private float _mentalitySoundFadeHeartBeatVolume;
+    private float _mentalitySoundFadeInseinVolume;
 
     private bool _isLeverPulledAtTwo = false;
     public bool IsLeverPulledAtTwo => _isLeverPulledAtTwo;
@@ -83,6 +83,7 @@ public class GameManager
     /// </summary>
     public void Clear()
     {
+        StopMentalitySoundFade();
         _isDayEnd = false;
     }
 
@@ -101,6 +102,8 @@ public class GameManager
     /// </summary>
     public void ShowEndingCanvas()
     {
+        Managers.Sound.StopAllSoundsExceptMentalitySounds();
+        StartMentalitySoundFade();
         _endingCanvas.gameObject.SetActive(true);
         Managers.Input.SetInputMode(InputMode.UI);
     }
@@ -114,8 +117,8 @@ public class GameManager
         if (_isDayEnd)
             return;
         _isDayEnd = true;
-        Managers.Sound.StopInseinSound();
-        Managers.Sound.StopHeartBeatSound();
+        Managers.Sound.StopAllSoundsExceptMentalitySounds();
+        StartMentalitySoundFade();
         _dayEndCanvas.gameObject.SetActive(true);
         Managers.Input.SetInputMode(InputMode.UI, false);
     }
@@ -130,13 +133,79 @@ public class GameManager
             return;
 
         _isGameOver = true;
-        Managers.Sound.StopInseinSound();
-        Managers.Sound.StopHeartBeatSound();
-        Time.timeScale = 0f;
+        Managers.Sound.StopAllSoundsExceptMentalitySounds();
         Managers.Sound.GameOverSound();
+        StartMentalitySoundFade();
+        Time.timeScale = 0f;
 
         _gameOverCanvas.gameObject.SetActive(true);
         Managers.Input.SetInputMode(InputMode.UI);
+    }
+
+    /// <summary>
+    /// 진행 중인 페이드가 없으면 HeartBeat와 Insein의 5초 페이드를 시작한다.
+    /// 두 채널의 AudioSource를 코루틴에 전달하고 진행 상태를 저장한다.
+    /// </summary>
+    private void StartMentalitySoundFade()
+    {
+        if (_mentalitySoundFadeRoutine != null)
+            return;
+
+        _mentalitySoundFadeHeartBeatSource = Managers.Sound.HeartBeatSource;
+        _mentalitySoundFadeInseinSource = Managers.Sound.InseinSource;
+        _mentalitySoundFadeHeartBeatVolume = _mentalitySoundFadeHeartBeatSource.volume;
+        _mentalitySoundFadeInseinVolume = _mentalitySoundFadeInseinSource.volume;
+        _mentalitySoundFadeRoutine = Managers.Instance.StartCoroutine(FadeOutMentalitySounds());
+    }
+
+    /// <summary>
+    /// 실행 중인 정신력 사운드 페이드를 중지하고 두 AudioSource의 원래 볼륨을 복구한다.
+    /// </summary>
+    private void StopMentalitySoundFade()
+    {
+        if (_mentalitySoundFadeRoutine == null)
+            return;
+
+        Managers.Instance.StopCoroutine(_mentalitySoundFadeRoutine);
+        _mentalitySoundFadeRoutine = null;
+        RestoreMentalitySoundVolumes();
+    }
+
+    /// <summary>
+    /// 정신력 효과음 두 채널의 볼륨을 5초 동안 실시간으로 낮춘 뒤 재생을 중지한다.
+    /// 입력 채널들의 초기 볼륨을 복구해 이후 효과음 재생에 영향을 주지 않는다.
+    /// </summary>
+    private IEnumerator FadeOutMentalitySounds()
+    {
+        float elapsed = 0f;
+
+        while (elapsed < MENTALITY_SOUND_FADE_SECONDS)
+        {
+            elapsed += Time.unscaledDeltaTime;
+            float volumeRatio = 1f - Mathf.Clamp01(elapsed / MENTALITY_SOUND_FADE_SECONDS);
+            _mentalitySoundFadeHeartBeatSource.volume = _mentalitySoundFadeHeartBeatVolume * volumeRatio;
+            _mentalitySoundFadeInseinSource.volume = _mentalitySoundFadeInseinVolume * volumeRatio;
+            yield return null;
+        }
+
+        _mentalitySoundFadeHeartBeatSource.Stop();
+        _mentalitySoundFadeInseinSource.Stop();
+        RestoreMentalitySoundVolumes();
+        _mentalitySoundFadeRoutine = null;
+    }
+
+    /// <summary>
+    /// 페이드에서 저장한 HeartBeat와 Insein의 원래 볼륨을 복구하고 소스 참조를 비운다.
+    /// </summary>
+    private void RestoreMentalitySoundVolumes()
+    {
+        if (_mentalitySoundFadeHeartBeatSource != null)
+            _mentalitySoundFadeHeartBeatSource.volume = _mentalitySoundFadeHeartBeatVolume;
+        if (_mentalitySoundFadeInseinSource != null)
+            _mentalitySoundFadeInseinSource.volume = _mentalitySoundFadeInseinVolume;
+
+        _mentalitySoundFadeHeartBeatSource = null;
+        _mentalitySoundFadeInseinSource = null;
     }
 
     /// <summary>
@@ -156,7 +225,6 @@ public class GameManager
         bool wasHeartbeatRange = _currentMentality / _maxMentality <= MENTALITY_HEARTBEAT_THRESHOLD;
         _currentMentality = currentMentality;
         Debug.Log($"정신력: {_currentMentality:F1} / {_maxMentality:F1}, 요청 변화량: {amount:+0.0;-0.0;0}");
-        ApplyMentalityDistortion();
         OnMentalityChanged?.Invoke(_currentMentality, _maxMentality);
 
         bool hasActiveAnomalies = Managers.Timeline.HasActiveAnomalies
@@ -213,28 +281,6 @@ public class GameManager
     {
         _isGameOver = false;
         ChangeMentality(_maxMentality - _currentMentality);
-        ApplyMentalityDistortion();
-    }
-
-    /// <summary>
-    /// 현재 정신력 비율에 맞는 네 단계 왜곡 강도를 설정한다.
-    /// _currentMentality와 _maxMentality를 사용하며 PostProcessingManager의 렌즈 왜곡을 갱신한다.
-    /// </summary>
-    private void ApplyMentalityDistortion()
-    {
-        float mentalityRatio = _currentMentality / _maxMentality;
-        float intensity;
-
-        if (mentalityRatio > MENTALITY_STAGE_2_THRESHOLD)
-            intensity = STAGE_1_DISTORTION_INTENSITY;
-        else if (mentalityRatio > MENTALITY_STAGE_3_THRESHOLD)
-            intensity = STAGE_2_DISTORTION_INTENSITY;
-        else if (mentalityRatio > MENTALITY_STAGE_4_THRESHOLD)
-            intensity = STAGE_3_DISTORTION_INTENSITY;
-        else
-            intensity = STAGE_4_DISTORTION_INTENSITY;
-
-        Managers.PostProcessing.SetDistortion(intensity);
     }
 
     /// <summary>
