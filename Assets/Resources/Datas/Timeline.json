@@ -1,6 +1,6 @@
 {
   "instructions": [
-    { "id": "INSTRUCTION_00", "isReal": true, "lines": ["RULE_1", "RULE_2", "RULE_3"] },
+    { "id": "INSTRUCTION_00", "isReal": true, "lines": ["RULE_1_NEW", "RULE_2_NEW", "RULE_3_NEW"] },
     { "id": "INSTRUCTION_01", "isReal": false, "lines": ["RULE_1", "RULE_2", "RULE_3", "RULE_4_FAKE"] },
     { "id": "INSTRUCTION_02", "isReal": true, "lines": ["RULE_1", "RULE_2", "RULE_3", "RULE_4_NEW", "RULE_5_NEW"] },
     { "id": "INSTRUCTION_03", "isReal": true, "lines": ["RULE_1", "RULE_2", "RULE_3", "RULE_4", "RULE_5", "RULE_6_NEW"] },
