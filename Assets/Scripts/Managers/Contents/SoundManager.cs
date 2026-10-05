@@ -41,6 +41,7 @@ public class SoundManager
     private AudioSource _lampSource;
     private AudioSource _footStepSource;
     private AudioSource _ghostSource;
+    private AudioSource _ghostBreathSource;
 
     public AudioSource OnThePhoneSource => _onThePhoneSource;
     public AudioSource InseinSource => _inseinSource;
@@ -143,6 +144,7 @@ public class SoundManager
         _lampSource = null;
         _footStepSource = null;
         _ghostSource = null;
+        _ghostBreathSource = null;
     }
 
     private void OnSceneChanged(Scene previousScene, Scene nextScene)
@@ -175,6 +177,8 @@ public class SoundManager
             _shredderSource.Stop();
         if (_lampSource != null)
             _lampSource.Stop();
+        if (_ghostBreathSource != null)
+            _ghostBreathSource.Stop();
     }
 
     /// audioSourceTypes에 해당하는 사운드 채널에 전달받은 audioSource를 등록한다.
@@ -209,6 +213,10 @@ public class SoundManager
                 _lampSource = audioSource;
                 break;
             case AudioSourceTypes.GHOAST:
+                _ghostSource = audioSource;
+                break;
+            case AudioSourceTypes.GHOSTBREATH:
+                _ghostBreathSource = audioSource;
                 break;
             default:
                 break;
@@ -580,15 +588,23 @@ public class SoundManager
         int index = UnityEngine.Random.Range(0, clips.Length);
         _ghostSource.PlayOneShot(clips[index]);
     }
+    /// <summary>
+    /// 브레서가 등록한 소스에서 여자 숨소리를 반복 재생한다.
+    /// _catalog.WomenBreath를 사용하며 _ghostBreathSource의 재생을 교체한다.
+    /// </summary>
     public void GhostBreathSound()
     {
-        SoundPlay(_ghostSource, _catalog.WomenBreath, true);
+        SoundPlay(_ghostBreathSource, _catalog.WomenBreath, true);
 
     }
 
+    /// <summary>
+    /// 브레서가 등록한 소스의 숨소리 재생을 멈춘다.
+    /// _ghostBreathSource의 재생 상태를 변경한다.
+    /// </summary>
     public void StopBreathSound()
     {
-        _ghostSource.Stop();
+        _ghostBreathSource.Stop();
 
     }
 }
