@@ -39,7 +39,7 @@ public class FirstPersonController : MonoBehaviour
 
     [Header("Footstep")]
     [Tooltip("이동 중 발소리를 재생하는 간격(초)")]
-    [SerializeField, Min(0.05f)] private float _footstepInterval = 1.4f;
+    [SerializeField, Min(0.05f)] private float _footstepInterval = 0.7f;
     private float _footstepTimer;
 
     // 컴포넌트를 처음 붙일 때 기본 레이어 마스크를 Interactable로 채운다
