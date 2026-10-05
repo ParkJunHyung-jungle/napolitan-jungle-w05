@@ -34,6 +34,7 @@ public class LightManager
     public GameObject LoadFaxLight => Resources.Load<GameObject>("Prefabs/Lights/FaxLight");
     public GameObject LoadStairLight => Resources.Load<GameObject>("Prefabs/Lights/StairLight");
     public GameObject LoadEmergencyLight => Resources.Load<GameObject>("Prefabs/Lights/EmergencyLight");
+    public LightController EmergencyLight => _emergencyLight;
 
     /// <summary>
     /// 하늘과 조명 프리팹을 초기화하고 방 조명을 켠다.
@@ -165,8 +166,6 @@ public class LightManager
     private GameObject InstantiateLight(GameObject prefab)
     {
         GameObject instance = Object.Instantiate(prefab);
-        instance.transform.SetParent(Managers.Instance.transform, true);
-
         return instance;
     }
 
