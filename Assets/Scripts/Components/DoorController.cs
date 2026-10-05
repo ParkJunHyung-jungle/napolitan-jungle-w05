@@ -90,6 +90,8 @@ public class DoorController : MonoBehaviour, IInteractable
         if (Managers.Game.Player.transform.position.z > PLAYER_OPEN_Z)
             return;
 
+        Managers.Game.ChangeMentality(-Time.deltaTime);
+
         if (!_isOpen || _isMoving)
             return;
 
