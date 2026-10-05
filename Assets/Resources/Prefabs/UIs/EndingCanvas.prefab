@@ -395,7 +395,8 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: "<color=\"red\"><b>\uB0B4\uC77C</b></color> \uBD59\uACA0\uC2B5\uB2C8\uB2E4."
+  m_text: "<color=\"red\"><b>\uB0B4\uC77C</b></color> \uBD59\uACA0\uC2B5\uB2C8\uB2E4.\n(\uD50C\uB808\uC774\uD574\uC8FC\uC154\uC11C
+    \uAC10\uC0AC\uD569\uB2C8\uB2E4.)"
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: c27a5f3ff75f097438fe970137a374e4, type: 2}
   m_sharedMaterial: {fileID: -1423517255853659089, guid: c27a5f3ff75f097438fe970137a374e4, type: 2}
