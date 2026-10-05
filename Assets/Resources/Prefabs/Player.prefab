@@ -387,7 +387,7 @@ MonoBehaviour:
     serializedVersion: 2
     m_Bits: 64
   dragLookScale: 0.1
-  _footstepInterval: 0.45
+  _footstepInterval: 0.6
 --- !u!114 &1368561765225932401
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -592,7 +592,7 @@ AudioSource:
   m_Resource: {fileID: 0}
   m_PlayOnAwake: 1
   m_Volume: 0.8
-  m_Pitch: 1
+  m_Pitch: -0.6
   Loop: 0
   Mute: 0
   Spatialize: 0
