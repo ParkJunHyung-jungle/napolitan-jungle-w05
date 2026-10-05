@@ -338,11 +338,17 @@ public class TimelineManager
 
     /// <summary>
     /// 반복 구간 check의 Keep 상태를 minute 시각으로 확인해 해당 상태의 결과를 실행한다.
-    /// WhileBroken의 첫 반복에는 BROKE 플래그를 기록하고, 결과가 도래하면 에러 팩스를 출력한다.
+    /// Keep이 처음 깨지면 BrokenPenalty배 피해의 펀치를 한 번 실행하고, WhileBroken의 첫 반복에는 BROKE 플래그를 기록하며, 결과가 도래하면 에러 팩스를 출력한다.
     /// </summary>
     private void RunRepeat(TimelineCheck check, int minute)
     {
+        bool wasKeepBroken = check.WasKeepBroken;
         CheckRepeat repeat = check.CheckRepeat(minute, IsStateHeld);
+
+        // WasKeepBroken은 한 번 true가 되면 유지되므로 Keep이 처음 깨진 순간에만 펀치를 실행한다.
+        if (!wasKeepBroken && check.WasKeepBroken && check.Data.BrokenPenalty > 0)
+            Managers.Game.PunchMentality(RULE_FAIL_PENALTY * check.Data.BrokenPenalty);
+
         if (repeat == null)
             return;
 

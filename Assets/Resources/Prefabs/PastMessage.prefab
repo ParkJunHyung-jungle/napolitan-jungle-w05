@@ -156,7 +156,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::FaxMassage
   _holdOffset: {x: 0, y: -0.3, z: 1}
-  _holdRotationOffset: {x: 10, y: 0, z: 0}
+  _holdRotationOffset: {x: 10, y: 0, z: 90}
 --- !u!114 &-3964689181623691617
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -198,16 +198,16 @@ RectTransform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 5794458934996576558}
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalRotation: {x: 0, y: 0, z: -0.7071068, w: 0.7071068}
   m_LocalPosition: {x: 0, y: 0, z: -1}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 1437854778186365969}
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: -90}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 0, y: 0}
+  m_AnchoredPosition: {x: 0.267, y: 0}
   m_SizeDelta: {x: 20, y: 5}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!23 &1915468591618850988
@@ -279,7 +279,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: "4\uC2DC\uC5D0 \uB098\uC624\uB294 \uBA85\uB839\uC11C\uB294 \uBBFF\uC9C0\uB9C8."
+  m_text: "4\uC2DC\uC5D0 \uB098\uC624\uB294 \uBA85\uB839\uC11C\uB97C \n\uBBFF\uC9C0\uB9C8."
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 39e5e618a87013f479abc37ec90435e1, type: 2}
   m_sharedMaterial: {fileID: -558310919080692403, guid: 39e5e618a87013f479abc37ec90435e1, type: 2}
@@ -306,15 +306,15 @@ MonoBehaviour:
   m_faceColor:
     serializedVersion: 2
     rgba: 4294967295
-  m_fontSize: 0.75
-  m_fontSizeBase: 0.75
+  m_fontSize: 1
+  m_fontSizeBase: 1
   m_fontWeight: 400
   m_enableAutoSizing: 0
   m_fontSizeMin: 18
   m_fontSizeMax: 72
   m_fontStyle: 1
-  m_HorizontalAlignment: 1
-  m_VerticalAlignment: 256
+  m_HorizontalAlignment: 2
+  m_VerticalAlignment: 512
   m_textAlignment: 65535
   m_characterSpacing: 0
   m_characterHorizontalScale: 1
@@ -345,7 +345,7 @@ MonoBehaviour:
   m_VertexBufferAutoSizeReduction: 0
   m_useMaxVisibleDescender: 1
   m_pageToDisplay: 1
-  m_margin: {x: 9.572155, y: 2.0527685, z: 9.574219, w: 2.012171}
+  m_margin: {x: 9.572155, y: 2.2736008, z: 9.574219, w: 2.012171}
   m_isUsingLegacyAnimationComponent: 0
   m_isVolumetricText: 0
   _SortingLayer: 0
