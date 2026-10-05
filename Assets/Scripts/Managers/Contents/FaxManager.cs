@@ -9,6 +9,7 @@ public class FaxManager
     private Transform _faxInstructionSpawner;
     private List<FaxInstructionController> _instructions = new();
     private InstructionPanelController _instructionPanel;
+    public List<FaxInstructionController> Instructions => _instructions;
 
     [Header("Prefab")]
     private GameObject _faxMessagePrefab;

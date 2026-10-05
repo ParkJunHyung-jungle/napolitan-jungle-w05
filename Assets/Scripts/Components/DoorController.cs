@@ -70,7 +70,7 @@ public class DoorController : MonoBehaviour, IInteractable
             _elapsedTime += Time.deltaTime;
 
             // 문이 천천히 열리도록
-            float duration = _isAutoClosing ? _duration / 3f : _duration;
+            float duration = _isAutoClosing ? _duration / 3.6f : _duration;
             float t = Mathf.Clamp01(_elapsedTime / duration);
             float curveValue = _moveCurve.Evaluate(t);
             transform.localRotation = Quaternion.Lerp(
@@ -93,8 +93,8 @@ public class DoorController : MonoBehaviour, IInteractable
         if (!_isOpen || _isMoving)
             return;
 
-        if (TrySetState(false))
-            _isAutoClosing = true;
+        _isAutoClosing = true;
+        TrySetState(false);
     }
 
 
@@ -135,6 +135,10 @@ public class DoorController : MonoBehaviour, IInteractable
         {
             Managers.Sound.DoorOpenSound();
         }
+        else if (_isAutoClosing)
+        {
+            Managers.Sound.QickDoorCloseSound();
+        }
         else
         {
             Managers.Sound.DoorCloseSound();
@@ -144,8 +148,6 @@ public class DoorController : MonoBehaviour, IInteractable
         _isMoving = true;
         _elapsedTime = 0f;
         _startRotation = transform.localRotation;
-        _isAutoClosing = false;
-
         if (!_isLocked)
             Managers.Timeline.Report(open ? DeviceAction.DoorOpened : DeviceAction.DoorClosed);
 

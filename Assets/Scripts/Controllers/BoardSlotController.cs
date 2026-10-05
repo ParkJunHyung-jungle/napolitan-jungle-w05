@@ -37,6 +37,7 @@ public class BoardSlotController : MonoBehaviour, IInteractable
         outline.SetOutline(false);
         outline.enabled = false;
 
+        Managers.Fax.Instructions.Add(_pastMessage);
         _boardController.InitializeSlot(_slotIndex, _pastMessage);
     }
 
