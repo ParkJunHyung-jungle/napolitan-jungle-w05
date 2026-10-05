@@ -207,7 +207,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: -90}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 0.267, y: 0}
+  m_AnchoredPosition: {x: 0.217, y: 0}
   m_SizeDelta: {x: 20, y: 5}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!23 &1915468591618850988
@@ -279,7 +279,8 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: "4\uC2DC\uC5D0 \uB098\uC624\uB294 \uBA85\uB839\uC11C\uB97C \n\uBBFF\uC9C0\uB9C8."
+  m_text: "<size=80%>\uB2E4\uC74C \uADFC\uBB34\uC790\uC5D0\uAC8C </size>\n\n4\uC2DC
+    30\uBD84\uC5D0\uB294 \n\uBB38\uC744 \uC5F4\uACE0 \uBD88\uC744 \uB044\uC138\uC694.\n\n\n\n<align=\"right\"><size=80%>\uC804\uC784\uC790</size></align>"
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 39e5e618a87013f479abc37ec90435e1, type: 2}
   m_sharedMaterial: {fileID: -558310919080692403, guid: 39e5e618a87013f479abc37ec90435e1, type: 2}
@@ -306,15 +307,15 @@ MonoBehaviour:
   m_faceColor:
     serializedVersion: 2
     rgba: 4294967295
-  m_fontSize: 1
-  m_fontSizeBase: 1
+  m_fontSize: 0.8
+  m_fontSizeBase: 0.8
   m_fontWeight: 400
   m_enableAutoSizing: 0
   m_fontSizeMin: 18
   m_fontSizeMax: 72
   m_fontStyle: 1
-  m_HorizontalAlignment: 2
-  m_VerticalAlignment: 512
+  m_HorizontalAlignment: 1
+  m_VerticalAlignment: 256
   m_textAlignment: 65535
   m_characterSpacing: 0
   m_characterHorizontalScale: 1
