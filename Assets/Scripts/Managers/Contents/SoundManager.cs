@@ -17,6 +17,7 @@ public class SoundManager
     private AudioSource _sliderSource;
     private AudioSource _sfxSoruce;
     private AudioSource _ambientSource;
+    private AudioSource _subAmbientSource;
     private AudioSource _clockSource;
     private AudioSource _sirenSource;
     private AudioSource _countDownSource;
@@ -62,7 +63,8 @@ public class SoundManager
         _buttonSource = CreateSource("Button");
         _sliderSource = CreateSource("Slider");
         _sfxSoruce = CreateSource("Sfx");
-        _ambientSource = CreateSource("Ambient", volume: 0.5f, pitch: 0.6f);
+        _ambientSource = CreateSource("Ambient", volume: 0.3f);
+        _subAmbientSource = CreateSource("SubAmbient");
         _clockSource = CreateSource("Clock");
         _sirenSource = CreateSource("Siren", volume: 0.9f);
         _countDownSource = CreateSource("CountDown");
@@ -70,7 +72,7 @@ public class SoundManager
         _gameClearSource = CreateSource("GameClear", outputGroup: _catalog.GameClearOutput);
         _onThePhoneSource = CreateSource("OnThePhone", volume: 0.7f);
         _inseinSource = CreateSource("Insein", volume: 0.7f);
-        _paperSource = CreateSource("HandlingPaper", volume: 1f);
+        _paperSource = CreateSource("HandlingPaper");
         _heartBeatSource = CreateSource("HeartBeat", volume: 0.7f);
         _shredderSource = CreateSource("Shredder", volume: 0.7f);
 
@@ -86,7 +88,7 @@ public class SoundManager
 
         _sources = new[]
         {
-            _buttonSource, _sliderSource, _sfxSoruce, _ambientSource, _clockSource,
+            _buttonSource, _sliderSource, _sfxSoruce, _ambientSource, _subAmbientSource, _clockSource,
             _sirenSource, _countDownSource, _warningSource, _gameClearSource,
             _facilityButtonSource, _facilityDragSource, _facilitySnapSource, _doorSource, _cryingSource, _lockedDoorSource,
             _phoneSource, _onThePhoneSource, _lightSwitchSource, _faxSource, _inseinSource, _paperSource, _heartBeatSource
@@ -118,7 +120,7 @@ public class SoundManager
         _sourceRoot = null;
         _sources = null;
         _catalog = null;
-        _buttonSource = _sliderSource = _sfxSoruce = _ambientSource = _clockSource = null;
+        _buttonSource = _sliderSource = _sfxSoruce = _ambientSource = _subAmbientSource = _clockSource = null;
         _sirenSource = _countDownSource = _warningSource = _gameClearSource = null;
         _facilityButtonSource = _facilityDragSource = _facilitySnapSource = null;
         _doorSource = null;
@@ -242,6 +244,19 @@ public class SoundManager
     public void AmbientSoundOff()
     {
         _ambientSource.Stop();
+    }
+
+
+    /// <summary>Loops the catalog ambient clip on the initialized ambient channel.</summary>
+    public void SubAmbientSound()
+    {
+        SoundPlay(_subAmbientSource, _catalog.SubAmbient, true);
+    }
+
+    /// <summary>Stops playback on the initialized ambient channel without affecting other channels.</summary>
+    public void SubAmbientSoundOff()
+    {
+        _subAmbientSource.Stop();
     }
 
     /// <summary>Plays the catalog engine-off clip once, replacing the initialized Sfx channel.</summary>
@@ -492,7 +507,7 @@ public class SoundManager
     }
     public void LampAmbientSound()
     {
-        SoundPlay(_ambientSource, _catalog.LampAmbient, true);
+        SoundPlay(_lampSource, _catalog.LampAmbient, true);
 
     }
     public void StopLampAmbientSound()
