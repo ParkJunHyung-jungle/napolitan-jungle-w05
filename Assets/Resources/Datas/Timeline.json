@@ -30,7 +30,6 @@
     { "time": "02:55", "type": "DoorToggle" },
     { "time": "03:00", "type": "Instruction", "arg": "INSTRUCTION_03" },
     { "time": "03:10", "type": "DoorKnock", "check": { "id": "DOOR_KNOCK", "minutes": 5, "require": ["DoorOpened"], "fail": { "penalty": true } } },
-    { "time": "03:10", "type": "Spawn", "arg": "PastMessage" },
     { "time": "03:30", "type": "LightBlink", "check": { "id": "LIGHT_BLINK", "minutes": 10, "require": ["LightOff", "LightOn"], "fail": { "penalty": true } } },
     { "time": "03:30", "type": "PhoneRing", "check": { "id": "PHONE_RING", "minutes": 5, "require": ["PhoneAnswered"], "fail": { "penalty": true } } },
     { "time": "03:35", "type": "PhoneRingStop" },

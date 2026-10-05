@@ -157,7 +157,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::FaxMassage
   _holdOffset: {x: 0, y: -0.3, z: 1}
-  _holdRotationOffset: {x: 10, y: 0, z: 90}
+  _holdRotationOffset: {x: 10, y: 0, z: -90}
 --- !u!114 &-3964689181623691617
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -199,16 +199,16 @@ RectTransform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 5794458934996576558}
-  m_LocalRotation: {x: -0.000000007450581, y: -0.000000029802322, z: -0.6517876, w: 0.75840163}
-  m_LocalPosition: {x: 0, y: 0, z: -1.0000066}
+  m_LocalRotation: {x: 0, y: 0, z: 0.61566144, w: 0.7880108}
+  m_LocalPosition: {x: 0, y: 0, z: -1}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 1437854778186365969}
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: -81.353}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 76}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 0.16920826, y: 0.017144592}
+  m_AnchoredPosition: {x: -0.264, y: -0.338}
   m_SizeDelta: {x: 20, y: 5}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!23 &1915468591618850988
@@ -281,7 +281,7 @@ MonoBehaviour:
     m_PersistentCalls:
       m_Calls: []
   m_text: "\uBA85\uC2EC\uD574.\n\n4\uC2DC\uC5D0 \uB098\uC624\uB294 \uC9C0\uC2DC\uC11C\uB294
-    \uC808\uB300\uB85C \uBBFF\uC73C\uBA74 \uC548\uB3FC. <b>\uC808\uB300\uB85C.</b>"
+    \uC808\uB300\uB85C \uBBFF\uC73C\uBA74\n\uC548\uB3FC. <b>\uC808\uB300\uB85C.</b>"
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 39e5e618a87013f479abc37ec90435e1, type: 2}
   m_sharedMaterial: {fileID: -558310919080692403, guid: 39e5e618a87013f479abc37ec90435e1, type: 2}
@@ -347,7 +347,7 @@ MonoBehaviour:
   m_VertexBufferAutoSizeReduction: 0
   m_useMaxVisibleDescender: 1
   m_pageToDisplay: 1
-  m_margin: {x: 9.852683, y: 2.2736008, z: 9.574219, w: 1.9064422}
+  m_margin: {x: 9.905794, y: 2.2936335, z: 9.441822, w: 1.9174716}
   m_isUsingLegacyAnimationComponent: 0
   m_isVolumetricText: 0
   _SortingLayer: 0
@@ -462,19 +462,27 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: "<align=\"right\"><size=120%><b>1992/11/17 04:00</b></size></align>\n<size=30%>
-    </size>\n4\uC6B8 \uC2DC3\uAED0 \uC74C\uB418\uC2ED <b>\uD558</b>\uC758 \uB178\uC624\uC2DC
-    \uD06C\uC2DC\uC2DC \uB9AC\uBA85 \uC624<b>\uD76C\uC800</b>.<b>\uC1C4</b>\n\uC2E0\uBD841<b>\uB294\uBC1C</b>
-    \uAC00\uD654\uBA74\uC744\uBA74 \uB2C8<b>\uC774</b> \uC0C1\uC6D0\uC624\uC870 \uB54C\uD558
-    \uAC00\uB9AC<b>\uB2C8</b> \uC624\uC2ED\n\uAC70\uBB38 .\uC2E0..\uC5B4 \uC6B4<b>\uC9C0</b>\uB2E4\uAC00
-    \uB85C<b>\uB294\uB2E4</b> <b>\uC788\uC778</b>\uB4E4\uD558\uC0C8 \uC804\uBA74
-    \uB4E4.\n\n<size=110%><b>7. \u300C04\uC2DC 30\uBD84\uBD80\uD130 \uBD88\uC744
-    \uD0A4\uACE0 \uBB38\uC744 \uB2EB\uC544\uC8FC\uC138\uC694.\u300D</b></size>\n\n<b>.</b>\uAE5C.
-    .<b>\uAE09</b> 65\uC5F4\uB2E4<b>\uC11C</b> \uD0A4\uAC00 2\uB839\uBC16\uC624 <b>\uBD88\uB839\uB7C9</b>
-    \uC18C\uC2DC \uC2E0\n<b>\uB97C</b>\uC8FC\uB9AC \uC9C0\uC2ED5\uD654\uC11C .\uC815.<b>\uBA85</b>\uBB38
-    <b>\uC54A</b>\uAC00\uC804 \uBE61\uB429\uC62C\uB85C\uB97C \uC5D0\n\uAE09\uC774\uB294\uBBF8\uB2E4
+  m_text: "<align=\"right\"><size=120%><b>1992/12/24 04:00</b></size></align>\n<size=30%>
+    </size>\n4<font=\"EastSeaDokdo-Regular SDF\"><color=#8B0000><size=240%>\uC6B8</size></color></font>
+    \uC2DC3\uAED0 \uC74C\uB418\uC2ED <b>\uD558</b>\uC758 \uB178\uC624\uC2DC \uD06C\uC2DC\uC2DC
+    \uB9AC\uBA85 <font=\"EastSeaDokdo-Regular SDF\"><color=#8B0000><size=240%>\uC624</size></color></font><b>\uD76C\uC800</b>.<b>\uC1C4</b>\n\uC2E0\uBD841<b>\uB294\uBC1C</b>
+    \uAC00\uD654\uBA74\uC744\uBA74 \uB2C8<b>\uC774</b> <font=\"EastSeaDokdo-Regular
+    SDF\"><color=#8B0000><size=240%>\uC0C1</size></color></font>\uC6D0<font=\"EastSeaDokdo-Regular
+    SDF\"><color=#8B0000><size=240%>\uC624</size></color></font>\uC870 \uB54C\uD558
+    \uAC00\uB9AC<b>\uB2C8</b> \uC624\uC2ED\n\uAC70\uBB38 .\uC2E0..\uC5B4 \uC6B4<b>\uC9C0</b>\uB2E4<font=\"EastSeaDokdo-Regular
+    SDF\"><color=#8B0000><size=240%>\uAC00</size></color></font> \uB85C<b>\uB294\uB2E4</b>
+    <b>\uC788\uC778</b>\uB4E4\uD558\uC0C8 \uC804\uBA74 <font=\"EastSeaDokdo-Regular
+    SDF\"><color=#8B0000><size=240%>\uB4E4</size></color></font>.\n\n<size=110%><b>7.
+    \u300C04\uC2DC 30\uBD84\uBD80\uD130 \uBD88\uC744 \uD0A4\uACE0 \uBB38\uC744 \uB2EB\uC544\uC8FC\uC138\uC694.\u300D</b></size>\n\n<b>.</b>\uAE5C.
+    <font=\"EastSeaDokdo-Regular SDF\"><color=#8B0000><size=240%>.</size></color></font><b>\uAE09</b>
+    65\uC5F4\uB2E4<b>\uC11C</b> \uD0A4\uAC00 2\uB839\uBC16\uC624 <b>\uBD88\uB839\uB7C9</b>
+    \uC18C<font=\"EastSeaDokdo-Regular SDF\"><color=#8B0000><size=240%>\uC2DC</size></color></font>
+    \uC2E0\n<b>\uB97C</b>\uC8FC\uB9AC \uC9C0\uC2ED5\uD654\uC11C .\uC815.<b>\uBA85</b>\uBB38
+    <font=\"EastSeaDokdo-Regular SDF\"><color=#8B0000><size=240%>\uC54A</size></color></font>\uAC00\uC804
+    \uBE61\uB429\uC62C\uB85C\uB97C <font=\"EastSeaDokdo-Regular SDF\"><color=#8B0000><size=240%>\uC5D0</size></color></font>\n<font=\"EastSeaDokdo-Regular
+    SDF\"><color=#8B0000><size=240%>\uAE09</size></color></font>\uC774\uB294\uBBF8\uB2E4
     <b>\uC2B5</b>\uB0B4\uB9AC \uBC1C\uC2ED \uB9C8\uB824 \uBA74. \uBA85.\uC2DC \uC218\uAC00
-    \uC218\uC18C\uC11C"
+    <font=\"EastSeaDokdo-Regular SDF\"><color=#8B0000><size=240%>\uC218</size></color></font>\uC18C\uC11C"
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: c27a5f3ff75f097438fe970137a374e4, type: 2}
   m_sharedMaterial: {fileID: -1423517255853659089, guid: c27a5f3ff75f097438fe970137a374e4, type: 2}
