@@ -4,7 +4,7 @@
     { "id": "INSTRUCTION_01", "isReal": false, "lines": ["RULE_1", "RULE_2", "RULE_3", "RULE_4_FAKE"] },
     { "id": "INSTRUCTION_02", "isReal": true, "lines": ["RULE_1", "RULE_2", "RULE_3", "RULE_4_NEW", "RULE_5_NEW"] },
     { "id": "INSTRUCTION_03", "isReal": true, "lines": ["RULE_1", "RULE_2", "RULE_3", "RULE_4", "RULE_5", "RULE_6_NEW"] },
-    { "id": "INSTRUCTION_04", "isReal": false, "lines": ["RULE_4", "RULE_6", "RULE_5", "RULE_1", "RULE_3", "RULE_2", "RULE_7"] }
+    { "id": "INSTRUCTION_04", "isReal": false, "lines": ["RULE_MIXED_1", "RULE_MIXED_2", "RULE_MIXED_3", "RULE_MIXED_4", "RULE_MIXED_5", "RULE_MIXED_6", "RULE_7"] }
   ],
   "events": [
     { "time": "00:00", "type": "Instruction", "arg": "INSTRUCTION_00" },
