@@ -22,7 +22,6 @@ public class SceneContext : MonoBehaviour
 
     void Start()
     {
-        Managers.Sound.AmbientSound();
         Managers.Sound.SubAmbientSound();
     }
 
