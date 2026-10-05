@@ -137,9 +137,11 @@ public class TimelineManager
     /// <summary>
     /// 컨트롤러가 알린 장치 동작 action으로 장치 상태를 갱신하고 진행 중인 판정 구간에 전달한다.
     /// 해결된 구간은 결과를 기록하고 제거하며, 기한을 넘긴 실패 구간은 늦게 해결될 때까지 유지한다.
+    /// 장치 상태를 갱신하기 전에 통화가 끝나기 전 전화를 끊었는지 먼저 확인한다.
     /// </summary>
     public void Report(DeviceAction action)
     {
+        HandleEarlyHangUp(action);
         UpdateDeviceState(action);
         int minute = Managers.Date.CurrentMinute;
 
@@ -394,6 +396,18 @@ public class TimelineManager
     }
 
     /// <summary>
+    /// 상대가 말을 마치기 전에 전화를 끊었는지 확인해 정신력 펀치를 실행한다.
+    /// action이 PhoneIdle이고 갱신 전 _phoneState가 InCall일 때만 처리하며, 하루가 끝난 뒤의 강제 종료는 제외한다.
+    /// </summary>
+    private void HandleEarlyHangUp(DeviceAction action)
+    {
+        if (action != DeviceAction.PhoneIdle || _phoneState != PhoneState.InCall || _isDayEnded)
+            return;
+
+        Managers.Game.PunchMentality(RULE_FAIL_PENALTY);
+    }
+
+    /// <summary>
     /// 끝난 판정 구간 check의 결과 state를 minute 시각으로 _checkRecords에 기록한다.
     /// 성공이면 Success, 실패면 Fail 결과를 실행한다.
     /// </summary>
@@ -499,6 +513,9 @@ public class TimelineManager
             case DeviceAction.PhoneIdle:
                 _phoneState = PhoneState.Idle;
                 break;
+            case DeviceAction.PhoneCallEnded:
+                _phoneState = PhoneState.CallEnd;
+                break;
         }
     }
 
@@ -524,6 +541,8 @@ public class TimelineManager
                 return _phoneState == PhoneState.InCall;
             case DeviceAction.PhoneIdle:
                 return _phoneState == PhoneState.Idle;
+            case DeviceAction.PhoneCallEnded:
+                return _phoneState == PhoneState.CallEnd;
             default:
                 return true;
         }

@@ -25,7 +25,7 @@ public enum TimelineEventType
 
 /// <summary>
 /// 컨트롤러가 타임라인에 알리는 장치 동작이다. 판정 구간의 Require, Forbid, Keep에 사용한다.
-/// Keep에서는 문, 조명, 전화기 동작을 현재 상태로 해석하며, PhoneAnswered는 통화 중 상태로 본다.
+/// Keep에서는 문, 조명, 전화기 동작을 현재 상태로 해석하며, PhoneAnswered는 통화 중 상태로, PhoneCallEnded는 끊긴 수신음 상태로 본다.
 /// </summary>
 public enum DeviceAction
 {
@@ -36,6 +36,7 @@ public enum DeviceAction
     PhoneRinging,
     PhoneAnswered,
     PhoneIdle,
+    PhoneCallEnded,
 }
 
 /// <summary>
@@ -46,6 +47,7 @@ public enum PhoneState
     Idle,
     Ringing,
     InCall,
+    CallEnd,
 }
 
 /// <summary>
