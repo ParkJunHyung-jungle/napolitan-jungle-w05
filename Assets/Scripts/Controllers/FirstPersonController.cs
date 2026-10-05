@@ -53,6 +53,7 @@ public class FirstPersonController : MonoBehaviour
         if (characterController == null) characterController = GetComponent<CharacterController>();
         if (firstPersonCamera == null) firstPersonCamera = GetComponentInChildren<FirstPersonCamera>();
         Managers.Game.Player = this;
+        Managers.Light.Init();
         Managers.Light.EmergencyLight.transform.SetParent(transform, true);
         Managers.Light.EmergencyLight.transform.localPosition = new Vector3(0f, 3f, 0f);
     }

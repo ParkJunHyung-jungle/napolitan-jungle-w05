@@ -15,7 +15,7 @@ public class SceneContext : MonoBehaviour
 
     void Awake()
     {
-        Managers.Input.SetInputMode(InputMode.UI);
+        Managers.Game.RestoreStartScreen();
         _dateCanvas.gameObject.SetActive(true);
         Managers.Game.ResetMentality();
     }

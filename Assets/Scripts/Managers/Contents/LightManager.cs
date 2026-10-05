@@ -51,11 +51,14 @@ public class LightManager
 
 
     /// <summary>
-    /// 하늘과 조명 프리팹을 초기화하고 방 조명을 켠다.
-    /// _roomLight의 깜빡임 상태 변경과 하루 종료 이벤트를 구독한다.
+    /// 아직 조명이 없을 때 하늘과 조명 프리팹을 초기화하고 방 조명을 켠다.
+    /// 생성된 조명을 저장하고 _roomLight의 깜빡임 상태 변경과 하루 종료 이벤트를 구독한다.
     /// </summary>
     public void Init()
     {
+        if (_emergencyLight != null)
+            return;
+
         _nightSky = LoadNightSky;
         _morningSky = LoadMorningSky;
         ApplyEnvironment();
@@ -84,19 +87,45 @@ public class LightManager
     }
 
     /// <summary>
-    /// 재시작을 위해 비상 조명 연출을 멈추고 방 조명, 게시판 조명, 팩스 조명을 기본 색으로 켠다.
-    /// _emergencyLight 세기를 0으로, _roomLight 색을 DEFAULT_COLOR로 바꾼다.
+    /// 재시작 시 비상 조명 연출과 기존 조명의 코루틴·이벤트 구독을 정리한다.
+    /// 생성한 조명과 참조를 제거해 새 씬에서 Init으로 다시 생성할 수 있게 한다.
     /// </summary>
     public void Clear()
     {
         StopEffectCoroutine(ref _emergencyPunchCoroutine);
-        _emergencyLight.SetIntensity(0f);
+        Managers.Date.OnDayEnd -= ApplyMorningSky;
+        if (_roomLight != null)
+            _roomLight.OnBlinkToggled -= HandleRoomLightBlinkToggled;
 
-        RoomLightTintDefault();
-        // Managers.Clear에서 Sound가 먼저 정리되어 램프 소스가 없으므로 사운드 없이 조명만 켠다.
-        _roomLight.TurnOn();
-        _boardLight.TurnOn();
-        _faxLight.TurnOn();
+        DestroyLight(ref _ambientLight);
+        DestroyLight(ref _roomLight);
+        DestroyLight(ref _boardLight);
+        DestroyLight(ref _faxLight);
+        DestroyLight(ref _stairLight);
+        DestroyLight(ref _emergencyLight);
+        DestroyLight(ref _stairLightFakeUp);
+        DestroyLight(ref _stairLightFakeDown);
+        DestroyLight(ref _roomLightFakeUp);
+        DestroyLight(ref _roomLightFakeDown);
+        DestroyLight(ref _ambientLightFakeUp);
+        DestroyLight(ref _ambientLightFakeDown);
+        _nightSky = null;
+        _morningSky = null;
+    }
+
+    /// <summary>
+    /// light가 보유한 코루틴을 멈추고 조명 오브젝트를 파괴한다.
+    /// 전달된 조명 참조를 null로 변경한다.
+    /// </summary>
+    private void DestroyLight(ref LightController light)
+    {
+        if (light != null)
+        {
+            light.StopAllCoroutines();
+            Object.Destroy(light.gameObject);
+        }
+
+        light = null;
     }
     /// <summary>
     /// 방 조명, 게시판 조명, 팩스 조명을 함께 켜고 램프 루프 사운드를 재생한다.
