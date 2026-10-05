@@ -127,10 +127,10 @@ MonoBehaviour:
   active: 1
   type:
     m_OverrideState: 1
-    m_Value: 3
+    m_Value: 6
   intensity:
     m_OverrideState: 1
-    m_Value: 0.16
+    m_Value: 0.712
   response:
     m_OverrideState: 1
     m_Value: 0.8
