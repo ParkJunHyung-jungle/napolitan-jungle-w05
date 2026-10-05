@@ -29,7 +29,7 @@ public class TimelineManager
     public event Action OnPhoneHangUp;
     public event Action OnDoorKnock;
     public event Action OnDoorKnockStop;
-    public event Action OnDoorToggle;
+    public event Action OnDoorOpen;
     public event Action OnLightToggle;
 
     [Header("Day")]
@@ -87,7 +87,7 @@ public class TimelineManager
         OnPhoneHangUp = null;
         OnDoorKnock = null;
         OnDoorKnockStop = null;
-        OnDoorToggle = null;
+        OnDoorOpen = null;
         OnLightToggle = null;
 
         StopDelayedErrorFaxes();
@@ -234,7 +234,7 @@ public class TimelineManager
                 SpawnPrefab(timelineEvent.Arg);
                 break;
             case TimelineEventType.DoorToggle:
-                OnDoorToggle?.Invoke();
+                OnDoorOpen?.Invoke();
                 break;
             case TimelineEventType.LightToggle:
                 OnLightToggle?.Invoke();

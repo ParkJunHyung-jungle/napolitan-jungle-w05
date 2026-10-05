@@ -112,6 +112,7 @@ MonoBehaviour:
   sensitivity: 0.1
   minPitch: -85
   maxPitch: 85
+  _aimDistance: 3.5
 --- !u!114 &7625811864533602194
 MonoBehaviour:
   m_ObjectHideFlags: 0
