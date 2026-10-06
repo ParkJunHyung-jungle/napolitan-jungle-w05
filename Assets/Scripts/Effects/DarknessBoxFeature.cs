@@ -18,19 +18,19 @@ public class DarknessBoxFeature : FullScreenPassRendererFeature
     /// </summary>
     public override void AddRenderPasses(ScriptableRenderer renderer, ref RenderingData renderingData)
     {
-        DarknessBoxVolume volume = DarknessBoxVolume.Active;
-        // 해당 조건문이 없으면 우리는 에디터에서 아무 것도 볼 수 없게 됩니다.
-        if (passMaterial == null || volume == null)
-            return;
+        //DarknessBoxVolume volume = DarknessBoxVolume.Active;
+        //// 해당 조건문이 없으면 우리는 에디터에서 아무 것도 볼 수 없게 됩니다.
+        //if (passMaterial == null || volume == null)
+        //    return;
 
-        BoxCollider box = volume.Box;
-        Vector3 halfSize = box.size * 0.5f;
-        passMaterial.SetVector(BOX_MIN, box.center - halfSize);
-        passMaterial.SetVector(BOX_MAX, box.center + halfSize);
-        passMaterial.SetMatrix(WORLD_TO_BOX, volume.transform.worldToLocalMatrix);
-        passMaterial.SetFloat(DENSITY, volume.Density);
-        passMaterial.SetColor(DARKNESS_COLOR, volume.DarknessColor);
-        base.AddRenderPasses(renderer, ref renderingData);
+        //BoxCollider box = volume.Box;
+        //Vector3 halfSize = box.size * 0.5f;
+        //passMaterial.SetVector(BOX_MIN, box.center - halfSize);
+        //passMaterial.SetVector(BOX_MAX, box.center + halfSize);
+        //passMaterial.SetMatrix(WORLD_TO_BOX, volume.transform.worldToLocalMatrix);
+        //passMaterial.SetFloat(DENSITY, volume.Density);
+        //passMaterial.SetColor(DARKNESS_COLOR, volume.DarknessColor);
+        //base.AddRenderPasses(renderer, ref renderingData);
     }
 
 }

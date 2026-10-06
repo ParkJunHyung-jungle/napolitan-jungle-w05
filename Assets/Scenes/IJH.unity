@@ -1947,6 +1947,10 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 2827411090810867315, guid: 78a0cb0c834dd2f41a9ccf9c1fa84ffd, type: 3}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 3536148263715475540, guid: 78a0cb0c834dd2f41a9ccf9c1fa84ffd, type: 3}
       propertyPath: m_LocalPosition.x
       value: 0
@@ -1990,6 +1994,10 @@ PrefabInstance:
     - target: {fileID: 4728380186037819061, guid: 78a0cb0c834dd2f41a9ccf9c1fa84ffd, type: 3}
       propertyPath: m_Name
       value: ExtraRoom
+      objectReference: {fileID: 0}
+    - target: {fileID: 7914772091542018698, guid: 78a0cb0c834dd2f41a9ccf9c1fa84ffd, type: 3}
+      propertyPath: m_Enabled
+      value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []

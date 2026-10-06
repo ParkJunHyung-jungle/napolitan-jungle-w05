@@ -42,8 +42,8 @@ public class DarknessBoxVolume : MonoBehaviour
     /// </summary>
     private void HandleDayEnd()
     {
-        if (Managers.Game.IsDayEnded)
-            SetColor(new Color(30 / 255f, 50 / 255f, 81 / 255f));
+        //if (Managers.Game.IsDayEnded)
+        //SetColor(new Color(30 / 255f, 50 / 255f, 81 / 255f));
     }
 
     void OnDrawGizmosSelected()
